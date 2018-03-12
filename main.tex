@@ -1,0 +1,389 @@
+%!TEX spellcheck = de
+\documentclass[german,aspectratio=169,titlestyle=white]{tudbeamer}
+
+%\setlength{\headernavigationwidthskip}{1.2 cm}
+
+%TODO cleanup
+% \makeatletter
+% \newdimen\beamer@miniframeradius
+% \beamer@miniframeradius=0.05cm
+% \define@key{beamer@margin}{mini frame radius}{\beamer@miniframeradius=#1\relax}
+% \setbeamertemplate{mini frame}
+% {%
+%   \begin{pgfpicture}{0pt}{0pt}{2\beamer@miniframeradius}{2.5\beamer@miniframeradius}
+%     \pgfpathcircle{\pgfpoint{\beamer@miniframeradius}{\beamer@miniframeradius}}{\beamer@miniframeradius}
+%     \pgfusepath{fill,stroke}
+%   \end{pgfpicture}%
+% }
+% \setbeamertemplate{mini frame in current subsection}
+% {%
+%   \begin{pgfpicture}{0pt}{0pt}{2\beamer@miniframeradius}{2.5\beamer@miniframeradius}
+%     \pgfpathcircle{\pgfpoint{\beamer@miniframeradius}{\beamer@miniframeradius}}{\beamer@miniframeradius}
+%     \pgfusepath{stroke}
+%   \end{pgfpicture}%
+% }
+% \makeatother
+
+% \setbeamersize{mini frame radius=.04cm,mini frame size=.12cm,mini frame
+% offset=-.02cm}
+%TODO end
+
+\input{shortcuts} 
+\bibliography{bibliography.bib}
+
+
+\usepackage{tabularx,array,ragged2e}
+%\usepackage[overlay,absolute]{textpos}
+%\setbeamerfont{caption}{size=\scriptsize}
+
+\begin{document}
+
+% \einrichtung{Fakultät Elektrotechnik und Informationstechnik}
+% \institut{$\bullet$ Institut für Automatisierungstechnik}
+
+% \newcommand{\lstretch}{\normalsize\strut \Large\ }
+
+\title[DA Verteidigung]{Verteidigung der Diplomarbeit}
+\subtitle{IT\,--\, Chancen und Risiken}
+\author{Maxima Mustermann}
+\datecity{Dresden, Feb. 2018}
+\affiliation{Fakultät Elektrotechnik und Informationstechnik $\bullet$ Institut für Automatisierungstechnik}
+\additionallogo{IfA_logo_blau}
+ 
+%	In order to let a (sub-)section and slide appear in the navigator bar, build
+% 	document twice
+%
+% 	\section{} %appears in TOC, Column in Navigator
+%	\subsection{} %appears in TOC, Line in Navigator
+%	\section*{} %does not appear in TOC nor Navigator
+%	\subsection*{} %does not appear in TOC nor Navigator
+
+% 	If necessary, the following command can be used to insert an absolutely
+%   positioned box. First parameter is the width. X and Y coordinate go to
+%   braces. Height adjusts to content.
+%
+% 	\begin{textblock*}{11cm}(2.05cm, 2.6cm)
+%
+% 	\end{textblock}
+
+
+% 
+% Frontmatter 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%% inserts the title page
+	\maketitle
+
+%% Comment if no part page shall be inserted
+%\AtBeginPart{\setparttemplates\frame{\partpage}\setbeamertemplates}
+
+ 
+
+%table of contents
+\frame{
+	\frametitle{Gliederung}
+	% \begin{columns}
+	%     \begin{column}{1\textwidth}        
+	% 		\centering\includegraphics[keepaspectratio=1,width=.85\textwidth]{pics/TOC0}
+	%     \end{column}
+ %    \end{columns}
+
+	\tableofcontents[sectionstyle=show,subsectionstyle=hide]
+}
+
+% Switch for starting a section without the table of contents section page
+\newif\ifsectiontoc
+\sectiontoctrue
+\newif\ifinsertsectionimage
+\insertsectionimagefalse
+\newcommand{\theSectionImage}{}
+\newcommand{\setSectionImage}[1]{%
+	\renewcommand{\theSectionImage}{#1}%
+	\@insertsectionimagetrue%
+}
+% \let\sectionOld\section%
+% \newcommand\sectionOldStar[1]{\sectionOld*{#1}}
+% \renewcommand{\section}[1]{\@ifstar{\sectionOld{#1}}{\sectionOldStar{#1}}\setboolean{insertsectionimage}{false}}
+
+%% enabling a section introduction page, remove if not required
+\AtBeginSection[]{
+	\ifsectiontoc%
+		\frame[squeeze]{  %\frame<beamer>[squeeze]{
+		% 	\sectionpage
+			{\usebeamerfont{section title}\insertsection}%
+				\ifinsertsectionimage%
+					\vspace*{-4ex}\begin{columns}
+					    \begin{column}{0.45\textwidth}
+					        \tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/show/hide]%
+					    \end{column}
+					    \hspace*{-.15\textwidth}\begin{column}{0.55\textwidth}
+					        \centering%
+					        \includegraphics[keepaspectratio=true,width=0.9\textwidth]{\theSectionImage}%
+					    \end{column}					    
+					\end{columns}
+				\else%
+					\tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/show/hide]%
+				\fi%	
+		}
+	\else\fi%
+	\insertsectionimagefalse%
+}
+%% Use this command for starting a section without a table of contents
+\newcommand{\toclesssection}[1]{
+	\sectiontocfalse
+	\section{#1}
+	\sectiontoctrue
+}
+%% Use this command for starting a starred section without a table of contents
+\newcommand{\toclesssectionstar}[1]{
+	\sectiontocfalse
+	\section*{#1}
+	\sectiontoctrue
+}
+
+% 
+% Content 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{The main part of the presentation}
+\section[ShortSection]{Long Section Title}	
+\subsection{Subsection}
+\begin{frame}
+	\frametitle{A default Frame}
+	\framesubtitle{A frame subtitle}
+
+	sizes:
+	\begin{enumerate}
+		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
+		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
+		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
+		\item author: \insertauthor
+		\item title: \inserttitle
+		\item subtitle: \insertsubtitle
+		\item datecity: \insertdatecity
+		\item fourth enumerated item
+	\end{enumerate}
+\end{frame}
+\begin{frame}
+	\frametitle{A slide using columns}
+	\begin{columns}
+	   	\begin{column}{.5\textwidth}
+	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
+	   		\begin{itemize}
+	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
+	   			\begin{itemize}
+	   				\item Sub item
+	   				\item more sub items
+	   			\end{itemize}
+	   		\end{itemize}
+		\end{column}
+	   	\begin{column}{.5\textwidth}
+	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
+	   		\begin{itemize}
+	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
+	   			\begin{itemize}
+	   				\item Sub item
+	   				\item more sub items
+	   			\end{itemize}
+	   		\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\subsection{Subsection 2}
+\begin{frame}
+	\frametitle{1st frame of 2nd subsection}
+	\framesubtitle{A slide with an animated image using overlays}
+	\centering
+some content
+	% \onslide<1>\includegraphics[width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/animated_0}%
+	% \onslide<2>\includegraphics[width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/animated_1}%
+cccd
+\end{frame}
+
+\begin{frame}
+	\frametitle{2nd frame of 2nd subsection}
+	\begin{columns}[t]
+		\begin{column}{.2\textwidth}
+			some explanatory text for the image
+		\end{column}
+	   	\begin{column}{.80\textwidth}
+	   		\ \\[-2ex]
+	   		some ocntent
+			%\centering\includegraphics[keepaspectratio=true,width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/image}%
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\section[ShortSection2]{Long Section 2 Title}
+\subsection{Subsection 2.1}
+\begin{frame}
+	\frametitle{A default Frame}
+	\framesubtitle{A frame subtitle}
+
+	Normaltext:
+	\begin{enumerate}
+		\item enumerated item
+		\item second enumerated item
+		\item third enumerated item
+		\item fourth enumerated item
+	\end{enumerate}
+\end{frame}
+\begin{frame}
+	\frametitle{A slide using columns}
+	\begin{columns}
+	   	\begin{column}{.5\textwidth}
+	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
+	   		\begin{itemize}
+	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
+	   			\begin{itemize}
+	   				\item Sub item
+	   				\item more sub items
+	   			\end{itemize}
+	   		\end{itemize}
+		\end{column}
+	   	\begin{column}{.5\textwidth}
+	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
+	   		\begin{itemize}
+	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
+	   			\begin{itemize}
+	   				\item Sub item
+	   				\item more sub items
+	   			\end{itemize}
+	   		\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\part{A 2nd Part}
+\section{test}
+\subsection*{Subsection not in the TOC}
+\begin{frame}[allowframebreaks]
+	\frametitle{A blanc frame TODO}
+	This frame should be clear of footer and header stuff since it is a blanc frame
+\end{frame}
+
+\subsection{Subsection in the TOC}
+\begin{frame}
+	\frametitle{Hey Ho}
+	\framesubtitle{Test subtitle}
+	Can I have a Formula?
+\end{frame}
+\begin{frame}
+	\frametitle{Hey Ho}
+	\framesubtitle{Test subtitle}
+	Can I have a Tabular?
+\end{frame}
+
+\subsection{Subsection in the TOC}
+\begin{frame}
+	\frametitle{Hey Ho}
+	\framesubtitle{Test subtitle}
+	Can I have a Formula?
+\end{frame}
+\begin{frame}
+	\frametitle{Hey Ho}
+	\framesubtitle{Test subtitle}
+	Can I have a Tabular?
+\end{frame}
+
+\newcolumntype{P}[1]{>{\raggedright\hangindent+10pt\hangafter=1\arraybackslash}p{#1}}
+\begin{frame}
+	\frametitle{UI Engineering 2}
+	\framesubtitle{Einsatzmöglichkeiten verschiedener UI Plattformen}
+
+	\begin{columns}[t]
+	   	\hspace*{-.00\textwidth}\begin{column}{1.0\textwidth}
+	   		\ \\[-5ex]
+			\begin{table}
+			\hspace*{-.045\textwidth}\begin{tabularx}{.95\textwidth}{@{} P{.33\textwidth} l P{.13\textwidth} l @{}}
+			\textbf{Anwendung} & \textbf{Plattform} & \textbf{Inhalt} & \textbf{Ebene}\\
+			Bedienpanel Maschine/""Station & in-field, stationär, (Touch-) Panel & interaktiv & P,F,S\\
+			Detailmonitor Maschine/""Station & in-field, stationär, Display & fix & P,S,PF (,MES)\\
+			Operator-Station/ Leitrechner \newline \ \ \ Maschine/""Station & in-field, stationär, PC & interaktiv & P, PF, MES\\
+			\hline%
+
+			Operator-Station Leitwarte Station-Gesamtanlage & stationär, PC & interaktiv & P,PF,MES \\
+			Übersichtsbildschirm Leitwarte Gesamtanlage & stationär, Display & gesteuert\newline kontextbasiert & PF,MES \\
+
+			\hline
+	
+			Inspektionstablets Maschine/""Station/""Feldgerät & in-field, mobil, Tablet & interaktiv\newline kontextbasiert & P,F,S\\
+
+			\hline
+
+			Schichtstatus-/""Performance-Anzeige Maschine/""Station & in-field, stationär, Display & fix & MES\\
+			AR Inspektion/""Präsentation Maschine/""Station/""Gerät & in-field, mobil, AR & kontextbasiert & P,F,S,PF
+
+			\end{tabularx}
+			\vspace{-1.5ex}
+			\hspace*{-.05\textwidth}\caption{UIs in Anlagen und Klassifikation, AT Steuerungsebene: \underline{P}rodukt, \underline{F}eld, \underline{S}teuerung, \underline{PF}/PLT, \underline{MES}, \underline{ERP}}
+			\end{table}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%
+% Backmatter
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\toclesssectionstar{}
+% \regardspage{
+% 	\vspace*{1cm}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_weiss.png}
+% }
+% \regardspage{
+% 	\vspace*{1cm}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_farbig.png}
+% 	}
+
+% %TODO rework the invocation of special pages
+% \regardspage{
+% 	\vskip4ex\begin{columns}
+% 	    \begin{column}{0.5\textwidth}        
+% 	        \huge Vielen Dank\\ für Ihre Aufmerksamkeit\\[1ex]\
+% 	    \end{column}
+	    
+% 	    \begin{column}{0.3\textwidth}
+% 	        \flushright{\includegraphics[keepaspectratio=true,width=.6\columnwidth]{pics/logo_image}}
+%         	\vspace{1ex}\\
+
+% 	        \large My NAme\\[0.5ex]
+% 	        \scriptsize
+% 	        my.mail@tu-dresden.de\\[4ex]
+% 	        Where my office is 42\\        
+% 	        Building/Room\\
+%         	Dresden, Germany\\[4ex]\
+
+% 	    \end{column}
+% 	\end{columns}
+% }
+% \backmatterpage{
+%     \frametitle*{Credits}
+%     \begin{enumerate}
+%     	\item nothing here yet
+%   %       \item "`Pueblo Chemical Agent - Agitated reactor (motor)"' von "`PEO,
+% 		%     Assembled Chemical Weapons Alternatives"', Veröffentlicht unter
+% 		%     CC-BY 2.0\,--\,Folie ?
+		    
+% 		% \item "`Interfaz hmi"' von "`Italogio8 (Eigenes Werk)"',
+% 		% 	Veröffentlicht unter CC BY-SA 4.0\,--\,Folie ?
+		    
+% 		% \item "`Manufacturing equipment 110"' von "`Mixabest"', 
+% 		% 	Veröffentlicht unter CC BY-SA 3.0\,--\,Folie ?
+			
+%     \end{enumerate}
+% }
+
+% % additional pages for Q&A purposes
+% \backmatterpage{
+% 	\frametitle*{Feedback}
+% 	\centering\Huge ? 
+% }
+
+% %reset total frame counter in order to hide pages behind actual content.
+% \addtocounter{framenumber}{-2}
+
+\end{document}
+
+  	
