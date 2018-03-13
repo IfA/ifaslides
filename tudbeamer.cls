@@ -265,22 +265,6 @@
     \setbeamercolors%
 }
 
-%TODO more to come
-\hypersetup{
-    linkcolor=text,%
-    urlcolor=text,%
-    citecolor=hks57,%
-    pdfborder=0 0 0%
-}
-\mode<handout>{
-    \hypersetup{
-        linkcolor=text,%
-        urlcolor=text,%
-        citecolor=text,%  
-        pdfborder=0 0 0%
-    } 
-}
-
 %
 % bibliography settings
 %
@@ -1032,6 +1016,28 @@
     \setbeamertemplates% %TODO
     \scriptsize%
     \makeatother%
+    \mode<handout:0>{
+        \hypersetup{
+            linkcolor=text,%
+            urlcolor=text,%
+            citecolor=hks57,%
+            pdfborder=0 0 0,%
+            pdftitle=\inserttitle,%
+            pdfauthor=\insertauthor,%
+            pdfsubject=\inserttitle%
+        }
+    }
+    \mode<handout>{
+        \hypersetup{
+            linkcolor=text,%
+            urlcolor=text,%
+            citecolor=text,%  
+            pdfborder=0 0 0,%
+            pdftitle=\inserttitle,%
+            pdfauthor=\insertauthor,%
+            pdfsubject=\inserttitle%
+        } 
+    }
 }%
 
 \AtEndDocument{%
