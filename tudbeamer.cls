@@ -64,11 +64,17 @@
 % additional settings
 %
 \newcommand*\tud@affiliation{}
-\newcommand*{\affiliation}[1]{\renewcommand*{\tud@affiliation}{#1}}
+\newcommand*\tud@affiliationshort{}
+\newcommand*{\affiliation}[2][]{\renewcommand*{\tud@affiliation}{#2}\ifx\@empty#1\renewcommand{\tud@affiliationshort}{#2}\else\renewcommand{\tud@affiliationshort}{#1}\fi}
 \newcommand*{\datecity}[1]{\renewcommand*{\insertdatecity}{#1}}
 
 \newcommand*\tud@additionallogo{}
-\newcommand*{\additionallogo}[1]{\renewcommand*{\tud@additionallogo}{#1}}
+\newcommand*{\additionallogo}[1]{\renewcommand*{%
+    \tud@additionallogo}{#1}%
+    \ifx\@empty\tud@additionallogofooter%
+        \renewcommand*{\tud@additionallogofooter}{#1}%
+    \fi%
+}%
 \newcommand*\tud@additionallogofooter{}
 \newcommand*{\additionallogofooter}[1]{\renewcommand*{\tud@additionallogofooter}{#1}}
 \newcommand*\tud@designimage{}
@@ -238,15 +244,21 @@
         \colorlet{titleaffilitationtext}{titleaffiliationtextbgtud}%
         \colorlet{titledatecitytext}{titledatecitytextbgtud}%
     }{%
-       \ifthenelse{\equal{\tud@titlestyle}{design}}{%
-            \colorlet{titletext}{titletextbgdesign}%
-            \colorlet{titleaffilitationtext}{titleaffiliationtextbgdesign}%
-            \colorlet{titledatecitytext}{titledatecitytextbgdesign}%
+        \ifthenelse{\equal{\tud@titlestyle}{hks41}}{%
+            \colorlet{titletext}{titletextbgtud}%
+            \colorlet{titleaffilitationtext}{titleaffiliationtextbgtud}%
+            \colorlet{titledatecitytext}{titledatecitytextbgtud}%
         }{%
-            \colorlet{titletext}{titletextbgwhite}%
-            \colorlet{titleaffilitationtext}{titleaffiliationtextbgwhite}%
-            \colorlet{titledatecitytext}{titledatecitytextbgwhite}%
-        }% 
+           \ifthenelse{\equal{\tud@titlestyle}{design}}{%
+                \colorlet{titletext}{titletextbgdesign}%
+                \colorlet{titleaffilitationtext}{titleaffiliationtextbgdesign}%
+                \colorlet{titledatecitytext}{titledatecitytextbgdesign}%
+            }{%
+                \colorlet{titletext}{titletextbgwhite}%
+                \colorlet{titleaffilitationtext}{titleaffiliationtextbgwhite}%
+                \colorlet{titledatecitytext}{titledatecitytextbgwhite}%
+            }% 
+        }%
     }%
 %
     \colorlet{blockbg}{hks41!70}%
@@ -471,7 +483,7 @@
 
 \setlength{\designbary}{0.1496\beamer@paperheight}
 \setlength{\designbarheight}{0.0252\beamer@paperheight}
-\setlength{\designbarborderwidth}{1pt}
+\setlength{\designbarborderwidth}{.5pt}
 
 \setlength{\footery}{0.8929\beamer@paperheight}
 \setlength{\footerheight}{0.1071\beamer@paperheight}
@@ -481,8 +493,8 @@
 \setlength{\footertextwidth}{0.4251\beamer@paperwidth}
 
 \setlength{\footerslidenumx}{0.7355\beamer@paperwidth}
-\setlength{\footerslidenumwidth}{0.0579\beamer@paperwidth}
-\setlength{\footerslidenumy}{0.0541\beamer@paperheight}
+\setlength{\footerslidenumwidth}{0.1\beamer@paperwidth}
+\setlength{\footerslidenumy}{0.9369\beamer@paperheight}
 
 \setlength{\textborderleft}{0.0718\beamer@paperwidth}
 \setlength{\textborderright}{0.0718\beamer@paperwidth}
@@ -576,20 +588,20 @@
 }
 
 
-\newcommand{\setTUDHeadlineTemplates}{
-    \setbeamertemplate{headline}{
-        \setlength{\templength}{\beamer@paperwidth/2-\tudlogox}
-        \begin{textblock*}{\templength}(\tudlogox,\tudlogoy)
-          \color{hks41}\includegraphics[height=\tudlogoheight]{\tud@logofile}
-        \end{textblock*}
-        \ifx\additionallogo\@empty\else
+\newcommand{\setTUDHeadlineTemplates}{%
+    \setbeamertemplate{headline}{%
+        \setlength{\templength}{\beamer@paperwidth/2-\tudlogox}%
+        \begin{textblock*}{\templength}(\tudlogox,\tudlogoy)%
+          \color{hks41}\includegraphics[height=\tudlogoheight]{\tud@logofile}%
+        \end{textblock*}%
+        \ifx\additionallogo\@empty\else%
         \begin{textblock*}{\templength}(\addlogoxright-\templength,\addlogoy)%
           \color{hks41}%
-          \raggedleft\includegraphics[height=\addlogoheight]{\tud@additionallogo}
-        \end{textblock*}
-        \fi 
-    }
-}
+          \raggedleft\includegraphics[height=\addlogoheight]{\tud@additionallogo}%
+        \end{textblock*}%
+        \fi %
+    }%
+}%
 \newcommand{\setTUDFooterTemplates}{
     \setbeamertemplate{footline}{}
 }
@@ -597,9 +609,36 @@
     \setbeamertemplate{headline}{}
     
 }
-\newcommand{\setFrameFooterTemplates}{
-    
-}
+\newcommand{\setFrameFooterTemplates}{%
+    \setbeamertemplate{footline}{%
+        \begin{textblock*}{\the\beamer@paperwidth}(0pt,\the\footery)%
+            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]%current page.north west)]
+                %\begin{scope}%
+                    \draw[line width=\the\designbarborderwidth,designbarborder] (0,0)--(\the\beamer@paperwidth,0);%
+                %\end{scope}%
+            \end{tikzpicture}%
+        \end{textblock*}%
+        \setlength{\templength}{\beamer@paperwidth/2-\tudlogofooterx}%
+        \begin{textblock*}{\templength}(\tudlogofooterx,\tudlogofootery)%
+            \color{hks41}\includegraphics[height=\tudlogofooterheight]{\tud@logofile}%
+        \end{textblock*}%
+        \ifx\additionallogofooter\@empty\else%
+        \begin{textblock*}{\templength}(\addlogofooterxright-\templength,\addlogofootery)%
+            \color{hks41}%
+            \raggedleft\includegraphics[height=\addlogofooterheight]{\tud@additionallogofooter}%
+        \end{textblock*}%
+        \fi%
+        \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
+            \color{footertext}\insertshorttitle\newline%
+            \tud@affiliationshort\,\/\,\insertauthor\newline%
+            \insertdatecity%
+        \end{textblock*}%
+        \begin{textblock*}{\footerslidenumwidth}(\footerslidenumx,\footerslidenumy)%
+            \color{footertext}%
+            \raggedleft\@slide\ \insertpagenumber\ \@of\ \inserttotalpagenumber%
+        \end{textblock*}%
+    }%
+}%
 %drawTikzBackground[mode]{width,height}
 \newcommand{\drawTikzColorBackground}[3][tud]{
     \ifthenelse{\equal{#1}{tud}}{%
@@ -641,7 +680,6 @@
                 %\begin{scope}%
                     \draw[line width=\the\designbarborderwidth,designbarborder] (0,-\the\designbary)--(\the\beamer@paperwidth,-\the\designbary);%
                     \draw[line width=\the\designbarborderwidth,designbarborder] (0,-\the\designbary-\the\designbarheight)--(\the\beamer@paperwidth,-\the\designbary-\the\designbarheight);%
-                    \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight);%
                 %\end{scope}%
             \end{tikzpicture}%
         }{%            

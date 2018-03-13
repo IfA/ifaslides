@@ -1,7 +1,5 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,titlestyle=tud]{tudbeamer}
-
-%\setlength{\headernavigationwidthskip}{1.2 cm}
+\documentclass[german,aspectratio=169,titlestyle=tud]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 
 %TODO cleanup
 % \makeatletter
@@ -13,7 +11,7 @@
 %   \begin{pgfpicture}{0pt}{0pt}{2\beamer@miniframeradius}{2.5\beamer@miniframeradius}
 %     \pgfpathcircle{\pgfpoint{\beamer@miniframeradius}{\beamer@miniframeradius}}{\beamer@miniframeradius}
 %     \pgfusepath{fill,stroke}
-%   \end{pgfpicture}%
+%   \end{pgfpicture}
 % }
 % \setbeamertemplate{mini frame in current subsection}
 % {%
@@ -47,7 +45,7 @@
 \subtitle{IT\,--\, Chancen und Risiken}
 \author{Maxima Mustermann}
 \datecity{Dresden, Feb. 2018}
-\affiliation{Fakultät Elektrotechnik und Informationstechnik $\bullet$ Institut für Automatisierungstechnik}
+\affiliation[ET-IT $\bullet$ IfA]{Fakultät Elektrotechnik und Informationstechnik $\bullet$ Institut für Automatisierungstechnik}
 \additionallogo{IfA_logo_blau}
  
 %	In order to let a (sub-)section and slide appear in the navigator bar, build
@@ -162,6 +160,8 @@
 		\item title: \inserttitle
 		\item subtitle: \insertsubtitle
 		\item datecity: \insertdatecity
+		% \def\tmpcolor{}
+		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
 		\item fourth enumerated item
 	\end{enumerate}
 \end{frame}
