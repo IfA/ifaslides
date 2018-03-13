@@ -648,7 +648,7 @@
             \transparent{\designbaropacity}%
             \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,1cm)}]%current page.north west)]
                 %\begin{scope}%
-                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight);%
+                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
                 %\end{scope}%
             \end{tikzpicture}%
             \transparent{1}%  
