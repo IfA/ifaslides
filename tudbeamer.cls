@@ -265,7 +265,7 @@
 %
     \mode<handout>{%
         \colorlet{text}{black}%
-        \colorlet{frametitle}{black}%
+        \colorlet{frametitletext}{black}%
         \colorlet{framesubtitletext}{gray}%
         \colorlet{bg}{bgwhite}%
         \colorlet{titlebg}{bgwhite}%
@@ -489,7 +489,7 @@
 \setlength{\footerheight}{0.1071\beamer@paperheight}
 
 \setlength{\footertextx}{0.2392\beamer@paperwidth}
-\setlength{\footertexty}{0.9218\beamer@paperheight}
+\setlength{\footertexty}{0.9188\beamer@paperheight}
 \setlength{\footertextwidth}{0.4251\beamer@paperwidth}
 
 \setlength{\footerslidenumx}{0.7355\beamer@paperwidth}
@@ -521,8 +521,10 @@
 \setlength{\parttitley}{0.494\beamer@paperheight}
 
 \newcommand{\setbeamerdimensions}{
-    %\beamersetleftmargin{\bodyx}
-    %\beamersetrightmargin{\bodyx}%\beamer@paperwidth-\bodyx-\bodywidth}
+    \beamersetleftmargin{\bodyx}
+    \setlength{\templength}{\beamer@paperwidth-\bodyx-\bodywidth}
+    \beamersetrightmargin{\templength}
+    \setlength{\headsep}{-.095\beamer@paperheight}
 }
 
 \newcommand{\setbodydefaultdimensions}{%
@@ -662,10 +664,17 @@
 
 \newcommand{\setTitleBodyTemplates}{
     \setbodytitleframedimensions%
+    % \setbeamertemplate{background}{
+    %     \ifthenelse{\equal{\tud@titlestyle}{design}}{%            
+    %         \begin{textblock*}{\beamer@paperwidth}(0,\designbary)% %TODO this may fail, since textboxes do not seem to work on background canvas
+    %             \includegraphics[height=\beamer@paperheight-\designbary,width=\beamer@paperwidth,keepaspectratio=true]{\tud@designimage}
+    %         \end{textblock*}%
+    %     }{}%
+    % }
     %1. background
     \setbeamertemplate{background canvas}{%
         \ifthenelse{\equal{\tud@titlestyle}{design}}{%            
-            \begin{textblock*}{\beamer@paperwidth}(o,\designbary)%
+            \begin{textblock*}{\beamer@paperwidth}(0,\designbary)% %TODO this may fail, since textboxes do not seem to work on background canvas
                 \includegraphics[height=\beamer@paperheight-\designbary,width=\beamer@paperwidth,keepaspectratio=true]{\tud@designimage}
             \end{textblock*}%
         }{%
@@ -709,10 +718,13 @@
         \end{textblock*}%
     }%
 }
-\newcommand{\setDefaultBodyTemplates}{
-    \setbeamertemplate{background canvas}{}
-    
-}
+\newcommand{\setDefaultBodyTemplates}{%
+    \setbeamertemplate{background canvas}{}%   
+    \setbeamertemplate{frametitle}{%
+         \color{frametitletext}\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle%\\%
+         \ifx\@empty\insertframesubtitle\else\\[.5ex]\color{text}\small\bfseries\insertframesubtitle\fi\vskip.5ex%
+    }% 
+}%
 \newcommand{\setSectionFrameBodyTemplates}{
     
 }
@@ -888,8 +900,7 @@
 %     }%
 % }
 
-\newcommand\setbeamertemplates{%	
-
+\newcommand\setbeamertemplates{%
         %\beamertemplateshadingbackground{white}{white}
     \setbeamercolor{normal text}{bg=white}
     % \if@useHeader%
@@ -1010,8 +1021,12 @@
 %     }
 % }
 
-% frame title
-% TODO what is this doing
+\AtEndPreamble{%
+    \setbodydefaultdimensions%
+    \setbeamerdimensions%
+}%
+
+% frame title section prefix with alternate starred cmd
 \gdef\frame@title@section{}%
 \def\frametitle{\secdef\tud@frametitlea\tud@frametitles}%
 \newcommand<>\tud@frametitlea{\gdef\frame@title@section{\ifnum\c@section>9\else0\fi\arabic{section}\,\,}\alt#1{\@dblarg\beamer@@frametitle}{\beamer@gobbleoptional}}%
@@ -1049,7 +1064,7 @@
                                           %
     \fi%   
     \setdefaultcolors%
-    \setbodydefaultdimensions%
+    %\setbodydefaultdimensions%
     \setAuxilliaryBeamerTemplates%
     \setbeamertemplates% %TODO
     \scriptsize%
