@@ -31,11 +31,6 @@
 \newif\if@useProgress\@useProgresstrue
 \DeclareOption{noprogress}{\@useProgressfalse}
 
-% \newif\if@insertAdditionalLogo\@insertAdditionalLogotrue
-% \DeclareVoidOption{noAdditionalLogo}{\@insertAdditionalLogofalse}
-% \newif\if@insertAdditionalLogoFooter\@insertAdditionalLogoFootertrue
-% \DeclareVoidOption{noAdditionalLogoFooter}{\@insertAdditionalLogoFooterfalse}
-
 \newif\if@sansMath\@sansMathtrue
 \DeclareOption{serifmath}{\@sansMathfalse}
 
@@ -53,8 +48,8 @@
 \newif\if@useSectionNumInFrameTitle\@useSectionNumInFrameTitletrue
 \DeclareOption{noframetitlesectionnum}{\@useSectionNumInFrameTitlefalse}
 
-\DeclareStringOption{titlestyle}[tud] %option is tud@titlestyle
-\DeclareStringOption{partstyle}[tud] %option is tud@partstyle
+\DeclareStringOption[tud]{titlestyle} %option is tud@titlestyle
+\DeclareStringOption[tud]{structurestyle} %option is tud@structurestyle
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 \ProcessKeyvalOptions*
@@ -718,21 +713,54 @@
         \end{textblock*}%
     }%
 }
+
+\newcommand{\setStructureFrameBackgroundTemplates}[1][]{
+    \setbeamertemplate{background}{%
+        \ifthenelse{\equal{#1}{design}}{%
+            \begin{textblock*}{\beamer@paperwidth}(0,0)%
+                \includegraphics[height=\beamer@paperheight-\footery,width=\beamer@paperwidth,keepaspectratio=true]{\tud@designimage}
+            \end{textblock*}%
+        }{%
+            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,1cm-\the\footery)}]%+1cm)}]%current page.north west)]
+                %\pgfplotset{width=\the\beamer@paperwidth,height=\the\beamer@paperheight};                
+                %\draw[line width=\the\designbarborderwidth,designbarborder] (0,0)--(\the\beamer@paperwidth,\the\footery);%
+                \ifstrempty{#1}{%
+                    \drawTikzColorBackground[\tud@structurestyle]{\beamer@paperwidth}{\the\footery}%
+                }{%
+                    \drawTikzColorBackground[#1]{\beamer@paperwidth}{\the\footery}%
+                }%
+                \pgfresetboundingbox%
+            \end{tikzpicture}%
+        }%
+    }%
+}
+
 \newcommand{\setDefaultBodyTemplates}{%
     \setbeamertemplate{background canvas}{}%   
+    \setbeamertemplate{background}{}%
     \setbeamertemplate{frametitle}{%
          \color{frametitletext}\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle%\\%
          \ifx\@empty\insertframesubtitle\else\\[.5ex]\color{text}\small\bfseries\insertframesubtitle\fi\vskip.5ex%
     }% 
 }%
 \newcommand{\setSectionFrameBodyTemplates}{
-    
+    \setDefaultBodyTemplates%
+    \setStructureFrameBackgroundTemplates%
+    \setbeamertemplate{section page}{%
+         \usebeamerfont{title} \insertsectionnumber \insertsection:  \tud@structurestyle%
+    }%
 }
 \newcommand{\setPartFrameBodyTemplates}{
-    
+    \setDefaultBodyTemplates%
+    \setStructureFrameBackgroundTemplates%
+    \setbeamertemplate{part page}{%
+        \usebeamerfont{title} Teil \insertpartnumber \insertpart:  \tud@structurestyle%
+    }%
 }
 \newcommand{\setDesignFrameBodyTemplates}{
-    
+    \setDefaultBodyTemplates%
+    \setStructureFrameBackgroundTemplates%
+    %TODO adjust, in case there is a title
 }
 \newcommand{\setTitleFrameTemplates}{
     \setTUDHeadlineTemplates
@@ -816,22 +844,24 @@
     \frame{\titlepage}%
     % Kopf-/Fusszeilen fuer restliche Folien
     \setDefaultFrameTemplates% %TODO
+
+    \if@usePartFrame%
+        \AtBeginPart{%
+             \setPartFrameTemplates%
+             \frame{\partpage}%
+             \setDefaultFrameTemplates%
+        %     %TODO part toc
+        }%
+    \fi%
+    \if@useSectionFrame%
+         \AtBeginSection[]{%
+             \setSectionFrameTemplates%
+             \frame{\sectionpage}%
+             \setDefaultFrameTemplates%
+        %     %TODO section toc
+         }%
+    \fi%
 }
-
-% % Faktor zur PPT-Vorlage: / 0,1984375      * 5,04
-% \setbeamertemplate{title page}{%
-%     \color{white}%
-%     {\vfill}{\renewcommand\baselinestretch{0.8}\usebeamerfont*{title}
-%     \vskip2ex plus1ex minus1ex\MakeUppercase{\inserttitle}}\vfill%
-%     {\ifx\insertsubtitle\empty\else\usebeamerfont*{subtitle}\insertsubtitle\vfill\fi%
-%     \scriptsize\insertauthor}\vfill\vfill%
-% }
-
-% \setbeamertemplate{part page}{%
-% 	\color{white}{\vfill}{
-% 	\renewcommand\baselinestretch{0.8}\usebeamerfont*{title}
-% 	\vskip-4ex plus1ex minus1ex\insertpart}
-% }
 
 % \newcommand\settitletemplates{
 % 	%\beamertemplateshadingbg{darkblue}{darkblue}

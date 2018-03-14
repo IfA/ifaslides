@@ -1,5 +1,6 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,titlestyle=tud]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+\documentclass[german,aspectratio=169]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+	%,titlestyle=tud,structureframestyle=white
 
 %TODO cleanup
 % \makeatletter
@@ -91,54 +92,35 @@
 }
 
 % Switch for starting a section without the table of contents section page
-\newif\ifsectiontoc
-\sectiontoctrue
-\newif\ifinsertsectionimage
-\insertsectionimagefalse
-\newcommand{\theSectionImage}{}
-\newcommand{\setSectionImage}[1]{%
-	\renewcommand{\theSectionImage}{#1}%
-	\@insertsectionimagetrue%
-}
+
 % \let\sectionOld\section%
 % \newcommand\sectionOldStar[1]{\sectionOld*{#1}}
 % \renewcommand{\section}[1]{\@ifstar{\sectionOld{#1}}{\sectionOldStar{#1}}\setboolean{insertsectionimage}{false}}
 
 %% enabling a section introduction page, remove if not required
-\AtBeginSection[]{
-	\ifsectiontoc%
-		\frame[squeeze]{  %\frame<beamer>[squeeze]{
-		% 	\sectionpage
-			{\usebeamerfont{section title}\insertsection}%
-				\ifinsertsectionimage%
-					\vspace*{-4ex}\begin{columns}
-					    \begin{column}{0.45\textwidth}
-					        \tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/show/hide]%
-					    \end{column}
-					    \hspace*{-.15\textwidth}\begin{column}{0.55\textwidth}
-					        \centering%
-					        \includegraphics[keepaspectratio=true,width=0.9\textwidth]{\theSectionImage}%
-					    \end{column}					    
-					\end{columns}
-				\else%
-					\tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/show/hide]%
-				\fi%	
-		}
-	\else\fi%
-	\insertsectionimagefalse%
-}
-%% Use this command for starting a section without a table of contents
-\newcommand{\toclesssection}[1]{
-	\sectiontocfalse
-	\section{#1}
-	\sectiontoctrue
-}
-%% Use this command for starting a starred section without a table of contents
-\newcommand{\toclesssectionstar}[1]{
-	\sectiontocfalse
-	\section*{#1}
-	\sectiontoctrue
-}
+%\AtBeginSection[]{
+% 	\ifsectiontoc%
+% 		\frame[squeeze]{  %\frame<beamer>[squeeze]{
+% 		% 	\sectionpage
+% 			{\usebeamerfont{section title}\insertsection}%
+% 				\ifinsertsectionimage%
+% 					\vspace*{-4ex}\begin{columns}
+% 					    \begin{column}{0.45\textwidth}
+% 					        \tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/show/hide]%
+% 					    \end{column}
+% 					    \hspace*{-.15\textwidth}\begin{column}{0.55\textwidth}
+% 					        \centering%
+% 					        \includegraphics[keepaspectratio=true,width=0.9\textwidth]{\theSectionImage}%
+% 					    \end{column}					    
+% 					\end{columns}
+% 				\else%
+% 					\tableofcontents[currentsection,sectionstyle=show/shaded,subsectionstyle=show/show/hide]%
+% 				\fi%	
+% 		}
+% 	\else\fi%
+% 	\insertsectionimagefalse%
+%}
+
 
 % 
 % Content 
@@ -206,11 +188,12 @@ cccd
 	\frametitle{2nd frame of 2nd subsection}
 	\begin{columns}[t]
 		\begin{column}{.2\textwidth}
-			some explanatory text for the image
+			some explanatory text for the image\\
+			TODO adjust column separators
 		\end{column}
 	   	\begin{column}{.80\textwidth}
 	   		\ \\[-2ex]
-	   		some ocntent
+	   		some content
 			%\centering\includegraphics[keepaspectratio=true,width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/image}%
 		\end{column}
 	\end{columns}
