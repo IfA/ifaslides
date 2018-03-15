@@ -237,6 +237,7 @@
 }
 
 \newcommand{\settitletextcolors}[1]{%
+    \typeout{titletextstyle: #1}%
     \ifthenelse{\equal{#1}{tud}}{%
         \colorlet{titletext}{titletextbgtud}%
         \colorlet{titleaffilitationtext}{titleaffiliationtextbgtud}%
@@ -322,7 +323,7 @@
     \setbeamerfont{subtitle}{size=\large,series=\bfseries,family=\fontfamily{\familydefault}}
     \setbeamerfont{institute}{size=\small,series=,family=\fontfamily{\familydefault}}
     \setbeamerfont{author}{size=\small,series=,family=\fontfamily{\familydefault}}
-    \setbeamerfont{date}{size=\tiny,series=,family=\fontfamily{\familydefault}}
+    \setbeamerfont{date}{size=\small,series=,family=\fontfamily{\familydefault}}
     \setbeamerfont{footline}{size=\tiny,series=,family=\fontfamily{\familydefault}}
     \setbeamerfont{headline}{size=\tiny,series=,family=\fontfamily{\familydefault}}
 }
@@ -849,9 +850,9 @@
     \settitletextcolors{\tud@structurestyle}%
     \setStructureFrameBackgroundTemplates%
     \setbeamertemplate{part page}{%
-        \usebeamerfont{title} \color{titletext}%
         \begin{textblock*}{\bodywidth}(\bodyx,\structuretitley)%
-            \tud@vocpart\, \insertpartnumber\,\, \insertpart%
+            \usebeamerfont{title}\color{titletext}%
+            \tud@vocpart\,\insertpartnumber\,\,\insertpart%
         \end{textblock*}%
     }%
 }
