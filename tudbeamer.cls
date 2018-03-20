@@ -416,7 +416,11 @@
 \fi
 \usefonttheme[onlymath]{serif}
 
+% set itemize symbol template
 %
+\beamertemplatedotitem
+\usesubitemizeitemtemplate{--}
+
 % language settings
 %
 % predefined symbols
