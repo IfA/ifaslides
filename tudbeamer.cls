@@ -7,7 +7,7 @@
 \def\filename{tudbeamer}
 
 \NeedsTeXFormat{LaTeX2e}  
-\ProvidesClass{\filename}[\filedate Praesentationsfolien-Klasse fuer die TU Dresden]
+\ProvidesClass{\@currname}[\filedate Praesentationsfolien-Klasse fuer die TU Dresden]
 \typeout{Class: '\filename' Version \fileversion, Praesentationsfolienvorlage der Technischen Universitaet Dresden}
 
 \RequirePackage{kvoptions}
