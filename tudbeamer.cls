@@ -27,7 +27,6 @@
 
 \newif\if@useNavBar\@useNavBarfalse
 \DeclareOption{navbar}{\@useNavBartrue}
-
 \newif\if@useProgress\@useProgresstrue
 \DeclareOption{noprogress}{\@useProgressfalse}
 
@@ -40,10 +39,12 @@
 \DeclareOption{noSectiontoc}{\@useSectionTOCfalse}
 \newif\if@useSectionTOCFrame\@useSectionTOCFramefalse
 \DeclareOption{sectiontocframe}{\@useSectionTOCFrametrue}
+
 \newif\if@usePartFrame\@usePartFrametrue
 \DeclareOption{nopartframe}{\@usePartFramefalse}
 \newif\if@usePartTOCFrame\@usePartTOCFrametrue
 \DeclareOption{noparttoc}{\@usePartTOCFramefalse}
+
 \newif\if@useTOCFrame\@useTOCFrametrue
 \DeclareOption{notoc}{\@useTOCFramefalse}
 
@@ -82,6 +83,30 @@
 
 \def\today{\number\day.\number\month.\number\year}
 
+\newcommand\enableProgress{\@useProgresstrue}
+\newcommand\disableProgress{\@useProgressfalse}
+
+\newcommand\enableNavBar{\@useNavBarfalse}
+\newcommand\disableNavBar{\@useNavBartrue}
+
+\newcommand\setStructureStyle[1]{\def\tud@structurestyle{#1}}
+\def\tud@designImage{}
+\newcommand\setDesignImage[1]{\def\tud@designImage{#1}}
+
+\newcommand\disablePartFrame{\@usePartFramefalse}
+\newcommand\enablePartFrame{\@usePartFrametrue}
+\newcommand\disablePartTOCFrame{\@usePartTOCFramefalse}
+\newcommand\enablePartTOCFrame{\@usePartTOCFrametrue}
+
+\newcommand\disableSectionFrame{\@useSectionFramefalse}
+\newcommand\enableSectionFrame{\@useSectionFrametrue}
+\newcommand\disableSectionTOCFrame{\@useSectionTOCFramefalse}
+\newcommand\enableSectionTOCFrame{\@useSectionTOCFrametrue}
+\newcommand\disableSectionTOC{\@useSectionTOCfalse}
+\newcommand\enableSectionTOC{\@useSectionTOCtrue}
+
+\newcommand\enableFrameTitleSectionNum{\@useSectionNumInFrameTitletrue}
+\newcommand\disableFrameTitleSectionNum{\@useSectionNumInFrameTitlefalse}
 
 \PassOptionsToPackage{table,fixpdftex,svgnames,hyperref}{xcolor}
 
@@ -130,6 +155,7 @@
 
 \RequirePackage{wasysym}
 \RequirePackage{multimedia}
+\RequirePackage[export]{adjustbox}
 \RequirePackage{comment}
 \RequirePackage{transparent}
 \RequirePackage{tikz}
@@ -492,6 +518,7 @@
 
 \newlength{\structuretitley}
 \newlength{\templength}
+\newlength{\templengthb}
 
 % dimensions are derived from the powerpoint template
 %ppt width 33.867cm
@@ -662,9 +689,9 @@
             \end{textblock*}%
         \fi%
         \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
-            \color{footertext}\insertshorttitle\vskip.4ex%%\newline
-            \tud@affiliationshort\,/\,\insertauthor\newline\vskip.7ex%
-            \insertdatecity%
+            \fontsize{6pt}{6.5pt}\selectfont\strut\color{footertext}\insertshorttitle\newline%\vskip.4ex%%\newline
+            \fontsize{6pt}{6.5pt}\selectfont\strut\tud@affiliationshort\,/\,\insertauthor\newline%\vskip.7ex%
+            \fontsize{6pt}{6.5pt}\selectfont\strut\insertdatecity%
             \color{text}%
             \usebeamercolor[fg]{normal text}%
         \end{textblock*}%
@@ -721,19 +748,21 @@
 
 \newcommand{\setTitleBodyTemplates}{%
     \setbodytitleframedimensions%
-    % \setbeamertemplate{background}{
-    %     \ifthenelse{\equal{\tud@titlestyle}{design}}{%            
-    %         \begin{textblock*}{\beamer@paperwidth}(0,\designbary)% %TODO this may fail, since textboxes do not seem to work on background canvas
-    %             \includegraphics[height=\beamer@paperheight-\designbary,width=\beamer@paperwidth,keepaspectratio=true]{\tud@designimage}
-    %         \end{textblock*}%
-    %     }{}%
-    % }
     %1. background
     \setbeamertemplate{background canvas}{%
         \ifthenelse{\equal{\tud@titlestyle}{design}}{%            
-            \begin{textblock*}{\beamer@paperwidth}(0,\designbary)% %TODO this may fail, since textboxes do not seem to work on background canvas
-                \includegraphics[height=\beamer@paperheight-\designbary,width=\beamer@paperwidth,keepaspectratio=true]{\tud@designimage}%
-            \end{textblock*}%
+            \adjustbox{margin=0 0  0 \designbary}{%
+                \setlength\templength{\beamer@paperheight-\designbary}%
+                \setlength\templengthb{1.1\beamer@paperwidth}%
+                \hspace*{-.05\beamer@paperwidth}\fillgraphicbox{\templengthb}{\templength}{\tud@designImage}%
+            }%   
+            \transparent{\designbaropacity}%
+            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(-1.05\beamer@paperwidth,\beamer@paperheight)}]%current page.north west)]
+                %\begin{scope}%
+                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
+                %\end{scope}%
+            \end{tikzpicture}%
+            \transparent{1}%
         }{%
             \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,-\the\beamer@paperheight+0cm)}]%+1cm)}]%current page.north west)]
                 %\pgfplotset{width=\the\beamer@paperwidth,height=\the\beamer@paperheight};  
@@ -749,14 +778,16 @@
                     \draw[line width=\the\designbarborderwidth,designbarborder] (0,-\the\designbary-\the\designbarheight)--(\the\beamer@paperwidth,-\the\designbary-\the\designbarheight);%
                 %\end{scope}%
             \end{tikzpicture}%
-        }{%            
-            \transparent{\designbaropacity}%
-            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]%current page.north west)]
-                %\begin{scope}%
-                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
-                %\end{scope}%
-            \end{tikzpicture}%
-            \transparent{1}%  
+        }{%   
+            \ifthenelse{\equal{\tud@titlestyle}{design}}{}{%         
+                \transparent{\designbaropacity}%
+                \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]%current page.north west)]
+                    %\begin{scope}%
+                       \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
+                    %\end{scope}%
+                \end{tikzpicture}%
+                \transparent{1}%  
+            }%
         }%
     }%
     \setbeamertemplate{title page}{%
@@ -786,19 +817,26 @@
 \newcommand\@setsavedstructureframebackground[1]{\gdef\@savedstructureframebackground{#1}}%
 \newcommand\@structureframestyle{tud}%
 
+\newcommand{\fillgraphicbox}[3]{%% width,height,path
+    \adjustbox{min height=#2,min width=#1%
+            ,Clip*={.5\width-.5#1} {.5\height-.5#2} {.5\width+.5#1} {.5\height+.5#2}%
+    }{%
+        \includegraphics[max height=#2,max width=#1,center,keepaspectratio=true]{#3}%
+    }%
+}%
+
 \newcommand{\setStructureFrameBackgroundTemplates}[1][]{%
     \setbeamertemplate{background}{%
-        \ifthenelse{\equal{#1}{design}}{%
-            \begin{textblock*}{\beamer@paperwidth}(0,0)%
-                \includegraphics[height=\beamer@paperheight-\footery,width=\beamer@paperwidth,keepaspectratio=true]{\tud@designimage}%
-            \end{textblock*}%
+        \ifstrempty{#1}{\renewcommand\@structureframestyle{\tud@structurestyle}}{\renewcommand\@structureframestyle{#1}}%
+        \ifthenelse{\equal{\@structureframestyle}{design}}{%
+            \setlength\templength{\beamer@paperheight-\footerheight}%
+            \fillgraphicbox{\beamer@paperwidth}{\templength}{\tud@designImage}%
         }{%
-            \ifstrempty{#1}{\renewcommand\@structureframestyle{\tud@structurestyle}}{\renewcommand\@structureframestyle{#1}}%
             \ifthenelse{\equal{\@structureframestyle}{tud}}{%
                 \typeout{============tud}%
                 \ifthenelse{\equal{\@savedstructureframebackground}{notsaved}}{%
                     \typeout{============wasundefined: \@savedstructureframebackground}%   %TODO saving this has no effect
-                    \@setsavedstructureframebackground{saved}%
+                    \@setsavedstructureframebackground{notsaved}% TODO change to saved, if learned how to re-print the content using the usebox command
                     \typeout{============now: \@savedstructureframebackground}%
                     \savebox\@structureframebackground{%
                         \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm-\the\footery)}]%

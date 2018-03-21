@@ -1,5 +1,5 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,notoc]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+\documentclass[german,aspectratio=169,notoc,titlestyle=tud]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 	%,titlestyle=white,structurestyle=white
 
 %TODO cleanup
@@ -42,13 +42,14 @@
 
 % \newcommand{\lstretch}{\normalsize\strut \Large\ }
 
-\title[DA Verteidigung]{Verteidigung der Diplomarbeit}
-\subtitle{IT\,--\, Chancen und Risiken}
-\author{Maxima Mustermann}
+\title[TUD Beamer]{Die TUD Beamerklasse}
+\subtitle{Hinweise zur Verwendung}
+\author{Lukas Baron}
 \datecity{Dresden, Feb. 2018}
 \affiliation[ET-IT \textbullet{} IfA]{Fakultät Elektrotechnik und Informationstechnik \textbullet{} Institut für Automatisierungstechnik}
 \additionallogo{IfA_logo_blau}
- 
+\setDesignImage{pics/DesignFrameTest_1}
+
 %	In order to let a (sub-)section and slide appear in the navigator bar, build
 % 	document twice
 %
@@ -72,15 +73,184 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
 %% inserts the title page
-	\maketitle
+\maketitle
 
 % 
 % Content 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{The main part of the presentation}
-\section[ShortSection]{Long Section Title}	
-\subsection{Subsection}
+\disableFrameTitleSectionNum
+\begin{frame}
+	\frametitle{Die TUD Beamerklasse}
+	\framesubtitle{Allgemeines vorab}
+
+
+\end{frame}
+\enableFrameTitleSectionNum
+
+
+\part{TUD Beamerklasse}
+\section{Klassenoptionen}
+\subsection{Optionen}
+\begin{frame}
+	\frametitle{Klassenoptionen}
+	\framesubtitle{Modi}
+
+	\begin{itemize}
+		\item Handout
+		\item Draft
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Klassenoptionen}
+	\framesubtitle{Gliederungen (TOCs)}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\subsection{Sonstige Befehle}
+\begin{frame}
+	\frametitle{Präambelbefehle}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Klassenfunktionen}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\section{Corporate Design}
+\subsection{Farben}
+
+\begin{frame}
+	\frametitle{CD Farben}
+	\framesubtitle{Hauptfarben}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+\begin{frame}
+	\frametitle{CD Farben}
+	\framesubtitle{Auszeichnungsfarben}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+\begin{frame}
+	\frametitle{CD Farben}
+	\framesubtitle{Sonstige Farben}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\section{Präsentationsinhalte}
+\subsection{Häufige Elemente}
+\begin{frame}
+	\frametitle{Grafiken}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Plots}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Diagramme}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Listings}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+
+\newcolumntype{P}[1]{>{\raggedright\hangindent+10pt\hangafter=1\arraybackslash}p{#1}}
+\begin{frame}
+	\frametitle{Tabellen}
+	\begin{columns}[t]
+	   	\hspace*{-.00\textwidth}\begin{column}{1.0\textwidth}
+	   		\ \\[-3ex]
+			\begin{table}
+			\hspace*{-.045\textwidth}\begin{tabularx}{.95\textwidth}{@{} P{.33\textwidth} l P{.13\textwidth} l @{}}
+			\textbf{Anwendung} & \textbf{Plattform} & \textbf{Inhalt} & \textbf{Ebene}\\
+			Bedienpanel Maschine/""Station & in-field, stationär, (Touch-) Panel & interaktiv & P,F,S\\
+			Detailmonitor Maschine/""Station & in-field, stationär, Display & fix & P,S,PF (,MES)\\
+			Operator-Station/ Leitrechner \newline \ \ \ Maschine/""Station & in-field, stationär, PC & interaktiv & P, PF, MES\\
+			\hline%
+
+			Operator-Station Leitwarte Station-Gesamtanlage & stationär, PC & interaktiv & P,PF,MES \\
+			Übersichtsbildschirm Leitwarte Gesamtanlage & stationär, Display & gesteuert\newline kontextbasiert & PF,MES \\
+
+			\hline
+	
+			Inspektionstablets Maschine/""Station/""Feldgerät & in-field, mobil, Tablet & interaktiv\newline kontextbasiert & P,F,S\\
+
+			\hline
+
+			Schichtstatus-/""Performance-Anzeige Maschine/""Station & in-field, stationär, Display & fix & MES\\
+			AR Inspektion/""Präsentation Maschine/""Station/""Gerät & in-field, mobil, AR & kontextbasiert & P,F,S,PF
+
+			\end{tabularx}%
+			\vspace{-1.5ex}%
+			\hspace*{-.05\textwidth}\caption{UIs in Anlagen und Klassifikation, AT Steuerungsebene: \underline{P}rodukt, \underline{F}eld, \underline{S}teuerun g, \underline{PF}/PLT, \underline{MES}, \underline{ERP}}%
+			\end{table}
+		\end{column}
+	\end{columns}
+
+\end{frame}
+
+\subsection{Animationen}
+\begin{frame}
+	\frametitle{Animationen}
+
+	\begin{itemize}
+		\item 
+	\end{itemize}
+
+\end{frame}
+
+\setStructureStyle{design}
+\part{Template Test Slides}
+\section[Content and Framebreaks]{Testing Slide Content and Framebreaks}	
+\subsection*{Content and Framebreaks}
 \begin{frame}[allowframebreaks]
 	\frametitle{A default Frame}
 	sizes:
@@ -362,74 +532,6 @@ cccd
 	   				\item more sub items
 	   			\end{itemize}
 	   		\end{itemize}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-\part{A 2nd Part}
-\section{test}
-\subsection*{Subsection not in the TOC}
-\begin{frame}[allowframebreaks]
-	\frametitle{A blanc frame TODO}
-	This frame should be clear of footer and header stuff since it is a blanc frame
-\end{frame}
-
-\subsection{Subsection in the TOC}
-\begin{frame}
-	\frametitle{Hey Ho}
-	\framesubtitle{Test subtitle}
-	Can I have a Formula?
-\end{frame}
-\begin{frame}
-	\frametitle{Hey Ho}
-	\framesubtitle{Test subtitle}
-	Can I have a Tabular?
-\end{frame}
-
-\subsection{Subsection in the TOC}
-\begin{frame}
-	\frametitle{Hey Ho}
-	\framesubtitle{Test subtitle}
-	Can I have a Formula?
-\end{frame}
-\begin{frame}
-	\frametitle{Hey Ho}
-	\framesubtitle{Test subtitle}
-	Can I have a Tabular?
-\end{frame}
-
-\newcolumntype{P}[1]{>{\raggedright\hangindent+10pt\hangafter=1\arraybackslash}p{#1}}
-\begin{frame}
-	\frametitle{UI Engineering 2}
-	\framesubtitle{Einsatzmöglichkeiten verschiedener UI Plattformen}
-
-	\begin{columns}[t]
-	   	\hspace*{-.00\textwidth}\begin{column}{1.0\textwidth}
-	   		\ \\[-5ex]
-			\begin{table}
-			\hspace*{-.045\textwidth}\begin{tabularx}{.95\textwidth}{@{} P{.33\textwidth} l P{.13\textwidth} l @{}}
-			\textbf{Anwendung} & \textbf{Plattform} & \textbf{Inhalt} & \textbf{Ebene}\\
-			Bedienpanel Maschine/""Station & in-field, stationär, (Touch-) Panel & interaktiv & P,F,S\\
-			Detailmonitor Maschine/""Station & in-field, stationär, Display & fix & P,S,PF (,MES)\\
-			Operator-Station/ Leitrechner \newline \ \ \ Maschine/""Station & in-field, stationär, PC & interaktiv & P, PF, MES\\
-			\hline%
-
-			Operator-Station Leitwarte Station-Gesamtanlage & stationär, PC & interaktiv & P,PF,MES \\
-			Übersichtsbildschirm Leitwarte Gesamtanlage & stationär, Display & gesteuert\newline kontextbasiert & PF,MES \\
-
-			\hline
-	
-			Inspektionstablets Maschine/""Station/""Feldgerät & in-field, mobil, Tablet & interaktiv\newline kontextbasiert & P,F,S\\
-
-			\hline
-
-			Schichtstatus-/""Performance-Anzeige Maschine/""Station & in-field, stationär, Display & fix & MES\\
-			AR Inspektion/""Präsentation Maschine/""Station/""Gerät & in-field, mobil, AR & kontextbasiert & P,F,S,PF
-
-			\end{tabularx}
-			\vspace{-1.5ex}
-			\hspace*{-.05\textwidth}\caption{UIs in Anlagen und Klassifikation, AT Steuerungsebene: \underline{P}rodukt, \underline{F}eld, \underline{S}teuerung, \underline{PF}/PLT, \underline{MES}, \underline{ERP}}
-			\end{table}
 		\end{column}
 	\end{columns}
 \end{frame}
