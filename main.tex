@@ -1,5 +1,5 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,notoc]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+\documentclass[german,aspectratio=169,notoc,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 	%,titlestyle=white,structurestyle=white
 
 %TODO cleanup
@@ -81,7 +81,55 @@
 \part{The main part of the presentation}
 \section[ShortSection]{Long Section Title}	
 \subsection{Subsection}
-\begin{frame}
+\begin{frame}[allowframebreaks]
+	\frametitle{A default Frame}
+	sizes:
+	\begin{enumerate}
+		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
+		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
+		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
+		\item author: \insertauthor
+		\item title: \inserttitle
+		\item subtitle: \insertsubtitle
+		\item datecity: \insertdatecity
+		% \def\tmpcolor{}
+		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
+		\item fourth enumerated item
+	\end{enumerate}
+	text 
+
+	after 
+
+	the 
+
+	enum
+
+	asdf
+
+	sadf
+	
+	asdf
+	
+	sad
+	
+	fsad
+	
+	f
+
+	adgsd
+	ga
+
+	aerteatr
+
+	earterz
+
+	etzrethbn
+
+	45wrthfhe
+
+	4w65ehjje6ie67
+\end{frame}
+\begin{frame}[allowframebreaks]
 	\frametitle{A default Frame}
 	\framesubtitle{A frame subtitle}
 	sizes:
@@ -97,8 +145,112 @@
 		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
 		\item fourth enumerated item
 	\end{enumerate}
+	text 
+
+	after 
+
+	the 
+
+	enum
+
+	asdf
+
+	sadf
+	
+	asdf
+	
+	sad
+	
+	fsad
+	
+	f
+
+	adgsd
+	ga
+
+	aerteatr
+
+	earterz
+
+	etzrethbn
+
+	45wrthfhe
+
+	4w65ehjje6ie67
+
+	0
+	
+	1
+
+	2
+	
+	3
+
+	4
+
+	5
+
+	6
+
+	er
+	
+	teq
+	
+	t
+
+	ert
+\end{frame}
+\begin{frame}[t]
+	\frametitle{A default Frame top aligned}
+	\framesubtitle{A frame subtitle}
+	sizes:
+	\begin{enumerate}
+		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
+		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
+		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
+		\item author: \insertauthor
+		\item title: \inserttitle
+		\item subtitle: \insertsubtitle
+		\item datecity: \insertdatecity
+		% \def\tmpcolor{}
+		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
+		\item fourth enumerated item
+	\end{enumerate}
+	text after the enum
+\end{frame}
+\begin{frame}[t]
+	repeat top without title:
+	\begin{enumerate}
+		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
+		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
+		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
+		\item author: \insertauthor
+		\item title: \inserttitle
+		\item subtitle: \insertsubtitle
+		\item datecity: \insertdatecity
+		% \def\tmpcolor{}
+		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
+		\item fourth enumerated item
+	\end{enumerate}
+	text after the enum
 \end{frame}
 \begin{frame}
+	repeat centered without title:
+	\begin{enumerate}
+		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
+		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
+		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
+		\item author: \insertauthor
+		\item title: \inserttitle
+		\item subtitle: \insertsubtitle
+		\item datecity: \insertdatecity
+		% \def\tmpcolor{}
+		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
+		\item fourth enumerated item
+	\end{enumerate}
+	text after the enum
+\end{frame}
+\begin{frame}[t]
 	\frametitle{A slide using columns}
 	\begin{columns}
 	   	\begin{column}{.5\textwidth}
