@@ -1,5 +1,5 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,notoc,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+\documentclass[german,aspectratio=169,notoc]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 	%,titlestyle=white,structurestyle=white
 
 %TODO cleanup
@@ -313,8 +313,32 @@ cccd
 		\item enumerated item
 		\item second enumerated item
 		\item third enumerated item
+		\begin{enumerate}
+			\item enumerated item
+			\item second enumerated item
+			\item third enumerated item
+			\item fourth enumerated item
+		\end{enumerate}
 		\item fourth enumerated item
 	\end{enumerate}
+\end{frame}
+\begin{frame}
+	\frametitle{A default Frame}
+	\framesubtitle{A frame subtitle}
+
+	Normaltext:
+	\begin{itemize}
+		\item item item
+		\item second  item
+		\item third  item
+		\begin{itemize}
+			\item  item
+			\item second  item
+			\item third  item
+			\item fourth  item
+		\end{itemize}
+		\item fourth  item
+	\end{itemize}
 \end{frame}
 \begin{frame}
 	\frametitle{A slide using columns}

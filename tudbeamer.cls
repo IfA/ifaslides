@@ -419,10 +419,6 @@
 \fi
 \usefonttheme[onlymath]{serif}
 
-% set itemize symbol template
-%
-\beamertemplatedotitem
-\usesubitemizeitemtemplate{--}
 
 % language settings
 %
@@ -611,8 +607,13 @@
 \newcommand{\setAuxilliaryBeamerTemplates}{%
     %TODO
     %\setbeamertemplate{items}{\color{text}--}%
-    \setbeamertemplate{itemize body begin}{\color{text}}%
-    \setbeamertemplate{enumerate body begin}{\color{text}}%
+
+    % set itemize symbol template
+    %
+    \beamertemplatedotitem
+    \setbeamertemplate{itemize items}{--}
+    % \setbeamertemplate{itemize body begin}{\color{text}}%
+    % \setbeamertemplate{enumerate body begin}{\color{text}}%
 }%
 
 \newcommand{\setTUDHeadlineTemplates}{%
@@ -637,7 +638,7 @@
     
 }
 %sets the footerheight via patching a command in the beamerclass, since no other way was found
-\patchcmd{\beamer@calculateheadfoot}{\advance\footheight by 4pt}{\setlength{\footheight}{\footerheight+4pt}}{}{}%
+\patchcmd{\beamer@calculateheadfoot}{\advance\footheight by 4pt}{\setlength{\footheight}{\footerheight+2pt}}{}{}%
 \newcommand{\setFrameFooterTemplates}{%
     \setbeamertemplate{footline}{%
         %\fontsize{\footerheight}{\footerheight}\selectfont\vskip-2ex test\newline test2\newline\strut%
