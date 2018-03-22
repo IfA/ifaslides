@@ -1,5 +1,5 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,notoc,titlestyle=tud]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+\documentclass[german,aspectratio=169,notoc,titlestyle=tud,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 	%,titlestyle=white,structurestyle=white
 
 %TODO cleanup
@@ -90,6 +90,30 @@
 
 
 \part{TUD Beamerklasse}
+\section{Die Klasse einbinden}
+\begin{frame}
+	\frametitle{Einbinden der Klasse}
+	\framesubtitle{Schlechteste Variante}
+
+	Klasse und Dateien kopieren
+\end{frame}
+\begin{frame}
+	\frametitle{Einbinden der Klasse}
+	\framesubtitle{Zweitbeste Variante}
+
+	Klassenprojekt als Git submodule in das eigene Projekt einbinden
+
+	TODO: gitignore kopieren
+\end{frame}
+\begin{frame}
+	\frametitle{Einbinden der Klasse}
+	\framesubtitle{Beste Variante}
+
+	Klassenprojekt als Git Projekt neben dem eigenen Projekt einbinden
+
+	TODO: gitignore kopieren
+\end{frame}
+
 \section{Klassenoptionen}
 \subsection{Optionen}
 \begin{frame}
