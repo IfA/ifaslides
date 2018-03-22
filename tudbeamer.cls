@@ -148,12 +148,14 @@
 
 \RequirePackage{MnSymbol}
 
-\usepackage[absolute,overlay]{textpos}
+\RequirePackage[absolute,overlay]{textpos}
 \setlength{\TPHorizModule}{1cm}
 \setlength{\TPVertModule}{\TPHorizModule}
 \textblockorigin{0mm}{0mm}
 
 \RequirePackage{wasysym}
+\RequirePackage{calc}
+\RequirePackage{zref-savepos}
 \RequirePackage{multimedia}
 \RequirePackage[export]{adjustbox}
 \RequirePackage{comment}
@@ -747,7 +749,16 @@
         \fill[#1] (0,0) rectangle (#2,#3);%
     }%
 }%
-
+\newcommand*{\storecurrposy}[1]{%
+     \zsavepos{#1}%
+     % (\zposx{#1}sp, \zposy{#1}sp) =
+     %(\the\dimexpr\zposx{#1}sp\relax, 
+     %\the\dimexpr\zposy{#1}sp\relax%
+     %)%
+}%
+\newcommand*{\getcurrposy}[1]{%
+    \dimexpr\zposy{#1}sp\relax%
+}%
 \newcommand{\setTitleBodyTemplates}{%
     \setbodytitleframedimensions%
     %1. background
@@ -793,24 +804,44 @@
         }%
     }%
     \setbeamertemplate{title page}{%
+        \setlength{\templength}{\beamer@paperwidth-\textborderleft-\textborderright}%
         %affiliation
-        \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\authoraffiliationy)%
+        \begin{textblock*}{\templength}(\textborderleft,\authoraffiliationy)%
           \usebeamerfont{author}%
           \color{titleaffilitationtext}\insertauthor\ifx\beamer@shortauthor\@empty\else\\\fi%
           \usebeamerfont{institute}%
           \tud@affiliation%
         \end{textblock*}%
         %title
-        \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\titley)%
-          \usebeamerfont{title}\color{titletext}\inserttitle%
+        \begin{textblock*}{\templength}(\textborderleft,\titley)%
+            \usebeamerfont{title}\color{titletext}%
+                \inserttitle%
+            \storecurrposy{afterTitle}%
+            \setlength{\templengthb}{\beamer@paperheight-\getcurrposy{afterTitle}}%
+            \ifthenelse{\templengthb > \subtitley}{%
+                \vskip1.0ex%
+                \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
+            }{}%
+          %\setlength{\templengthb}{\widthof{\parbox{\templength}{\inserttitle}}}%
+          %\currposy{afterTitle}%
+          %\setlength{\templengthb}{\getcurrposy{afterTitle}}%
         \end{textblock*}%
         %subtitle
-        \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\subtitley)%
-          \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
-        \end{textblock*}%
-        \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\titledatey)%
+        \setlength{\templengthb}{\beamer@paperheight-\getcurrposy{afterTitle}}%
+        \ifthenelse{\templengthb > \subtitley}{}{%
+            \begin{textblock*}{\templength}(\textborderleft,\subtitley)%
+                \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
+            \end{textblock*}%
+        }%
+        \begin{textblock*}{\templength}(\textborderleft,\titledatey)%
           \usebeamerfont{date}%
           \color{titledatecitytext}\insertdatecity%
+          %\setlength{\templength}{\widthof{\inserttitle}}%
+          %%\\ length: \the\templengthb%
+          % \\ pos: \the\getcurrposy{afterTitle}%
+          % \\ invert: \the\templengthb%
+          % \\ maxlength: \the\templength%
+          % \\ title y: \the\titley, subtitle y: \the\subtitley%
         \end{textblock*}%
     }%
 }%
