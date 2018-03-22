@@ -690,7 +690,9 @@
         \fi%
         \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
             \fontsize{6pt}{6.5pt}\selectfont\strut\color{footertext}\insertshorttitle\newline%\vskip.4ex%%\newline
-            \fontsize{6pt}{6.5pt}\selectfont\strut\tud@affiliationshort\,/\,\insertauthor\newline%\vskip.7ex%
+            \fontsize{6pt}{6.5pt}\selectfont\strut\tud@affiliationshort%
+                \ifx\tud@affiliationshort\@empty\else\ifx\beamer@shortauthor\@empty\else\,/\,\fi\fi%
+                \insertauthor\newline%\vskip.7ex%
             \fontsize{6pt}{6.5pt}\selectfont\strut\insertdatecity%
             \color{text}%
             \usebeamercolor[fg]{normal text}%
@@ -794,7 +796,7 @@
         %affiliation
         \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\authoraffiliationy)%
           \usebeamerfont{author}%
-          \color{titleaffilitationtext}\insertauthor\\%
+          \color{titleaffilitationtext}\insertauthor\ifx\beamer@shortauthor\@empty\else\\\fi%
           \usebeamerfont{institute}%
           \tud@affiliation%
         \end{textblock*}%
@@ -804,7 +806,7 @@
         \end{textblock*}%
         %subtitle
         \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\subtitley)%
-          \usebeamerfont{subtitle}\color{titletext}\insertsubtitle\\%
+          \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
         \end{textblock*}%
         \begin{textblock*}{\beamer@paperwidth-\textborderleft-\textborderright}(\textborderleft,\titledatey)%
           \usebeamerfont{date}%
