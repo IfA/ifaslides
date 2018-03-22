@@ -273,6 +273,7 @@
 
 \setStructureStyle{design}
 \part{Template Test Slides}
+\setStructureStyle{tud}
 \section[Content and Framebreaks]{Testing Slide Content and Framebreaks}	
 \subsection*{Content and Framebreaks}
 \begin{frame}[allowframebreaks]
@@ -565,6 +566,14 @@ cccd
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\disableSectionFrame%
+%\disableFrameTitleSectionNum%
+\section*{Backmatter}
+\begin{finalframe}[]
+	\frametitle*{Test Backmatter Frame}
+	test
+\end{finalframe}
+
 %\toclesssectionstar{}
 % \regardspage{
 % 	\vspace*{1cm}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_weiss.png}
@@ -612,10 +621,10 @@ cccd
 % }
 
 % % additional pages for Q&A purposes
-% \backmatterpage{
-% 	\frametitle*{Feedback}
-% 	\centering\Huge ? 
-% }
+\begin{backmatterframe}
+	\frametitle*{Feedback}
+	\centering\Huge ? 
+\end{backmatterframe}
 
 % %reset total frame counter in order to hide pages behind actual content.
 % \addtocounter{framenumber}{-2}
