@@ -520,7 +520,6 @@ cccd
 \begin{frame}
 	\frametitle{A default Frame}
 	\framesubtitle{A frame subtitle}
-
 	Normaltext:
 	\begin{itemize}
 		\item item item
@@ -534,6 +533,7 @@ cccd
 		\end{itemize}
 		\item fourth  item
 	\end{itemize}
+
 \end{frame}
 \begin{frame}
 	\frametitle{A slide using columns}
@@ -566,12 +566,27 @@ cccd
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\makeatletter
 \disableSectionFrame%
 %\disableFrameTitleSectionNum%
 \section*{Backmatter}
-\begin{finalframe}[]
+\begin{finalframe}
 	\frametitle*{Test Backmatter Frame}
-	test
+	\centering{test}
+
+	textwidth: \the\textwidth\\
+	margin left: \the\bodyx\\
+	%margin right: \the\beamer@rightmargin\\
+	body width: \the\bodywidth\\
+	paper width: \the\beamer@paperwidth\\
+
+	TODO: der rechte margin stimmt nicht ganz: 27.45247pt
+
+\end{finalframe}
+\makeatother
+
+\begin{finalframe}
+	\vspace*{2ex}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_weiss.png}
 \end{finalframe}
 
 %\toclesssectionstar{}
@@ -579,7 +594,7 @@ cccd
 % 	\vspace*{1cm}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_weiss.png}
 % }
 % \regardspage{
-% 	\vspace*{1cm}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_farbig.png}
+% 	
 % 	}
 
 % %TODO rework the invocation of special pages
