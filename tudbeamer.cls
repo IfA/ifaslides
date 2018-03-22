@@ -156,6 +156,7 @@
 \RequirePackage{wasysym}
 \RequirePackage{calc}
 \RequirePackage{zref-savepos}
+\RequirePackage{environ}
 \RequirePackage{multimedia}
 \RequirePackage[export]{adjustbox}
 \RequirePackage{comment}
@@ -250,7 +251,7 @@
 
 \colorlet{blockbg}{hks41!70}
 
-\newcommand{\setbeamercolors}{%
+\newcommand{\setBeamerColors}{%
     \setbeamercolor{normal text}{fg=text,bg=white}%
     \setbeamercolor{structure}{fg=text}%
     \setbeamercolor{alerted text}{fg=hks07}%
@@ -267,7 +268,7 @@
     \setbeamercolor{example text}{fg=text}%
 }
 
-\newcommand{\settitletextcolors}[1]{%
+\newcommand{\setTitleTextColors}[1]{%
     \typeout{titletextstyle: #1}%
     \ifthenelse{\equal{#1}{tud}}{%
         \colorlet{titletext}{titletextbgtud}%
@@ -291,6 +292,24 @@
         }%
     }%
 }%
+\newcommand{\setBodyColors}[1]{%
+    \ifthenelse{\equal{#1}{tud}}{%
+        \colorlet{text}{white}%
+        \colorlet{frametitletext}{white}%
+        \colorlet{framesubtitletext}{white}%
+    }{}%
+    \ifthenelse{\equal{#1}{design}}{%
+        \colorlet{text}{white}%
+        \colorlet{frametitletext}{white}%
+        \colorlet{framesubtitletext}{white}%
+    }{}%
+    \ifthenelse{\equal{#1}{hks41}}{%
+        \colorlet{text}{white}%
+        \colorlet{frametitletext}{white}%
+        \colorlet{framesubtitletext}{white}%
+    }{}%
+    \setBeamerColors%
+}%
 
 \newcommand{\setdefaultcolors}{%
     %TODO eval class options%
@@ -312,8 +331,8 @@
         \colorlet{titlebg}{white}%
         \colorlet{blockbg}{gray}%
     }%
-    \settitletextcolors{\tud@titlestyle}%
-    \setbeamercolors%
+    \setTitleTextColors{\tud@titlestyle}%
+    \setBeamerColors%
 }
 
 %
@@ -345,7 +364,7 @@
 \renewcommand*\ttfamily{\not@math@alphabet\ttfamily\mathtt\fontfamily\ttdefault\fontseries\mddefault\selectfont}
 %\newcommand*{\dinfamily}{\fontencoding{OT1}\fontfamily{\familydefault}\fontseries{b}\selectfont} %TODO remove
 
-\newcommand\setdefaultbeamerfonts{
+\newcommand\setDefaultBeamerFonts{
     \setbeamerfont{itemize/enumerate subbody}{size=\scriptsize}
     \setbeamerfont{itemize/enumerate subsubbody}{size=\scriptsize}
     \setbeamerfont{title}{size=\LARGE,series=\bfseries,family=\fontfamily{\familydefault}}
@@ -358,7 +377,7 @@
     \setbeamerfont{footline}{size=\tiny,series=,family=\fontfamily{\familydefault}}
     \setbeamerfont{headline}{size=\tiny,series=,family=\fontfamily{\familydefault}}
 }
-\newcommand\setstructureframefonts{
+\newcommand\setStructureFrameFonts{
     \setbeamerfont{frametitle}{size=\LARGE,series=\bfseries,family=\fontfamily{\familydefault}}
 }
 
@@ -918,7 +937,7 @@
 }%
 \newcommand{\setSectionFrameBodyTemplates}{%
     \setDefaultBodyTemplates%
-    \settitletextcolors{\tud@structurestyle}%    
+    \setTitleTextColors{\tud@structurestyle}%    
     \if@useSectionTOC%
         \if@useSectionTOCFrame%
             \setStructureFrameBackgroundTemplates%
@@ -944,7 +963,7 @@
 }%
 \newcommand{\setPartFrameBodyTemplates}{%
     \setDefaultBodyTemplates%
-    \settitletextcolors{\tud@structurestyle}%
+    \setTitleTextColors{\tud@structurestyle}%
     \setStructureFrameBackgroundTemplates%
     \setbeamertemplate{part page}{%
         \begin{textblock*}{\bodywidth}(\bodyx,\structuretitley)%
@@ -954,8 +973,8 @@
     }%
 }%
 \newcommand{\setDesignFrameBodyTemplates}{%
+    \setBodyColors{\tud@structurestyle}%
     \setDefaultBodyTemplates%
-    \settitletextcolors{design}%
     \setStructureFrameBackgroundTemplates%
     %TODO adjust, in case there is a title
 }%
@@ -965,7 +984,8 @@
     \setTitleBodyTemplates%
 }%
 \newcommand{\setDefaultFrameTemplates}{%
-    \setdefaultbeamerfonts%
+    \setDefaultBeamerFonts%
+    \setdefaultcolors%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     \setDefaultBodyTemplates%
@@ -977,20 +997,21 @@
     \setDesignFrameBodyTemplates%
 }%
 \newcommand{\setPartFrameTemplates}{%
-    \setstructureframefonts%
+    \setStructureFrameFonts%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     \setPartFrameBodyTemplates%    
 }%
 \newcommand{\setSectionFrameTemplates}{%
-    \setstructureframefonts%
+    \setStructureFrameFonts%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     \setSectionFrameBodyTemplates%      
 }%
 \newcommand{\setFinalFrameTemplates}{%
-    \setTUDHeadlineTemplates%
-    \setTUDFooterTemplates%
+    \setFrameHeadlineTemplates%
+    \setFrameFooterTemplates%
+    \setStructureFrameFonts%
     \setDesignFrameBodyTemplates%
 }%
 
@@ -1002,35 +1023,50 @@
 %     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
 %     \setbackmattertemplates
 % }{
-%     \end{frame}\setbeamertemplates
+%     \end{frame}\setDefaultFrameTemplates
 % }
+\NewEnviron{backmatterframe}[1][]{%
+    \def\frameOptions{#1}%
+    \addtocounter{backmatterframes}{1}%
+    \ifx\frameOptions\@empty%
+        \begin{frame}%
+            \BODY%
+        \end{frame}%
+    \else%
+        \begin{frame}[#1]%
+            \BODY%
+        \end{frame}%
+    \fi%
+}%
 
-% \newenvironment{regardsframe}[1][]{
-%     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
-%     \setregardtemplates
-% }{
-%     \end{frame}\setbeamertemplates
-% }
+\NewEnviron{finalframe}[1][]{%
+    \def\frameOptions{#1}%
+    \setFinalFrameTemplates%
+    \ifx\frameOptions\@empty%
+        \begin{frame}%
+            \BODY%
+        \end{frame}%
+    \else%
+        \begin{frame}[#1]%
+            \BODY%
+        \end{frame}%
+    \fi%
+    \setDefaultFrameTemplates%
+}%
+
 
 % \newenvironment{partframe}[1][]{    
 %     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
 %     \setregardtemplates
 % }{
-%     \end{frame}\setbeamertemplates
+%     \end{frame}\setDefaultFrameTemplates
 % }
 
 % \newenvironment{sectionframe}[1][]{
 %     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
 %     \setregardtemplates
 % }{
-%     \end{frame}\setbeamertemplates
-% }
-
-% \newenvironment{titleframe}[1][]{
-%     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
-%     \setregardtemplates
-% }{
-%     \end{frame}\setbeamertemplates
+%     \end{frame}\setDefaultFrameTemplates
 % }
 
 %
@@ -1048,12 +1084,12 @@
     %
     %table of contents
     \if@useTOCFrame
-        \setstructureframefonts%
+        \setStructureFrameFonts%
         \frame{
             \frametitle*{\tud@vocagenda}
             \tableofcontents[sectionstyle=show,subsectionstyle=hide]
         }
-        \setdefaultbeamerfonts%
+        \setDefaultBeamerFonts%
     \fi%
     %
     \if@usePartFrame%
@@ -1063,11 +1099,11 @@
             \setDefaultFrameTemplates%
             % part toc
             \if@usePartTOCFrame%
-                \setstructureframefonts%
+                \setStructureFrameFonts%
                 \begin{frame}%
                     \@insertparttocframecontent%
                 \end{frame}%
-                \setdefaultbeamerfonts%
+                \setDefaultBeamerFonts%
             \fi%
         }%
     \fi%
@@ -1078,11 +1114,11 @@
             \setDefaultFrameTemplates%
             %section toc
             \if@useSectionTOC\if@useSectionTOCFrame%
-                \setstructureframefonts%
+                \setStructureFrameFonts%
                 \begin{frame}%
                     \@insertsectiontocframecontent%
                 \end{frame}%
-                \setdefaultbeamerfonts%
+                \setDefaultBeamerFonts%
             \fi\fi%
          }%
     \fi%
@@ -1144,7 +1180,7 @@
         \fi%       
                                           %
     \fi%   
-    \setdefaultbeamerfonts%
+    \setDefaultBeamerFonts%
     \setdefaultcolors%
     \setAuxilliaryBeamerTemplates%
     \scriptsize%
@@ -1175,9 +1211,12 @@
 
 \AtEndDocument{%
     %reset total frame counter in order to hide pages behind actual content.
-    \addtocounter{framenumber}{-\value{backmatterframes}}%
+    %\def\inserttotalpagenumber{}
     \clearpage%
+    \xdef\modifiedFrameNumber{\value{framenumber}-\value{backmatterframes}}%
+    %\setcounter{framenumber}{\value{framenumber}-\value{backmatterframes}}%
     \beamer@tempcount=\c@page\advance\beamer@tempcount by -1%
+    %\thepage=\advance\thepage by -\value{backmatterframes}%
     \if@filesw
         \immediate\write\@auxout{\string\@writefile{nav}%
             {\noexpand\headcommand{\noexpand\beamer@partpages{\the\beamer@partstartpage}{\the\beamer@tempcount}}}}%
@@ -1188,8 +1227,9 @@
         \immediate\write\@auxout{\string\@writefile{nav}%
             {\noexpand\headcommand{\noexpand\beamer@documentpages{\the\beamer@tempcount}}}}
         \immediate\write\@auxout{\string\@writefile{nav}%
-            {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalframenumber{\the\c@framenumber}}}}
+            {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalframenumber{\modifiedFrameNumber}}}}%\the\c@framenumber
         \addtocounter{page}{-1}
+        \addtocounter{page}{-\value{backmatterframes}}
         \immediate\write\@auxout{\string\@writefile{nav}%
             {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalpagenumber{\thepage}}}}
         \newwrite\tf@nav
