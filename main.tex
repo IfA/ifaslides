@@ -1,46 +1,20 @@
 %!TEX spellcheck = de
-\documentclass[german,aspectratio=169,notoc,titlestyle=tud,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
+\documentclass[german,notoc,titlestyle=tud,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 	%,titlestyle=white,structurestyle=white
-
-%TODO cleanup
-% \makeatletter
-% \newdimen\beamer@miniframeradius
-% \beamer@miniframeradius=0.05cm
-% \define@key{beamer@margin}{mini frame radius}{\beamer@miniframeradius=#1\relax}
-% \setbeamertemplate{mini frame}
-% {%
-%   \begin{pgfpicture}{0pt}{0pt}{2\beamer@miniframeradius}{2.5\beamer@miniframeradius}
-%     \pgfpathcircle{\pgfpoint{\beamer@miniframeradius}{\beamer@miniframeradius}}{\beamer@miniframeradius}
-%     \pgfusepath{fill,stroke}
-%   \end{pgfpicture}
-% }
-% \setbeamertemplate{mini frame in current subsection}
-% {%
-%   \begin{pgfpicture}{0pt}{0pt}{2\beamer@miniframeradius}{2.5\beamer@miniframeradius}
-%     \pgfpathcircle{\pgfpoint{\beamer@miniframeradius}{\beamer@miniframeradius}}{\beamer@miniframeradius}
-%     \pgfusepath{stroke}
-%   \end{pgfpicture}%
-% }
-% \makeatother
-
-% \setbeamersize{mini frame radius=.04cm,mini frame size=.12cm,mini frame
-% offset=-.02cm}
-%TODO end
 
 \input{shortcuts} 
 \bibliography{bibliography.bib}
 
-
 \usepackage{tabularx,array,ragged2e}
-%\usepackage[overlay,absolute]{textpos}
-%\setbeamerfont{caption}{size=\scriptsize}
+
+\lstdefinestyle{latex}{
+	morecomment=[l]{\%},
+	moredelim=*[s][]{\{}{\}},
+	moredelim=*[s][]{\[}{\]},
+	moredelim=*[is][\color{emph2_3}]{*e}{*}
+}
 
 \begin{document}
-
-% \einrichtung{Fakultät Elektrotechnik und Informationstechnik}
-% \institut{$\bullet$ Institut für Automatisierungstechnik}
-
-% \newcommand{\lstretch}{\normalsize\strut \Large\ }
 
 \title[TUD Beamer]{Die TUD Beamerklasse}
 \subtitle{Hinweise zur Verwendung}
@@ -72,7 +46,7 @@
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
-%% inserts the title page
+%% inserts the title page and the table of contents
 \maketitle
 
 % 
@@ -84,47 +58,124 @@
 	\frametitle{Die TUD Beamerklasse}
 	\framesubtitle{Allgemeines vorab}
 
-
+	Verwendungshinweise:
+	\begin{itemize}
+		\item Eine Umsetzung des Corporate Designs der TU Dresden für Latex Beamerpräsentationen
+		\item Verwendung nur im Rahmen der Angelegenheiten der Universität
+		\item Veröffentlichung unter Verwendung der Logos der Universität oder ihrer Struktureinheiten nur mit Erlaubnis
+	\end{itemize}
+	Download:
+	\begin{itemize}
+		\item Im Uninetz verfügbar im \href{%
+				https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides%
+			}{%
+				\raisebox{-0.3ex}{%
+					\beamergotobutton{AG-Tele GitLab%
+						\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides}}%
+					}%
+				}%
+			}
+	\end{itemize}
+	Inhalt:
+	\begin{itemize}
+		\item Teil 1: Anleitung zur Verwendung der Latex-Klasse 
+		\item Teil 2: Beispiele und Testfolien
+	\end{itemize}
 \end{frame}
 \enableFrameTitleSectionNum
 
 
 \part{TUD Beamerklasse}
 \section{Die Klasse einbinden}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Einbinden der Klasse}
-	\framesubtitle{Schlechteste Variante}
+	\framesubtitle{Ohne Versionierung}
 
-	Klasse und Dateien kopieren
+	\begin{itemize}
+		\item Die notwendigen Dateien werden in das eigene Latex-Projekt kopiert. Notwendige Dateien:
+		\begin{itemize}
+		 	\item \texttt{tudbeamer.cls}
+		 	\item \texttt{TU\_Logo\_SW.pdf}
+		\end{itemize}
+		\item Die Latex-Klasse wird dann eingebunden per
+		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
+			\documentclass{tudbeamer}
+		\end{lstlisting}
+	\end{itemize}
+	\begin{itemize}
+		\item[+] Keine zusätzliche Software nötig
+		\item[+] Klasse liegt im Hauptprojekt
+		\item[-] Updates müssen manuell eingepflegt werden
+		\item[-] Beispieldokument nicht vorhanden
+	\end{itemize}
 \end{frame}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Einbinden der Klasse}
-	\framesubtitle{Zweitbeste Variante}
-
-	Klassenprojekt als Git submodule in das eigene Projekt einbinden
-
-	TODO: gitignore kopieren
+	\framesubtitle{Mit Versionierung als Submodule}
+	\begin{itemize}
+		\item Das Git-Projekt der Latex-Klasse wird als Git Submodule in das Hauptprojekt eingebunden.
+		\begin{itemize}
+			\item Ein neues Git-Repository anlegen: \texttt{git init}
+			\item Hinzufügen des Git-Submodule: \texttt{git submodule add "https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/ de.tud.et.ifa.latex.ifaslides" tudbeamer}
+		\end{itemize}
+		\item Die Klasse wird dann eingebunden per
+		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
+			\documentclass{*e./tudbeamer*/tudbeamer}
+		\end{lstlisting}
+	\end{itemize}	
+	\begin{itemize}
+		\item[+] Updates per \texttt{git submodule update}
+		\item[+] Klasse liegt in einem Unterordner im Hauptprojekt
+		\item[+] Beispieldokument und -quellcode im Submodule verfügbar
+		\item[-] Zusatzsoftware Git muss installiert werden
+	\end{itemize}
 \end{frame}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Einbinden der Klasse}
-	\framesubtitle{Beste Variante}
+	\framesubtitle{Als separates Projekt}
 
-	Klassenprojekt als Git Projekt neben dem eigenen Projekt einbinden
-
-	TODO: gitignore kopieren
+	\begin{itemize}
+		\item Das Git-Projekt der Latex-Klasse wird als separates Git Projekt eingebunden.
+		\begin{itemize}
+			\item Ein neues separates Git-Repository anlegen: 
+				\texttt{git clone "https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/ de.tud.et.ifa.latex.ifaslides"}, z.B. im Ordner \texttt{tudbeamer}.
+		\end{itemize}
+		\item Die Klasse wird dann eingebunden per
+		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
+			\documentclass{*e..*/tudbeamer/tudbeamer} %Klassen-Projektordner liegt neben Hauptprojekt
+		\end{lstlisting}
+	\end{itemize}	
+	\begin{itemize}
+		\item[+] Updates per \texttt{git pull} im Klassenprojekt
+		\item[+] Klasse in mehreren Projekten gleichzeitig verfügbar
+		\item[+] Beispieldokument und -quellcode im Submodule verfügbar
+		\item[-] Zusatzsoftware Git muss installiert werden
+	\end{itemize}
 \end{frame}
 
 \section{Klassenoptionen}
 \subsection{Optionen}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Klassenoptionen}
 	\framesubtitle{Modi}
 
+	Grundsätzlich werden alle Optionen der \href{https://ctan.org/tex-archive/macros/latex/contrib/beamer/doc}{		Beamer-Klasse}\footnote{\href{https://ctan.org/tex-archive/macros/latex/contrib/beamer/doc}{
+				\url{https://ctan.org/tex-archive/macros/latex/contrib/beamer/doc}}}	
+	unterstützt. Es folgen die wichtigsten:
 	\begin{itemize}
-		\item Handout
-		\item Draft
+		\item \emph{handout}: Für die Druckversion werden einige Farben und Einstellungen geändert.
+		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
+			\documentclass[handout]{tudbeamer}
+		\end{lstlisting}
+		\item \emph{draft}: Das Erstellen des Dokuments geht schneller, Grafiken werden nicht eingebunden und die Farbverläufe werden nicht gerendert.
+		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
+			\documentclass[draft]{tudbeamer}
+		\end{lstlisting}
+		\item \emph{aspectratio}: Das Standard-Seitenverhältnis von 16:9 kann beliebig geändert werden.
+		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
+			\documentclass[aspectratio=*e43*]{tudbeamer}
+		\end{lstlisting} 
 	\end{itemize}
-
 \end{frame}
 
 \begin{frame}
@@ -350,7 +401,7 @@
 
 	asdf
 
-	sadf
+	sadf\footnote{Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test }
 	
 	asdf
 	
@@ -358,7 +409,7 @@
 	
 	fsad
 	
-	f
+	f\footnote{Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 }
 
 	adgsd
 	ga
@@ -371,29 +422,29 @@
 
 	45wrthfhe
 
-	4w65ehjje6ie67
+	%4w65ehjje6ie67
 
-	0
+	% 0
 	
-	1
+	% 1
 
-	2
+	% 2
 	
-	3
+	% 3
 
-	4
+	% 4
 
-	5
+	% 5
 
-	6
+	% 6
 
-	er
+	% er
 	
-	teq
+	% teq
 	
-	t
+	% t
 
-	ert
+	% ert
 \end{frame}
 \begin{frame}[t]
 	\frametitle{A default Frame top aligned}
