@@ -631,12 +631,11 @@
 
 %\newcommand{}{}
 
-
-% Templates
-\if@useNavBar\else\setbeamertemplate{navigation symbols}{}\fi% Nav-Leiste aus
-
 \newcounter{backmatterframes}%
 \setcounter{backmatterframes}{0}%
+
+%\patchcmd{\beamer@framefootnotetext}{\rule\z@\footnotesep\ignorespaces#1\@finalstrut\strutbox}{\ignorespaces#1}{}{}%
+%\addtobeamertemplate{footnote}{}{\vspace{2ex}}%
 
 %
 % set template commands
@@ -655,13 +654,33 @@
 \newcommand{\setAuxilliaryBeamerTemplates}{%
     %TODO
     %\setbeamertemplate{items}{\color{text}--}%
-
+    %
     % set itemize symbol template
     %
-    \beamertemplatedotitem
-    \setbeamertemplate{itemize items}{--}
+    \beamertemplatedotitem%
+    \setbeamertemplate{itemize items}{--}%
+    %
+    % Templates
+    \if@useNavBar\else\setbeamertemplate{navigation symbols}{}\fi% Nav-Leiste aus
+    %
     % \setbeamertemplate{itemize body begin}{\color{text}}%
     % \setbeamertemplate{enumerate body begin}{\color{text}}%
+
+
+    %
+    % footnotes
+    %
+    \setbeamertemplate{footnote}{%
+      \vskip-4pt%
+      \tiny%
+      \parindent 1em\noindent\hangindent=1.5em%
+      \raggedright
+      \hbox to 1.5em{\hfil\insertfootnotemark}\insertfootnotetext\par%
+      \vskip4pt%
+    }%
+    \setlength\footnotesep{0pt}%
+    \let\origfootnoterule\footnoterule%
+    \renewcommand\footnoterule{\origfootnoterule\vskip3.5pt}%
 }%
 
 \newcommand{\setTUDHeadlineTemplates}{%
@@ -678,13 +697,12 @@
         \fi%
     }%
 }%
-\newcommand{\setTUDFooterTemplates}{
-    \setbeamertemplate{footline}{}
-}
-\newcommand{\setFrameHeadlineTemplates}{
-    \setbeamertemplate{headline}{}
-    
-}
+\newcommand{\setTUDFooterTemplates}{%
+    \setbeamertemplate{footline}{}%
+}%
+\newcommand{\setFrameHeadlineTemplates}{%
+    \setbeamertemplate{headline}{}%  
+}%
 %sets the footerheight via patching a command in the beamerclass, since no other way was found
 \patchcmd{\beamer@calculateheadfoot}{\advance\footheight by 4pt}{\setlength{\footheight}{\footerheight+2pt}}{}{}%
 \newcommand{\setFrameFooterTemplates}{%
@@ -1069,12 +1087,15 @@
 %     \end{frame}\setDefaultFrameTemplates
 % }
 
+
 %
-% defining hooks
+% document commands and hooks
 %
 
-%\beamertemplatedotitem
-%\usesubitemizeitemtemplate{--}
+\AtEndPreamble{%
+    \setbodydefaultdimensions%
+    \setbeamerdimensions%
+}%
 
 \renewcommand\maketitle{%
     \setTitleFrameTemplates
@@ -1122,25 +1143,6 @@
             \fi\fi%
          }%
     \fi%
-}
-
-\newcommand\setbeamertemplates{%
-        %\beamertemplateshadingbackground{white}{white}
-    % \if@useHeader%
-    %     \setbeamertemplate{headline}{%
-    %         \vskip6.15mm\color{gray}
-    %         \setlength{\arrayrulewidth}{0.1pt}
-    %         \begin{tabular*}{\paperwidth}[b]{l@{\extracolsep\fill}}
-    %             \hspace*{5.0mm}\color{text}\includegraphics[height=5.95mm]{\logo@default}
-    %             \\[-1mm]\hspace*{-\tabcolsep}\rule{\paperwidth}{.3pt} \rule[-2.47mm]{0pt}{2.47mm}\\[-2.47mm]\hspace*{-\tabcolsep}\rule{\paperwidth}{.3pt} \rule[-2.47mm]{0pt}{2.47mm}
-    %         \end{tabular*}
-    %     }
-    % \else
-}
-
-\AtEndPreamble{%
-    \setbodydefaultdimensions%
-    \setbeamerdimensions%
 }%
 
 % frame title section prefix with alternate starred cmd
@@ -1239,16 +1241,4 @@
         \newwrite\tf@snm
         \immediate\openout\tf@snm\jobname.snm\relax
     \fi%
-}
-
-
-% \newcommand\regardspage[1]{
-% 	\setregardtemplates
-% 	\frame{#1}%
-% 	\setbeamertemplates
-% }
-% \newcommand\backmatterpage[1]{
-% 	\setbackmattertemplates
-% 	\frame{#1}%
-% 	\setbeamertemplates
-% }
+}%
