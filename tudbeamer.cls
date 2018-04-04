@@ -57,6 +57,8 @@
 \DeclareStringOption[tud]{titlestyle} %option is tud@titlestyle
 \DeclareStringOption[tud]{structurestyle} %option is tud@structurestyle
 
+\DeclareStringOption[169]{aspectratio}
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 \ProcessKeyvalOptions*
 \ProcessOptions\relax
@@ -109,11 +111,12 @@
 \newcommand\disableFrameTitleSectionNum{\@useSectionNumInFrameTitlefalse}
 
 \PassOptionsToPackage{table,fixpdftex,svgnames,hyperref}{xcolor}
+\PassOptionsToPackage{final}{listings}
 
 %
 % load main class
 %
-\LoadClass[]{beamer}
+\LoadClass[aspectratio=\tud@aspectratio]{beamer}
 
 %
 % language and font packages
@@ -153,6 +156,7 @@
 \setlength{\TPVertModule}{\TPHorizModule}
 \textblockorigin{0mm}{0mm}
 
+\RequirePackage{listings}
 \RequirePackage{wasysym}
 \RequirePackage{calc}
 \RequirePackage{zref-savepos}
@@ -166,6 +170,10 @@
 \pgfplotsset{compat=1.15}
 \usepgfplotslibrary{patchplots}
 \usetikzlibrary{backgrounds}
+
+%\usepackage{xspace}
+
+
 %\RequirePackage{xcolor}
 %\RequirePackage{hyperref} %always require hyperref as the last package
 
@@ -250,6 +258,27 @@
 % \colorlet{framesubtitletext}{hks92!125}
 
 \colorlet{blockbg}{hks41!70}
+
+%alternative color names
+\colorlet{tudblue}{hks41}%
+\colorlet{primary}{hks41}%
+\colorlet{tudgray}{hks92}%
+\colorlet{secondary}{hks92}%
+\colorlet{emph1_1}{hks44}%
+\colorlet{emphblue}{hks44}%
+\colorlet{emph1_2}{cyan}%
+\colorlet{emphcyan}{cyan}%
+\colorlet{emph2_1}{hks65}%
+\colorlet{emphbrightgreen}{hks65}%
+\colorlet{emph2_2}{hks57}%
+\colorlet{emphgreen}{hks57}%
+\colorlet{emph2_3}{hks33}%
+\colorlet{emphpurple}{hks33}%
+\colorlet{emph2_4}{hks36}%
+\colorlet{emphviolet}{hks36}%
+\colorlet{emph2_5}{hks36}%
+\colorlet{emphorange}{hks07}%
+\colorlet{alert}{hks07}%
 
 \newcommand{\setBeamerColors}{%
     \setbeamercolor{normal text}{fg=text,bg=white}%
@@ -621,6 +650,27 @@
     \setbodydefaultdimensions%
     \setlength{\bodyheight}{\beamer@paperheight-\bodyy}%
    %\setbeamerdimensions
+}%
+
+%
+% listings settings
+%
+\lstset{%
+    basicstyle=\ttfamily\scriptsize\selectfont,%
+    tabsize=2,%
+    breaklines=true,%
+    backgroundcolor=\color{tudblue!10},%
+    frame=lines,%
+    numbers=left,%
+    numberstyle=\tiny,%
+    numbersep=6pt,
+    xleftmargin=1.5em,%
+    keywordstyle=\bfseries,%
+    commentstyle=\color{tudgray},
+    stringstyle=\ttfamily\color{emph1_1},
+    identifierstyle=\color{emph2_2},
+    framexleftmargin=1.5em%,%
+    %style=tudListing%
 }%
 
 %
