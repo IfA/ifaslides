@@ -5,42 +5,28 @@
 \input{shortcuts} 
 \bibliography{bibliography.bib}
 
-\usepackage{tabularx,array,ragged2e}
+\usepackage{pgf-pie}
 
 \lstdefinestyle{latex}{
-	morecomment=[l]{\%},
+	language=[LaTeX]TeX,
 	moredelim=*[s][]{\{}{\}},
-	moredelim=*[s][]{\[}{\]},
-	moredelim=*[is][\color{emph2_3}]{*e}{*}
+	%moredelim=*[s][]{\[}{\]},
+	moredelim=*[is][\color{emph2_3}]{*n}{*},
+	moretexcs={setDesignImage,frametitle},
+	moredelim=*[is][stringstyle]{*s}{*},
+	moredelim=*[is][\color{emph2_3}]{*e}{*},
+	moredelim=*[s][\color{emph2_4}]{<}{>}
 }
-
-\begin{document}
 
 \title[TUD Beamer]{Die TUD Beamerklasse}
 \subtitle{Hinweise zur Verwendung}
 \author{Lukas Baron}
 \datecity{Dresden, Feb. 2018}
 \affiliation[ET-IT \textbullet{} IfA]{Fakultät Elektrotechnik und Informationstechnik \textbullet{} Institut für Automatisierungstechnik}
-\additionallogo{IfA_logo_blau}
+\setAdditionalLogo{IfA_logo_blau}
 \setDesignImage{pics/DesignFrameTest_1}
 
-%	In order to let a (sub-)section and slide appear in the navigator bar, build
-% 	document twice
-%
-% 	\section{} %appears in TOC, Column in Navigator
-%	\subsection{} %appears in TOC, Line in Navigator
-%	\section*{} %does not appear in TOC nor Navigator
-%	\subsection*{} %does not appear in TOC nor Navigator
-
-% 	If necessary, the following command can be used to insert an absolutely
-%   positioned box. First parameter is the width. X and Y coordinate go to
-%   braces. Height adjusts to content.
-%
-% 	\begin{textblock*}{11cm}(2.05cm, 2.6cm)
-%
-% 	\end{textblock}
-
-
+\begin{document}
 % 
 % Frontmatter 
 % 
@@ -98,9 +84,9 @@
 		 	\item \texttt{TU\_Logo\_SW.pdf}
 		\end{itemize}
 		\item Die Latex-Klasse wird dann eingebunden per
-		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
-			\documentclass{tudbeamer}
-		\end{lstlisting}
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass{tudbeamer}
+			\end{lstlisting}
 	\end{itemize}
 	\begin{itemize}
 		\item[+] Keine zusätzliche Software nötig
@@ -119,9 +105,9 @@
 			\item Hinzufügen des Git-Submodule: \texttt{git submodule add "https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/ de.tud.et.ifa.latex.ifaslides" tudbeamer}
 		\end{itemize}
 		\item Die Klasse wird dann eingebunden per
-		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
-			\documentclass{*e./tudbeamer*/tudbeamer}
-		\end{lstlisting}
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass{*e./tudbeamer*/tudbeamer}
+			\end{lstlisting}
 	\end{itemize}	
 	\begin{itemize}
 		\item[+] Updates per \texttt{git submodule update}
@@ -138,12 +124,12 @@
 		\item Das Git-Projekt der Latex-Klasse wird als separates Git Projekt eingebunden.
 		\begin{itemize}
 			\item Ein neues separates Git-Repository anlegen: 
-				\texttt{git clone "https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/ de.tud.et.ifa.latex.ifaslides"}, z.B. im Ordner \texttt{tudbeamer}.
+				\texttt{git clone "https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/ de.tud.et.ifa.latex.ifaslides"}, z.\,B. im Ordner \texttt{tudbeamer}.
 		\end{itemize}
 		\item Die Klasse wird dann eingebunden per
-		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
-			\documentclass{*e..*/tudbeamer/tudbeamer} %Klassen-Projektordner liegt neben Hauptprojekt
-		\end{lstlisting}
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass{*e..*/tudbeamer/tudbeamer} %Klassen-Projektordner liegt neben Hauptprojekt
+			\end{lstlisting}
 	\end{itemize}	
 	\begin{itemize}
 		\item[+] Updates per \texttt{git pull} im Klassenprojekt
@@ -161,165 +147,784 @@
 
 	Grundsätzlich werden alle Optionen der \href{https://ctan.org/tex-archive/macros/latex/contrib/beamer/doc}{		Beamer-Klasse}\footnote{\href{https://ctan.org/tex-archive/macros/latex/contrib/beamer/doc}{
 				\url{https://ctan.org/tex-archive/macros/latex/contrib/beamer/doc}}}	
-	unterstützt. Es folgen die wichtigsten:
+	unterstützt. Mehrere Optionen können kommagetrennt aneinandergefügt werden. Es folgen die wichtigsten:
 	\begin{itemize}
 		\item \emph{handout}: Für die Druckversion werden einige Farben und Einstellungen geändert.
-		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
-			\documentclass[handout]{tudbeamer}
-		\end{lstlisting}
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[handout]{tudbeamer}
+			\end{lstlisting}
 		\item \emph{draft}: Das Erstellen des Dokuments geht schneller, Grafiken werden nicht eingebunden und die Farbverläufe werden nicht gerendert.
-		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
-			\documentclass[draft]{tudbeamer}
-		\end{lstlisting}
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[draft]{tudbeamer}
+			\end{lstlisting}
 		\item \emph{aspectratio}: Das Standard-Seitenverhältnis von 16:9 kann beliebig geändert werden.
-		\begin{lstlisting}[gobble=6,style=latex,numbers=none]
-			\documentclass[aspectratio=*e43*]{tudbeamer}
-		\end{lstlisting} 
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[aspectratio=*e43*]{tudbeamer}
+			\end{lstlisting} 
+		\item \emph{german}: Die Standardspracheinstellung englisch lässt sich durch den Schalter \texttt{german} ändern. Andere Sprachen werden bisher nicht unterstützt.
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[german]{tudbeamer}
+			\end{lstlisting} 
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Klassenoptionen}
-	\framesubtitle{Gliederungen (TOCs)}
+	\framesubtitle{Documentstruktur}
 
 	\begin{itemize}
-		\item 
+		\item \emph{notoc}: Abschalten des Inhaltsverzeichnis (table of contents) auf Folie 2. Besonders geeignet bei der Verwendung von \emph{part}s.
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[notoc]{tudbeamer}
+			\end{lstlisting} 
+		\item \emph{nopartframe}, \emph{noparttoc}: Abschalten der Titelfolien für Parts bzw. der Inhaltsverzeichnisse für Parts.
+			\begin{lstlisting}[gobble=8,style=latex]
+				\documentclass[nopartframe]{tudbeamer} %oder
+				\documentclass[noparttoc]{tudbeamer} 
+			\end{lstlisting} 
+		\item \emph{nosectionframe}, \emph{nosectiontoc}: Abschalten der Titelfolie bzw. des Inhaltsverzeichnis für Sections.
+			\begin{lstlisting}[gobble=8,style=latex]
+				\documentclass[nosectionframe]{tudbeamer} %oder
+				\documentclass[nosectiontoc]{tudbeamer} 
+			\end{lstlisting} 
+		\item \emph{sectiontocframe}: Standardmäßig werden die Inhaltsverzeichnisse für Sections auf der Section-Titelfolie eingefügt. Mit diesem Schalter wird eine separate Folie für das Inhaltsverzeichnis eingefügt.
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[sectiontocframe]{tudbeamer}
+			\end{lstlisting} 
 	\end{itemize}
+\end{frame}
 
+\begin{frame}[fragile]
+	\frametitle{Klassenoptionen}
+	\framesubtitle{Stile}
+	\begin{itemize}
+		\item \emph{titlestyle}: Ändern des Stils für die Titelfolie. Mögliche Werte:
+			\begin{itemize}
+				\item \texttt{tud} (Standardwert): Der Corporate Design Farbverlauf wird gerendert.
+				\item \texttt{hks41}/\texttt{tudblue}: Die Titelfolie verwendet das TUD-Blau.
+				\item \texttt{design}: Eine angegebene Grafik wird verwendet. In der Präambel des Dokuments muss der Befehl \texttt{\\setDesignImage\{\dots\}} eingefügt werden, um den Pfad zur Grafik anzugeben.
+				\item Jeder beliebige Farbwert, z.\,B. \texttt{white}. Die Schriftfarbe ist in diesem Fall stets das TU-Blau.
+			\end{itemize}
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[titlestyle=*etud*]{tudbeamer}
+			\end{lstlisting} 
+			\begin{lstlisting}[gobble=8,style=latex]
+				\documentclass[titlestyle=*edesign*]{tudbeamer}
+				\setDesignImage{*spics/DesignFrameTest_1*}
+			\end{lstlisting} 
+		\item \emph{structurestyle}: Analog zu \emph{titlestyle}, bezieht sich aber auf Part und Sectionframes.
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\documentclass[structurestyle=*etud*]{tudbeamer}
+			\end{lstlisting} 
+	\end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Klassenoptionen}
+	\framesubtitle{Sonstiges}
+	\begin{itemize}
+		\item \emph{noframetitlesectionnum}: Die Nummer der aktuellen Section erscheint nicht in den Folientiteln. Für einzelne Folien kann das Einfügen der Section-Nummer abgeschaltet werden per \texttt{\textbackslash frametitle*\{\dots\}}.
+		\item \emph{serifmath}: Für die Math-Umgebung wird eine Serifenschrift verwendet.
+		\item \emph{navbar}: {\color{alert} noch nicht implementiert} Es werden eine Reihe Navigationsbuttons in die Inhaltsfolien eingefügt.
+		\item \emph{progress}: {\color{alert} noch nicht implementiert} Der aktuelle Präsentationsfortschritt wird durch eine Leiste angezeigt.
+	\end{itemize}
 \end{frame}
 
 \subsection{Sonstige Befehle}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Präambelbefehle}
-
+	Der Bereich zwischen \texttt{\textbackslash documentclass\{\dots\}} und \texttt{\textbackslash begin\{document\}} wird als \emph{Präambel} bezeichnet. Hier können verschiedene Eigenschaften des Dokuments festgelegt werden:
 	\begin{itemize}
-		\item 
+		\item \texttt{\textbackslash title[kurztitel]\{langtitel\}}: Der Titel der Präsentation. Der Kurztitel wird in der Fußzeile verwendet.
+		\item \texttt{\textbackslash subtitle\{\dots\}}: Ein Untertitel der Präsentation. Erscheint nur auf der Titelfolie.
+		\item \texttt{\textbackslash author\{\dots\}}: Der Name des oder der Vortragenden.
+		\item \texttt{\textbackslash datecity\{\dots\}}: Ort und Datum der Präsentation.
+		\item \texttt{\textbackslash affiliation[kurz]\{lang\}}: Organisationsname des oder der Vortragenden als Lang- und Kurzversion.
+	\end{itemize}
+	Folgende Befehle können auch wiederholt zwischen Frames im Dokument verwendet werden:
+	\begin{itemize}
+		\item \texttt{\textbackslash setAdditionalLogo\{\dots\}}: Setzen eines zusätzlichen Logos für Titelfolie und Fußzeilen.
+		\item \texttt{\textbackslash setAdditionalLogoFooter\{\dots\}}: Setzen eines zusätzlichen Logos nur für die Fußzeilen.
+		\item \texttt{\textbackslash setDesignImage\{\dots\}}: Setzen der zu verwendenden Grafik als Hintergrund für Designfolien.
+	\end{itemize}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Befehle für Klassenoptionen}
+	Folgende Befehle ändern Klassenoptionen innerhalb des Dokuments:
+	\begin{itemize}
+		\item \texttt{\textbackslash setStructureStyle\{\dots\}}: Setzen des Stils für Part- und Section-Folien.
+		\item \texttt{\textbackslash enableProgress} / \texttt{\textbackslash disableProgress}: Den Fortschrittsbalken ein- und ausschalten.
+		\item \texttt{\textbackslash enableNavBar} / \texttt{\textbackslash disableNavBar}: Die Navigationsbuttons ein- und ausschalten.
+		\item \texttt{\textbackslash enablePartFrame} / \texttt{\textbackslash disablePartFrame}
+		\item \texttt{\textbackslash enablePartTOCFrame} / \texttt{\textbackslash disablePartTOCFrame}
+		\item \texttt{\textbackslash enableSectionFrame} / \texttt{\textbackslash disableSectionFrame}
+		\item \texttt{\textbackslash enableSectionTOCFrame} / \texttt{\textbackslash disableSectionTOCFrame}
+		\item \texttt{\textbackslash enableSectionTOC} / \texttt{\textbackslash disableSectionTOC}
+		\item \texttt{\textbackslash enableFrameTitleSectionNum} / \texttt{\textbackslash disableFrameTitleSectionNum}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]
+	\frametitle{Umgebungen}
+	Die TUD-Beamerklasse stellt zusätzliche Frame-Umgebungen bereit:
+	\begin{itemize}
+		\item \emph{finalframe}: Am Ende der Präsentation können Folien eingefügt werden, die den Structure-Style verwenden.
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{*nfinalframe*}
+	 	        	\centering\huge Vielen Dank\\ für Ihre Aufmerksamkeit
+				\end{*nfinalframe*}
+			\end{lstlisting} 
+		\item \emph{backmatterframe}: Für versteckte Folien zur Vorbereitung eines Verteidigungsgesprächs. Zählt nicht zur Gesamtzahl an Folien.  
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{*nbackmatterframe*}
+	 	        	\frametitle{...}
+	 	        	Zusatzinhalte
+
+				\end{*nbackmatterframe*}
+			\end{lstlisting} 
+		\framebreak
+		\item \emph{designframe}: {\color{alert} noch nicht implementiert} Funktioniert wie ein normaler Frame, fügt aber eine Designgrafik als Hintergrund ein. Als Option kann angegeben werden, ob für einen einzeiligen Folientitel Platz gelassen werden soll. 
+			\begin{lstlisting}[gobble=8,style=latex]
+				\setDesignImage{*spics/DesignFrameTest_2*}
+				\begin{*ndesignframe*}[withframetitle]
+	 	        	\frametitle{...}
+	 	        	Ein intelligenter Sinnspruch
+				\end{*ndesignframe*}
+			\end{lstlisting} 
 	\end{itemize}
 
 \end{frame}
-
-\begin{frame}
-	\frametitle{Klassenfunktionen}
-
+\begin{frame}[fragile,allowframebreaks]
+	\frametitle{Sonstiges}
+	
 	\begin{itemize}
-		\item 
+		\item \emph{draftmode}: Innerhalb des Dokuments ist eine If-Verzweigung verfügbar, um Inhalte abhängig vom Draft-Modus Anzuzeigen:
+			\begin{lstlisting}[gobble=8,style=latex]
+				\ifdraftMode
+					%wird im Draft-Modus ausgewertet
+				\else
+					%wird normalerweise ausgewertet
+				\fi
+			\end{lstlisting}
+		\item \emph{handout}: Einstellungen für das Handout vornehmen:
+			\begin{lstlisting}[gobble=8,style=latex]
+				\mode<handout>{
+					%wird im Handout-Modus ausgewertet
+				}
+				\mode<handout:0>{
+					%wird in jedem anderen Modus ausgewertet
+				}
+			\end{lstlisting}
 	\end{itemize}
-
+\end{frame}	
+\begin{frame}[fragile, allowframebreaks]
+	\frametitle{Setting Override}
+\texttt{\textbackslash setSettingOverride\{\dots\}}:
+	Mit diesem Befehl ist es möglich die Konfiguration der Beamer-Klasse zu überschreiben. Für einzelne Folien muss der Befehl nicht benutzt werden, jedoch überschreibt die TUD-Klasse diese manuellen Anpassungen wieder.
+	\begin{lstlisting}[gobble=4,style=latex]
+		\setSettingOverride{%					
+		    \setbeamercolor{block title}{bg=emphgreen!60,fg=white}%
+		    \setbeamercolor{block body}{bg=emphgreen!20}%
+		}
+		\begin{block}{Das Ergebnis}
+			Dies ist ein Block mit angepasster Farbe. 
+		\end{block}
+		%Zurücksetzen
+		\setSettingOverride{}
+		\restoreDefaultSettings
+		\begin{block}{Das Ergebnis}
+			Dies ist ein Standardblock. 
+		\end{block}
+	\end{lstlisting}
+\framebreak
+	Das Ergebnis:
+	\setSettingOverride{%					
+	    \setbeamercolor{block title}{bg=emphgreen!60,fg=white}%
+	    \setbeamercolor{block body}{bg=emphgreen!20}%
+	}
+	\begin{block}{Das Ergebnis}
+		Dies ist ein Block mit angepasster Farbe. 
+	\end{block}
+	Nach dem Zurücksetzen:
+	\setSettingOverride{}
+	\restoreDefaultSettings
+	\begin{block}{Das Ergebnis}
+		Dies ist ein Standardblock. 
+	\end{block}
 \end{frame}
 
 \section{Corporate Design}
 \subsection{Farben}
 
-\begin{frame}
-	\frametitle{CD Farben}
-	\framesubtitle{Hauptfarben}
+\begin{frame}[fragile]
+	\frametitle{Farben}
+	\framesubtitle{Verwendung}
 
+	Die TUD-Beamerklasse enthält Definitionen für die Corporate Design Farben der TU. Diese sind als Farbvariablen des XColor-Pakets\footnote{\url{https://ctan.org/pkg/xcolor}} definiert.
+	Im Fließtext können sie wie folgt verwendet werden:	
+	\begin{lstlisting}[gobble=4,style=latex,numbers=none]
+		Dies ist Fließtext {\color{alert} mit hervorgehobenen Wörtern} mittendrin. 
+	\end{lstlisting} 
+	\begin{block}{Das Ergebnis}
+	Dies ist Fließtext {\color{alert} mit hervorgehobenen Wörtern} mittendrin. 
+	\end{block}
+	Möglich sind auch Farbausdrücke zum Abschwächen oder Mischen der Farben: 
 	\begin{itemize}
-		\item 
+		\item \texttt{red!40}: 40\% Rotanteil
+		\item \texttt{blue!20!green!50}: Eine Mischung aus Blau und Grün
 	\end{itemize}
-
+	Es können alle SVG-Standardfarbnamen verwendet werden. Eigene Farben werden per \texttt{\textbackslash definecolor\{neuefarbe\}\{farbraum\}\{farbwerte\}} definiert werden.
+	\begin{lstlisting}[gobble=4,style=latex,numbers=none]
+		\definecolor{neuefarbe}{RGB}{50,100,150}
+	\end{lstlisting} 
 \end{frame}
 \begin{frame}
 	\frametitle{CD Farben}
-	\framesubtitle{Auszeichnungsfarben}
+	\framesubtitle{Hauptfarben}
+	Für das Corporate Design wurden die entsprechenden Farbvariablen bereits definiert:
+	\begin{columns}[t]
+		\begin{column}{.4\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=tudblue}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `tudblue' oder `hks41'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=tudblue!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=tudblue!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=tudblue!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=tudblue!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
 
-	\begin{itemize}
-		\item 
-	\end{itemize}
+		\begin{column}{.4\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=tudgray}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `tudgray' oder `hks92'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=tudgray!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=tudgray!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=tudgray!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=tudgray!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{CD Farben}
+	\framesubtitle{Auszeichnungsfarben 1. Kategorie}
 
+	\begin{columns}[t]
+		\begin{column}{.4\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphblue}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphblue', `hks44' oder `emph1\textunderscore1'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphblue!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphblue!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphblue!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphblue!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+
+		\begin{column}{.4\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphcyan}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphcyan', `cyan' oder `emph1\textunderscore2'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphcyan!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphcyan!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphcyan!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphcyan!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}
+	\frametitle{CD Farben}
+	\framesubtitle{Auszeichnungsfarben 2. Kategorie}
+
+	\begin{columns}[t]
+		\begin{column}{.2\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphbrightgreen}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphbrightgreen',\\ `hks65' oder\\ `emph2\textunderscore1'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphbrightgreen!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphbrightgreen!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphbrightgreen!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphbrightgreen!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphgreen}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphgreen',\\ `hks57' oder\\ `emph2\textunderscore2'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphgreen!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphgreen!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphgreen!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphgreen!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphpurple}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphpurple',\\ `hks33' oder\\ `emph2\textunderscore3'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphpurple!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphpurple!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphpurple!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphpurple!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphviolet}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphviolet',\\ `hks36' oder\\ `emph2\textunderscore4'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphviolet!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphviolet!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphviolet!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphviolet!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+			\setbeamercolor{colorbox}{fg=white,bg=emphorange}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `emphorange',\\ `alert', `hks07'\\ oder `emph2\textunderscore5'\footnote[frame]{Dies Farbe ist nur äußerst selten einzusetzen}
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphorange!80}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 80\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=emphorange!60}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 60\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphorange!40}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 40\%
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=tudblue,bg=emphorange!20}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering 20\%
+		    \end{beamercolorbox}
+		\end{column}
+	\end{columns}
 \end{frame}
 \begin{frame}
 	\frametitle{CD Farben}
 	\framesubtitle{Sonstige Farben}
 
-	\begin{itemize}
-		\item 
-	\end{itemize}
+	\textbf{Bereichsfarben:}
+	\begin{columns}
+		\begin{column}{.33\textwidth}
+			Mathematik und Naturwiss.
+			\setbeamercolor{colorbox}{fg=white,bg=mathnaturebright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `mathnaturebright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=mathnaturedark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `mathnaturedark'
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.1\textwidth}\begin{column}{.33\textwidth}
+			Bau- und Umweltwiss.
+			\setbeamercolor{colorbox}{fg=white,bg=architectureenvironmentbright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `architectureenvironmentbright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=architectureenvironmentdark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `architectureenvironmentdark'
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.1\textwidth}\begin{column}{.33\textwidth}
+			Ingenieurswiss.
+			\setbeamercolor{colorbox}{fg=white,bg=engineeringbright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `engineeringbright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=engineeringdark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `engineeringdark'
+		    \end{beamercolorbox}
+		\end{column}
+	\end{columns}
+	\begin{columns}
+		\begin{column}{.33\textwidth}
+			Geistes- und Sozialwiss.
+			\setbeamercolor{colorbox}{fg=white,bg=humansocialbright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `humansocialbright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=humansocialdark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `humansocialdark'
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.1\textwidth}\begin{column}{.33\textwidth}
+			Medizin
+			\setbeamercolor{colorbox}{fg=white,bg=medicinebright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `medicinebright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=medicinedark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `medicinedark'
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.1\textwidth}\begin{column}{.33\textwidth}
+			Lehramt
+			\setbeamercolor{colorbox}{fg=white,bg=teachingbright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `teachingbright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=teachingdark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `teachingdark'
+		    \end{beamercolorbox}
+		\end{column}
+	\end{columns}
 
+	\vskip1ex\textbf{Webfarben:}
+	\begin{columns}
+		\begin{column}{.33\textwidth}
+			\setbeamercolor{colorbox}{fg=white,bg=webbluebright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `webbluebright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=webbluedark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `webbluedark'
+		    \end{beamercolorbox}
+		\end{column}
+		\hspace{-.1\textwidth}\begin{column}{.33\textwidth}
+			\setbeamercolor{colorbox}{fg=white,bg=webredbright}%
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `webredbright'
+		    \end{beamercolorbox}
+			\setbeamercolor{colorbox}{fg=white,bg=webreddark}
+			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
+				\centering `webreddark'
+		    \end{beamercolorbox}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \section{Präsentationsinhalte}
 \subsection{Häufige Elemente}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Grafiken}
 
-	\begin{itemize}
-		\item 
-	\end{itemize}
-
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}
+			Einbinden einer Grafik per \texttt{\textbackslash includegraphics[Optionen]\{Pfad\}}:
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\includegraphics[width=.8\textwidth]{pics/DesignFrameTest_1}
+			\end{lstlisting} 
+			Vektorgrafiken, z.\,B. SVG-Dateien, müssen vorher in PDFs umgewandelt werden. 
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}
+			\centering\includegraphics[width=.8\textwidth]{pics/DesignFrameTest_1}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Plots}
 
-	\begin{itemize}
-		\item 
-	\end{itemize}
-
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}
+			Die \emph{TikZ}\footnote[frame]{\url{https://www.ctan.org/pkg/pgf}} und \emph{PgfPlots}\footnote[frame]{\url{https://ctan.org/pkg/pgfplots}} Bibliotheken sind bereits in die Klasse eingebunden und können zum Plotten verwendet werden.
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{tikzpicture} 
+					\begin{axis}[width = 1\textwidth]
+						\addplot3[
+							surf,
+							samples=15, 
+							domain=0:1,
+							y domain=-1:1,
+							colormap name=tudplot]
+							{x^2 - y^2}; 
+					\end{axis} 
+				\end{tikzpicture}
+			\end{lstlisting} 
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}
+			\centering%
+			\begin{tikzpicture} 
+				\ifdraftMode
+					\draw (0,0) rectangle (\textwidth,4);
+				\else
+					\begin{axis}[width = 1\textwidth]
+						\addplot3[
+							surf,
+							samples=15, 
+							domain=0:1,
+							y domain=-1:1,
+					  		colormap name=tudplot]
+							{x^2 - y^2}; 
+					\end{axis} 
+				\fi
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Diagramme}
 
-	\begin{itemize}
-		\item 
-	\end{itemize}
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}
+			Diagramme können ebenfalls mit TikZ erstellt werden, hier ein Beispiel für ein Piechart:
+			\begin{lstlisting}[gobble=8,style=latex]
+				 % in die Prämbel einfügen
+				\usepackage{pgf-pie}
+				...
+				\adjustbox{max width=\textwidth}{
+					\begin{tikzpicture}[]
+						\pie [color={emphblue, 
+								emphgreen, emphblue!80, 
+								emphblue!60, emphblue!40, 
+								emphpurple}]{%
+							46.6/Chrome,
+							24.6/Internet Explorer,
+							20.4/Firefox,
+							5.1/Safari,
+							1.3/Opera,
+							2.0/Other}
+					\end{tikzpicture}
+				}
+			\end{lstlisting} 
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}
+			\adjustbox{max width=\textwidth}{
+				\begin{tikzpicture}[]
+					\ifdraftMode
+						\draw (0,0) rectangle (\textwidth,4);
 
+					\else
+						\pie [color={emphblue, emphgreen, emphblue!80, emphblue!60, emphblue!40, emphpurple}]{%
+							46.6/Chrome,
+							24.6/Internet Explorer,
+							20.4/Firefox,
+							5.1/Safari,
+							1.3/Opera,
+							2.0/Other}
+					\fi
+				\end{tikzpicture}
+			}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Listings}
 
-	\begin{itemize}
-		\item 
-	\end{itemize}
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}
+			Quellcode-Listings\footnote[frame]{\url{https://www.ctan.org/tex-archive/macros/latex/contrib/listings/}}, können wie folgt eingefügt werden:
+			\begin{lstlisting}[gobble=8,style=latex,mathescape]
+				\begin{*nframe*}[fragile]
+					\begin{*nlstlisting*}[style=latex]
+						eine Zeile \LaTeX-Code
+						\begin{*nitemize*}
+							\item ein Aufzählungsitem
+						\end{*nitemize*}
+					\ end{*nlstlisting*}
+					%Leerzeichen nach \ muss weg
+				\end{*nframe*}
+			\end{lstlisting}
+			Dazu kann der \texttt{latex}-Stil aus der Präambel dieses Dokuments übernommen werden.
 
+			Der Frame muss zwingend auf \texttt{fragile} gesetzt werden.
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}			
+			\begin{lstlisting}[gobble=8,style=latex]
+				eine Zeile \LaTeX-Code
+				\begin{*nitemize*}
+					\item ein Aufzählungsitem
+				\end{*nitemize*}
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-
-\newcolumntype{P}[1]{>{\raggedright\hangindent+10pt\hangafter=1\arraybackslash}p{#1}}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Tabellen}
-	\begin{columns}[t]
-	   	\hspace*{-.00\textwidth}\begin{column}{1.0\textwidth}
-	   		\ \\[-3ex]
+	Für Tabellen sind die Pakete \emph{tabularx}\footnote[frame]{\url{https://ctan.org/pkg/tabularx}} und \emph{array}\footnote[frame]{\url{https://ctan.org/pkg/array}} bereits eingebunden.
+	\vskip-2ex\begin{columns}[t]
+		\begin{column}{.67\textwidth}	
+		\begin{lstlisting}[gobble=6,style=latex]
 			\begin{table}
-			\hspace*{-.045\textwidth}\begin{tabularx}{.95\textwidth}{@{} P{.33\textwidth} l P{.13\textwidth} l @{}}
-			\textbf{Anwendung} & \textbf{Plattform} & \textbf{Inhalt} & \textbf{Ebene}\\
-			Bedienpanel Maschine/""Station & in-field, stationär, (Touch-) Panel & interaktiv & P,F,S\\
-			Detailmonitor Maschine/""Station & in-field, stationär, Display & fix & P,S,PF (,MES)\\
-			Operator-Station/ Leitrechner \newline \ \ \ Maschine/""Station & in-field, stationär, PC & interaktiv & P, PF, MES\\
-			\hline%
-
-			Operator-Station Leitwarte Station-Gesamtanlage & stationär, PC & interaktiv & P,PF,MES \\
-			Übersichtsbildschirm Leitwarte Gesamtanlage & stationär, Display & gesteuert\newline kontextbasiert & PF,MES \\
-
-			\hline
-	
-			Inspektionstablets Maschine/""Station/""Feldgerät & in-field, mobil, Tablet & interaktiv\newline kontextbasiert & P,F,S\\
-
-			\hline
-
-			Schichtstatus-/""Performance-Anzeige Maschine/""Station & in-field, stationär, Display & fix & MES\\
-			AR Inspektion/""Präsentation Maschine/""Station/""Gerät & in-field, mobil, AR & kontextbasiert & P,F,S,PF
-
-			\end{tabularx}%
-			\vspace{-1.5ex}%
-			\hspace*{-.05\textwidth}\caption{UIs in Anlagen und Klassifikation, AT Steuerungsebene: \underline{P}rodukt, \underline{F}eld, \underline{S}teuerun g, \underline{PF}/PLT, \underline{MES}, \underline{ERP}}%
+			\begin{tabularx}{\textwidth}
+				{@{} p{.33\textwidth} p{.33\textwidth} p{.33\textwidth} @{}}
+				\hline%
+				\textbf{*sAnwendung*}*n&*\textbf{*sPlattform*}*n&*\textbf{*sInhalt*}*n\\*
+				\hline%
+				Bedienpanel *n&* stationär, TouchPanel *n&* interaktiv*n\\*
+				Detailmonitor *n&* stationär, Display *n&* fix*n\\*
+				Operatorstation *n&* stationär, PC *n&* interaktiv*n\\*
+				\hline%
+			\end{tabularx}\caption{*sUIs in Anlagen*}
 			\end{table}
+		\end{lstlisting}
+		\end{column}
+	   	\hspace*{-.05\textwidth}\begin{column}{.32\textwidth}
+			\begin{table}\begin{tabularx}{\textwidth}{@{} p{.3\textwidth} p{.23\textwidth} p{.2\textwidth} @{}}
+			\hline%
+			\textbf{Anwendung} & \textbf{Plattform} & \textbf{Inhalt} \\
+			\hline%
+			Bedien\-panel & stationär, Touchpanel & interaktiv \\
+			Detail\-monitor & stationär, Display & fix \\
+			Operator\-station & stationär, PC & interaktiv \\
+			\hline%
+			\end{tabularx}\caption{UIs in Anlagen}\end{table}
 		\end{column}
 	\end{columns}
 
 \end{frame}
 
 \subsection{Animationen}
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{Animationen}
 
+	Die allermeisten Inhalte einer Folie können durch Overlay-Spezifikationen animiert werden. Dabei erstellt die Beamer-Klasse mehrere aufeinander folgende Seiten im PDF für dieselbe Folie.
+
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}					
+			Beispiel:
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{*nitemize*}
+					\item<1-> \color<1>{emphblue}Dieses Item ist ab dem ersten Overlay vorhanden, aber nur auf dem ersten blau
+					\item<2-3> Dieses Item auf den Overlays 2 und 3
+					\item<-2> Dieses Item auf den Overlays 1 und 2
+					\item<handout> Dies Item befindet sich nur auf dem Handout
+				\end{*nitemize*}
+			\end{lstlisting}
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.4\textwidth}				
+			\begin{itemize}
+				\item<1-> \color<1>{emphblue}Dieses Item ist ab dem ersten Overlay vorhanden, aber nur auf dem ersten blau
+				\item<2-3> Dieses Item auf den Overlays 2 und 3
+				\item<-2> Dieses Item auf den Overlays 1 und 2
+				\item<handout> Dieses Item befindet sich nur auf dem Handout
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Grafiken animieren}
+
 	\begin{itemize}
-		\item 
+		\item Die Befehle \texttt{\textbackslash uncover<>\{\}}, \texttt{\textbackslash only<>\{\}}, etc. funktionieren auch in Tabellen und \texttt{tikzpicture}-Umgebungen. Somit lassen sich Grafiken animieren.
+		\item Wird ein Grafikprogramm verwendet muss man u.\,U. die Grafik mehrfach zeichnen und verschiedene Versionen per Overlay einbinden.
+		\item Für Visio-Grafiken steht dafür ein Export-Skript zur Verfügung. 
 	\end{itemize}
 
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}					
+			Beispiel:
+			\begin{lstlisting}[gobble=8,style=latex]			
+				\includegraphics<1>[width=\textwidth]{*spics/Animation0*}%	
+				\includegraphics<2>[width=\textwidth]{*spics/Animation1*}%	
+				\includegraphics<3>[width=\textwidth]{*spics/Animation2*}%	
+			\end{lstlisting}
+		\end{column}
+		\hspace{-.05\textwidth}\begin{column}{.4\textwidth}	
+			\includegraphics<1>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation0}%	
+			\includegraphics<2>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation1}%	
+			\includegraphics<3>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation2}%	
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \setStructureStyle{design}
@@ -338,278 +943,8 @@
 		\item title: \inserttitle
 		\item subtitle: \insertsubtitle
 		\item datecity: \insertdatecity
-		% \def\tmpcolor{}
-		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
 		\item fourth enumerated item
 	\end{enumerate}
-	text 
-
-	after 
-
-	the 
-
-	enum
-
-	asdf
-
-	sadf
-	
-	asdf
-	
-	sad
-	
-	fsad
-	
-	f
-
-	adgsd
-	ga
-
-	aerteatr
-
-	earterz
-
-	etzrethbn
-
-	45wrthfhe
-
-	4w65ehjje6ie67
-\end{frame}
-\begin{frame}[allowframebreaks]
-	\frametitle{A default Frame}
-	\framesubtitle{A frame subtitle}
-	sizes:
-	\begin{enumerate}
-		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
-		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
-		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
-		\item author: \insertauthor
-		\item title: \inserttitle
-		\item subtitle: \insertsubtitle
-		\item datecity: \insertdatecity
-		% \def\tmpcolor{}
-		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
-		\item fourth enumerated item
-	\end{enumerate}
-	text 
-
-	after 
-
-	the 
-
-	enum
-
-	asdf
-
-	sadf\footnote{Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test }
-	
-	asdf
-	
-	sad
-	
-	fsad
-	
-	f\footnote{Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 Test 2 }
-
-	adgsd
-	ga
-
-	aerteatr
-
-	earterz
-
-	etzrethbn
-
-	45wrthfhe
-
-	%4w65ehjje6ie67
-
-	% 0
-	
-	% 1
-
-	% 2
-	
-	% 3
-
-	% 4
-
-	% 5
-
-	% 6
-
-	% er
-	
-	% teq
-	
-	% t
-
-	% ert
-\end{frame}
-\begin{frame}[t]
-	\frametitle{A default Frame top aligned}
-	\framesubtitle{A frame subtitle}
-	sizes:
-	\begin{enumerate}
-		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
-		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
-		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
-		\item author: \insertauthor
-		\item title: \inserttitle
-		\item subtitle: \insertsubtitle
-		\item datecity: \insertdatecity
-		% \def\tmpcolor{}
-		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
-		\item fourth enumerated item
-	\end{enumerate}
-	text after the enum
-\end{frame}
-\begin{frame}[t]
-	repeat top without title:
-	\begin{enumerate}
-		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
-		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
-		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
-		\item author: \insertauthor
-		\item title: \inserttitle
-		\item subtitle: \insertsubtitle
-		\item datecity: \insertdatecity
-		% \def\tmpcolor{}
-		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
-		\item fourth enumerated item
-	\end{enumerate}
-	text after the enum
-\end{frame}
-\begin{frame}
-	repeat centered without title:
-	\begin{enumerate}
-		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
-		\item beamerwidth : \number\paperwidth, beamerheight:\number\paperheight
-		\item body: \the\bodyx, \the\bodyy; \the\bodywidth, \the\bodywidth
-		\item author: \insertauthor
-		\item title: \inserttitle
-		\item subtitle: \insertsubtitle
-		\item datecity: \insertdatecity
-		% \def\tmpcolor{}
-		% \item hks41: gray - \extractcolorspecs{hks41}{gray}{\tmpcolor} \tmpcolor - cmyk \extractcolorspecs{hks41}{cmyk}{\tmpcolor} \tmpcolor
-		\item fourth enumerated item
-	\end{enumerate}
-	text after the enum
-\end{frame}
-\begin{frame}[t]
-	\frametitle{A slide using columns}
-	\begin{columns}
-	   	\begin{column}{.5\textwidth}
-	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
-	   		\begin{itemize}
-	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
-	   			\begin{itemize}
-	   				\item Sub item
-	   				\item more sub items
-	   			\end{itemize}
-	   		\end{itemize}
-		\end{column}
-	   	\begin{column}{.5\textwidth}
-	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
-	   		\begin{itemize}
-	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
-	   			\begin{itemize}
-	   				\item Sub item
-	   				\item more sub items
-	   			\end{itemize}
-	   		\end{itemize}
-		\end{column}
-	\end{columns}
-\end{frame}
-
-\subsection{Subsection 2}
-\begin{frame}
-	\frametitle{1st frame of 2nd subsection}
-	\framesubtitle{A slide with an animated image using overlays}
-	\centering
-some content
-	% \onslide<1>\includegraphics[width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/animated_0}%
-	% \onslide<2>\includegraphics[width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/animated_1}%
-cccd
-\end{frame}
-
-\begin{frame}
-	\frametitle{2nd frame of 2nd subsection}
-	\begin{columns}[t]
-		\begin{column}{.2\textwidth}
-			some explanatory text for the image\\
-			TODO adjust column separators
-		\end{column}
-	   	\begin{column}{.80\textwidth}
-	   		\ \\[-2ex]
-	   		some content
-			%\centering\includegraphics[keepaspectratio=true,width=1\textwidth,trim=.02cm .02cm .02cm .02cm, clip]{pics/image}%
-		\end{column}
-	\end{columns}
-\end{frame}
-
-\section[ShortSection2]{Long Section 2 Title}
-\subsection{Subsection 2.1}
-\begin{frame}
-	\frametitle{A default Frame}
-	\framesubtitle{A frame subtitle}
-
-	Normaltext:
-	\begin{enumerate}
-		\item enumerated item
-		\item second enumerated item
-		\item third enumerated item
-		\begin{enumerate}
-			\item enumerated item
-			\item second enumerated item
-			\item third enumerated item
-			\item fourth enumerated item
-		\end{enumerate}
-		\item fourth enumerated item
-	\end{enumerate}
-\end{frame}
-\begin{frame}
-	\frametitle{A default Frame}
-	\framesubtitle{A frame subtitle}
-	Normaltext:
-	\begin{itemize}
-		\item item item
-		\item second  item
-		\item third  item
-		\begin{itemize}
-			\item  item
-			\item second  item
-			\item third  item
-			\item fourth  item
-		\end{itemize}
-		\item fourth  item
-	\end{itemize}
-
-\end{frame}
-\begin{frame}
-	\frametitle{A slide using columns}
-	\begin{columns}
-	   	\begin{column}{.5\textwidth}
-	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
-	   		\begin{itemize}
-	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
-	   			\begin{itemize}
-	   				\item Sub item
-	   				\item more sub items
-	   			\end{itemize}
-	   		\end{itemize}
-		\end{column}
-	   	\begin{column}{.5\textwidth}
-	   		Some text askfnaksl \textbf{bold test} jfep oruht \emph{emphasized text} jkaiiaeun asdf qep  asdfkj  
-	   		\begin{itemize}
-	   			\item \textbf{An Item with long text} llk asdklwpk s98776sdfßsß0j nvfo ÄÜöösaödfSADF
-	   			\begin{itemize}
-	   				\item Sub item
-	   				\item more sub items
-	   			\end{itemize}
-	   		\end{itemize}
-		\end{column}
-	\end{columns}
 \end{frame}
 
 %
@@ -617,84 +952,48 @@ cccd
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makeatletter
 \disableSectionFrame%
 %\disableFrameTitleSectionNum%
 \section*{Backmatter}
 \begin{finalframe}
-	\frametitle*{Test Backmatter Frame}
-	\centering{test}
+	\vskip4ex\begin{columns}
+	    \begin{column}{0.5\textwidth}        
+	        \huge Vielen Dank\\ für Ihre Aufmerksamkeit\\[1ex]\
+	    \end{column}
+	    
+	    \begin{column}{0.3\textwidth}
+	        \flushright{\includegraphics[keepaspectratio=true,width=.6\columnwidth]{IfA_logo_blau}}
+        	\vspace{1ex}\\
 
-	textwidth: \the\textwidth\\
-	margin left: \the\bodyx\\
-	%margin right: \the\beamer@rightmargin\\
-	body width: \the\bodywidth\\
-	paper width: \the\beamer@paperwidth\\
-
-	TODO: der rechte margin stimmt nicht ganz: 27.45247pt
-
+	        \large Lukas Baron\\[0.5ex]
+	        \scriptsize
+	        lukas.baron@tu-dresden.de\\[4ex]
+        	Dresden, Germany\\[4ex]\
+	    \end{column}
+	\end{columns}
 \end{finalframe}
-\makeatother
 
 \begin{finalframe}
-	\vspace*{2ex}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_weiss.png}
+	\vspace*{2ex}\centering\includegraphics[width=0.8\textwidth]{br_logo_weiss.png}
 \end{finalframe}
 
-%\toclesssectionstar{}
-% \regardspage{
-% 	\vspace*{1cm}\centering\includegraphics[keepaspectratio=true,width=0.8\textwidth]{br_logo_weiss.png}
-% }
-% \regardspage{
-% 	
-% 	}
-
-% %TODO rework the invocation of special pages
-% \regardspage{
-% 	\vskip4ex\begin{columns}
-% 	    \begin{column}{0.5\textwidth}        
-% 	        \huge Vielen Dank\\ für Ihre Aufmerksamkeit\\[1ex]\
-% 	    \end{column}
-	    
-% 	    \begin{column}{0.3\textwidth}
-% 	        \flushright{\includegraphics[keepaspectratio=true,width=.6\columnwidth]{pics/logo_image}}
-%         	\vspace{1ex}\\
-
-% 	        \large My NAme\\[0.5ex]
-% 	        \scriptsize
-% 	        my.mail@tu-dresden.de\\[4ex]
-% 	        Where my office is 42\\        
-% 	        Building/Room\\
-%         	Dresden, Germany\\[4ex]\
-
-% 	    \end{column}
-% 	\end{columns}
-% }
-% \backmatterpage{
-%     \frametitle*{Credits}
-%     \begin{enumerate}
-%     	\item nothing here yet
-%   %       \item "`Pueblo Chemical Agent - Agitated reactor (motor)"' von "`PEO,
-% 		%     Assembled Chemical Weapons Alternatives"', Veröffentlicht unter
-% 		%     CC-BY 2.0\,--\,Folie ?
-		    
-% 		% \item "`Interfaz hmi"' von "`Italogio8 (Eigenes Werk)"',
-% 		% 	Veröffentlicht unter CC BY-SA 4.0\,--\,Folie ?
-		    
-% 		% \item "`Manufacturing equipment 110"' von "`Mixabest"', 
-% 		% 	Veröffentlicht unter CC BY-SA 3.0\,--\,Folie ?
-			
-%     \end{enumerate}
-% }
 
 % % additional pages for Q&A purposes
 \begin{backmatterframe}
 	\frametitle*{Feedback}
-	\centering\Huge ? 
+	\centering\Huge ? \scriptsize
+	\vskip4ex
+		Bei Fragen, Problemen uns Verbesserungen,\\ kann der Issue-Tracker\\ im 
+		\href{%
+			https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues%
+		}{%
+			\raisebox{-0.3ex}{%
+				\beamergotobutton{AG-Tele GitLab%
+					\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues}}%
+				}%
+			}%
+		}
+		verwendet werden.
 \end{backmatterframe}
 
-% %reset total frame counter in order to hide pages behind actual content.
-% \addtocounter{framenumber}{-2}
-
 \end{document}
-
-  	
