@@ -1180,6 +1180,7 @@
 \AtEndPreamble{%
     \setbodydefaultdimensions%
     \setbeamerdimensions%
+    %TODO hypersetup and require packages interfering with hypersetups after
 }%
 
 \renewcommand\maketitle{%
