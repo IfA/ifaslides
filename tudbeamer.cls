@@ -350,7 +350,7 @@
     \setBeamerColors%
 }%
 
-\newcommand{\setdefaultcolors}{%
+\newcommand{\setDefaultColors}{%
     %TODO eval class options%
 %
     \colorlet{text}{hks41}%hks41
@@ -763,7 +763,7 @@
     \renewcommand\footnoterule{\origfootnoterule\vskip3.5pt}%
 }%
 
-\newcommand{\setTUDHeadlineTemplates}{%
+\newcommand{\setTitleHeadlineTemplates}{%
     \setbeamertemplate{headline}{%
         \setlength{\templength}{\beamer@paperwidth/2-\tudlogox}%
         \begin{textblock*}{\templength}(\tudlogox,\tudlogoy)%
@@ -777,16 +777,21 @@
         \fi%
     }%
 }%
-\newcommand{\setTUDFooterTemplates}{%
-    \setbeamertemplate{footline}{}%
+\newcommand{\setTitleFooterTemplates}{%
+    \typeout{===============set footline title templates}%
+    \setbeamertemplate{footline}{%
+        \typeout{===============print footline title templates}%
+    }%
 }%
 \newcommand{\setFrameHeadlineTemplates}{%
-    \setbeamertemplate{headline}{}%  
+    \setbeamertemplate{headline}{ }%  
 }%
 %sets the footerheight via patching a command in the beamerclass, since no other way was found
 \patchcmd{\beamer@calculateheadfoot}{\advance\footheight by 4pt}{\setlength{\footheight}{\footerheight+2pt}}{}{}%
 \newcommand{\setFrameFooterTemplates}{%
+    \typeout{===============set footline default templates}%
     \setbeamertemplate{footline}{%
+        \typeout{===============print footline default templates}%
         %\fontsize{\footerheight}{\footerheight}\selectfont\vskip-2ex test\newline test2\newline\strut%
         %\scriptsize%
         \usebeamerfont{footline}%
@@ -1077,14 +1082,15 @@
     %TODO adjust, in case there is a title
 }%
 \newcommand{\setTitleFrameTemplates}{%
-    \setTUDHeadlineTemplates%
-    \setTUDFooterTemplates%
+    \typeout{===============settitleframetemplates}%
+    \setTitleHeadlineTemplates%
+    \setTitleFooterTemplates%
     \setTitleBodyTemplates%
     \tud@settingsOverride%
 }%
 \newcommand{\setDefaultFrameTemplates}{%
     \setDefaultBeamerFonts%
-    \setdefaultcolors%
+    \setDefaultColors%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     \setDefaultBodyTemplates%
@@ -1177,10 +1183,9 @@
 }%
 
 \renewcommand\maketitle{%
-    \setTitleFrameTemplates
+    \typeout{===============maketitle}%
+    \setTitleFrameTemplates%
     \frame{\titlepage}%
-    % Kopf-/Fusszeilen fuer restliche Folien
-    \setDefaultFrameTemplates%
     %
     %table of contents
     \if@useTOCFrame
@@ -1221,7 +1226,9 @@
                 \setDefaultBeamerFonts%
             \fi\fi%
          }%
-    \fi%
+    \fi%    
+    % Kopf-/Fusszeilen fuer restliche Folien
+    \setDefaultFrameTemplates%
 }%
 
 % frame title section prefix with alternate starred cmd
@@ -1232,7 +1239,7 @@
 
 \newcommand{\restoreDefaultSettings}{%
     \setDefaultBeamerFonts%
-    \setdefaultcolors%
+    \setDefaultColors%
     \setAuxilliaryBeamerTemplates%
     \scriptsize%
     \setDefaultFrameTemplates%
@@ -1269,7 +1276,10 @@
         \fi%       
                                           %
     \fi%   
-    \restoreDefaultSettings
+    \setDefaultBeamerFonts%
+    \setDefaultColors%
+    \setAuxilliaryBeamerTemplates%
+    \scriptsize%
     \makeatother%
     \mode<handout:0>{
         \hypersetup{
