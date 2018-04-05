@@ -27,8 +27,8 @@
 
 \newif\if@useNavBar\@useNavBarfalse
 \DeclareOption{navbar}{\@useNavBartrue}
-\newif\if@useProgress\@useProgresstrue
-\DeclareOption{noprogress}{\@useProgressfalse}
+\newif\if@useProgress\@useProgressfalse
+\DeclareOption{progress}{\@useProgresstrue}
 
 \newif\if@sansMath\@sansMathtrue
 \DeclareOption{serifmath}{\@sansMathfalse}
@@ -36,7 +36,7 @@
 \newif\if@useSectionFrame\@useSectionFrametrue
 \DeclareOption{nosectionframe}{\@useSectionFramefalse}
 \newif\if@useSectionTOC\@useSectionTOCtrue
-\DeclareOption{noSectiontoc}{\@useSectionTOCfalse}
+\DeclareOption{nosectiontoc}{\@useSectionTOCfalse}
 \newif\if@useSectionTOCFrame\@useSectionTOCFramefalse
 \DeclareOption{sectiontocframe}{\@useSectionTOCFrametrue}
 
@@ -48,8 +48,8 @@
 \newif\if@useTOCFrame\@useTOCFrametrue
 \DeclareOption{notoc}{\@useTOCFramefalse}
 
-\newif\if@draftMode\@draftModefalse
-\DeclareOption{draft}{\@draftModetrue}
+\newif\ifdraftMode\draftModefalse
+\DeclareOption{draft}{\draftModetrue}
 
 \newif\if@useSectionNumInFrameTitle\@useSectionNumInFrameTitletrue
 \DeclareOption{noframetitlesectionnum}{\@useSectionNumInFrameTitlefalse}
@@ -57,7 +57,7 @@
 \DeclareStringOption[tud]{titlestyle} %option is tud@titlestyle
 \DeclareStringOption[tud]{structurestyle} %option is tud@structurestyle
 
-\DeclareStringOption[169]{aspectratio}
+\DeclareStringOption[169]{aspectratio} %changing default aspect ratio
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 \ProcessKeyvalOptions*
@@ -72,16 +72,16 @@
 \newcommand*{\datecity}[1]{\renewcommand*{\insertdatecity}{#1}}
 
 \newcommand*\tud@additionallogo{}
-\newcommand*{\additionallogo}[1]{\renewcommand*{%
+\newcommand*{\setAdditionalLogo}[1]{\renewcommand*{%
     \tud@additionallogo}{#1}%
     \ifx\@empty\tud@additionallogofooter%
         \renewcommand*{\tud@additionallogofooter}{#1}%
     \fi%
 }%
 \newcommand*\tud@additionallogofooter{}
-\newcommand*{\additionallogofooter}[1]{\renewcommand*{\tud@additionallogofooter}{#1}}
-\newcommand*\tud@designimage{}
-\newcommand*{\setdesignimage}[1]{\renewcommand*{\tud@designimage}{#1}}
+\newcommand*{\setAdditionalLogoFooter}[1]{\renewcommand*{\tud@additionallogofooter}{#1}}
+\newcommand*\tud@designImage{}
+\newcommand*{\setDesignImage}[1]{\renewcommand*{\tud@designImage}{#1}}
 
 \def\today{\number\day.\number\month.\number\year}
 
@@ -92,8 +92,6 @@
 \newcommand\disableNavBar{\@useNavBartrue}
 
 \newcommand\setStructureStyle[1]{\def\tud@structurestyle{#1}}
-\def\tud@designImage{}
-\newcommand\setDesignImage[1]{\def\tud@designImage{#1}}
 
 \newcommand\disablePartFrame{\@usePartFramefalse}
 \newcommand\enablePartFrame{\@usePartFrametrue}
@@ -109,6 +107,13 @@
 
 \newcommand\enableFrameTitleSectionNum{\@useSectionNumInFrameTitletrue}
 \newcommand\disableFrameTitleSectionNum{\@useSectionNumInFrameTitlefalse}
+
+\gdef\tud@settingsOverride{}
+\newcommand{\setSettingOverride}[1]{%
+    \gdef\tud@settingsOverride{#1}%
+    \tud@settingsOverride%
+}%
+
 
 \PassOptionsToPackage{table,fixpdftex,svgnames,hyperref}{xcolor}
 \PassOptionsToPackage{final}{listings}
@@ -162,6 +167,7 @@
 \RequirePackage{zref-savepos}
 \RequirePackage{environ}
 \RequirePackage{multimedia}
+\RequirePackage{tabularx,array,ragged2e}
 \RequirePackage[export]{adjustbox}
 \RequirePackage{comment}
 \RequirePackage{transparent}
@@ -169,7 +175,9 @@
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.15}
 \usepgfplotslibrary{patchplots}
+\usepgfplotslibrary{colormaps}
 \usetikzlibrary{backgrounds}
+\usetikzlibrary{pgfplots.colormaps}
 
 %\usepackage{xspace}
 
@@ -205,6 +213,8 @@
 %web colors
 \definecolor{webredbright}{RGB}{221,39,39}
 \definecolor{webreddark}{RGB}{181,28,28}
+\definecolor{webbluebright}{RGB}{39,66,117}
+\definecolor{webbluedark}{RGB}{0,37,87}
 
 %sins colors
 \definecolor{mathnaturebright}{cmyk/RGB}{0.65,0,1,0/106,176,35}
@@ -213,7 +223,7 @@
 \definecolor{architectureenvironmentbright}{cmyk/RGB}{0.8,0,0.4,0/0,171,164}
 \definecolor{architectureenvironmentdark}{cmyk/RGB}{1,0.1,0.4,0.15/0,129,139}
 
-\definecolor{engineeringbright}{cmyk/RGB}{0.85,0.1,0.5,0/0,161,213}
+\definecolor{engineeringbright}{cmyk/RGB}{0.85,0.1,0.05,0/0,161,213}
 \definecolor{engineeringdark}{cmyk/RGB}{1,0.2,0.05,0.2/0,119,173}
 
 \definecolor{humansocialbright}{cmyk/RGB}{0.05,0.9,0,0/221,46,135}
@@ -499,13 +509,13 @@
 % language settings
 %
 % predefined symbols
-\newcommand*{\englishnames}{%
+\newcommand*{\englishvocabulary}{%
     \newcommand*{\tud@vocslide}{slide}
     \newcommand*{\tud@vocof}{of}
     \newcommand*{\tud@vocpart}{Part}
     \newcommand*{\tud@vocagenda}{Agenda}
 }
-\newcommand*{\germannames}{%
+\newcommand*{\germanvocabulary}{%
     \newcommand*{\tud@vocslide}{Folie}
     \newcommand*{\tud@vocof}{von}
     \newcommand*{\tud@vocpart}{Teil}
@@ -669,7 +679,27 @@
     commentstyle=\color{tudgray},
     stringstyle=\ttfamily\color{emph1_1},
     identifierstyle=\color{emph2_2},
-    framexleftmargin=1.5em%,%
+    framexleftmargin=1.5em,%
+    inputencoding=utf8,%
+    extendedchars=true,%
+    literate=%
+        {€}{\euro}1%
+        {§}{\S}1%
+        {°}{\textdegree{}}1%
+        {ä}{{\"a}}1%
+        {ö}{{\"o}}1%
+        {ü}{{\"u}}1%
+        {ß}{{\ss}}1%
+        {Ä}{{\"A}}1%
+        {Ö}{{\"O}}1%
+        {Ü}{{\"U}}1%
+        {µ}{\textmu}1%
+        {¹}{{\textsuperscript{1}}}1%
+        {²}{{\textsuperscript{2}}}1%
+        {³}{{\textsuperscript{3}}}1%
+        {¼}{\textonequarter}1%
+        {½}{\textonehalf}1%
+        {¢}{\textcent}1%
     %style=tudListing%
 }%
 
@@ -805,7 +835,7 @@
 \newcommand{\drawTikzColorBackground}[3][tud]{%
     \typeout{drawingbackground style: #1, width: \number#2, height: \number#3}%
     \ifthenelse{\equal{#1}{tud}}{%
-        \if@draftMode%
+        \ifdraftMode%
             \fill[hks41] (0,0) rectangle (#2,#3);%
         \else%
             % \ifstrempty{#4}{\def\boxname{saveboxnone}}{\def\boxname{savebox#4}}%
@@ -1050,6 +1080,7 @@
     \setTUDHeadlineTemplates%
     \setTUDFooterTemplates%
     \setTitleBodyTemplates%
+    \tud@settingsOverride%
 }%
 \newcommand{\setDefaultFrameTemplates}{%
     \setDefaultBeamerFonts%
@@ -1057,42 +1088,40 @@
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     \setDefaultBodyTemplates%
+    \tud@settingsOverride%
 }%
 \newcommand{\setDesignFrameTemplates}{%    
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     %\setDefaultBodyTemplates%
     \setDesignFrameBodyTemplates%
+    \tud@settingsOverride%
 }%
 \newcommand{\setPartFrameTemplates}{%
     \setStructureFrameFonts%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
-    \setPartFrameBodyTemplates%    
+    \setPartFrameBodyTemplates% 
+    \tud@settingsOverride%   
 }%
 \newcommand{\setSectionFrameTemplates}{%
     \setStructureFrameFonts%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
-    \setSectionFrameBodyTemplates%      
+    \setSectionFrameBodyTemplates%    
+    \tud@settingsOverride%  
 }%
 \newcommand{\setFinalFrameTemplates}{%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
     \setStructureFrameFonts%
     \setDesignFrameBodyTemplates%
+    \tud@settingsOverride%
 }%
 
 %
 % environments for special frames
 %
-% \newenvironment{backmatterframe}[1][]{
-%     \addtocounter{backmatterframes}{1}
-%     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
-%     \setbackmattertemplates
-% }{
-%     \end{frame}\setDefaultFrameTemplates
-% }
 \NewEnviron{backmatterframe}[1][]{%
     \def\frameOptions{#1}%
     \addtocounter{backmatterframes}{1}%
@@ -1201,6 +1230,14 @@
 \newcommand<>\tud@frametitlea{\gdef\frame@title@section{\ifnum\c@section>9\else0\fi\arabic{section}\,\,}\alt#1{\@dblarg\beamer@@frametitle}{\beamer@gobbleoptional}}%
 \newcommand<>\tud@frametitles{\gdef\frame@title@section{}\alt#1{\@dblarg\beamer@@frametitle}{\beamer@gobbleoptional}}%
 
+\newcommand{\restoreDefaultSettings}{%
+    \setDefaultBeamerFonts%
+    \setdefaultcolors%
+    \setAuxilliaryBeamerTemplates%
+    \scriptsize%
+    \setDefaultFrameTemplates%
+}%
+
 % set language
 \AtBeginDocument{%
     \ifx\@undefined\if@german%        
@@ -1220,22 +1257,19 @@
                 \ifnum2<\language\selectlanguage{german}\fi % deutsch gewuenscht, aber andere Sprache eingestellt ??  =>  deutsch
                 \ifnum2>\language\selectlanguage{german}\fi %
             \fi                                             %
-            \germannames                                    %
+            \germanvocabulary                                    %
             \def\today{\number\day.\number\month.\number\year}  % Datum im Format DD.MM.YYYY
         \else                                               %
 %
             \ifx\@undefined\language\else                   %
                 \ifnum0<\language\selectlanguage{english}\fi% englisch gewuenscht, aber andere Sprache eingestellt ??  =>  englisch
             \fi                                             %
-            \englishnames                                   %
+            \englishvocabulary                                   %
             \def\today{\number\year/\number\month/\number\day}  % Datum im Format YYYY/MM/DD
         \fi%       
                                           %
     \fi%   
-    \setDefaultBeamerFonts%
-    \setdefaultcolors%
-    \setAuxilliaryBeamerTemplates%
-    \scriptsize%
+    \restoreDefaultSettings
     \makeatother%
     \mode<handout:0>{
         \hypersetup{
@@ -1257,8 +1291,13 @@
             pdftitle=\inserttitle,%
             pdfauthor=\insertauthor,%
             pdfsubject=\inserttitle%
-        } 
-    }
+        }% 
+    }%
+    \pgfplotsset{%
+        colormap={tudplot}{%
+            color(0cm) = (hks41);%
+            color(1cm) = (hks44) }%
+    }%
 }%
 
 \AtEndDocument{%
