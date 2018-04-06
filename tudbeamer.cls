@@ -1,6 +1,6 @@
 %
 % Praesentationsfolien-Klasse fuer die TU Dresden
-% Autoren: Lukas Baron, Klaus Bergmann
+% Autoren: Lukas Baron
 %
 \def\fileversion{1}
 \def\filedate{2018/02/05}
@@ -66,9 +66,6 @@
 %
 % additional settings
 %
-\newcommand*\tud@affiliation{}
-\newcommand*\tud@affiliationshort{}
-\newcommand*{\affiliation}[2][]{\renewcommand*{\tud@affiliation}{#2}\ifx\@empty#1\renewcommand{\tud@affiliationshort}{#2}\else\renewcommand{\tud@affiliationshort}{#1}\fi}
 \newcommand*{\datecity}[1]{\renewcommand*{\insertdatecity}{#1}}
 
 \newcommand*\tud@additionallogo{}
@@ -155,6 +152,7 @@
 \RequirePackage[bse=none]{pdfcomment}
 
 \RequirePackage{MnSymbol}
+\RequirePackage{amsmath}
 
 \RequirePackage[absolute,overlay]{textpos}
 \setlength{\TPHorizModule}{1cm}
@@ -249,6 +247,8 @@
 \colorlet{designbarborder}{gray}
 \newcommand{\designbaropacity}{0.5}
 
+\colorlet{footerlogo}{hks41}
+
 %\colorlet{text}{hks41}
 %\colorlet{footertext}{hks41}
 
@@ -256,9 +256,9 @@
 \colorlet{titletextbgtud}{white}
 \colorlet{titletextbgdesign}{white}
 
-\colorlet{titleaffiliationtextbgwhite}{hks41}
-\colorlet{titleaffiliationtextbgtud}{white}
-\colorlet{titleaffiliationtextbgdesign}{hks92}
+\colorlet{titleinstitutetextbgwhite}{hks41}
+\colorlet{titleinstitutetextbgtud}{white}
+\colorlet{titleinstitutetextbgdesign}{hks92}
 
 \colorlet{titledatecitytextbgwhite}{hks41}
 \colorlet{titledatecitytextbgtud}{white}
@@ -267,7 +267,6 @@
 % \colorlet{frametitletext}{hks41}
 % \colorlet{framesubtitletext}{hks92!125}
 
-\colorlet{blockbg}{hks41!70}
 
 %alternative color names
 \colorlet{tudblue}{hks41}%
@@ -290,14 +289,30 @@
 \colorlet{emphorange}{hks07}%
 \colorlet{alert}{hks07}%
 
+\colorlet{blockbg}{hks41}%
+\colorlet{blockbgexample}{hks92}%
+\colorlet{blockbgalert}{hks07}%
+\colorlet{blockbgproof}{hks57}%
+
 \newcommand{\setBeamerColors}{%
-    \setbeamercolor{normal text}{fg=text,bg=white}%
+    \setbeamercolor{normal text}{fg=text}%
     \setbeamercolor{structure}{fg=text}%
     \setbeamercolor{alerted text}{fg=hks07}%
     \setbeamercolor{frametitle}{fg=frametitletext}%
     \setbeamercolor{framesubtitle}{fg=framesubtitletext}%
-    \setbeamercolor{block title}{bg=blockbg,fg=white}%
-    \setbeamercolor{block body}{bg=blockbg!80}%
+
+    \setbeamercolor{block title}{bg=blockbg!60,fg=white}%
+    \setbeamercolor{block body}{bg=blockbg!10,fg=text}%
+
+    \setbeamercolor{block title example}{bg=blockbgexample!60,fg=white}%
+    \setbeamercolor{block body example}{bg=blockbgexample!10,fg=text}%
+
+    \setbeamercolor{block title alerted}{bg=blockbgalert!60,fg=white}%
+    \setbeamercolor{block body alerted}{bg=blockbgalert!20,fg=text}%
+
+    % \setbeamercolor{block title proof}{bg=blockbgproof!60,fg=white}%
+    % \setbeamercolor{block body proof}{bg=blockbgproof!20,fg=blockbgproof}%
+
     \setbeamercolor{footline}{fg=footertext}%
     \setbeamercolor{enumerate item}{fg=text}%
     \setbeamercolor{itemize item}{fg=text}%
@@ -305,31 +320,43 @@
     \setbeamercolor{item}{fg=text}%
     \setbeamercolor{item projected}{fg=text}%
     \setbeamercolor{example text}{fg=text}%
+
+    \setbeamercolor{button}{fg=white,bg=hks41!60}
+    \setbeamercolor{button border}{fg=hks41}
 }
 
 \newcommand{\setTitleTextColors}[1]{%
     \typeout{titletextstyle: #1}%
+
+    \colorlet{titletext}{titletextbgwhite}%
+    \colorlet{titleinstitutetext}{titleinstitutetextbgwhite}%
+    \colorlet{titledatecitytext}{titledatecitytextbgwhite}%
+
     \ifthenelse{\equal{#1}{tud}}{%
         \colorlet{titletext}{titletextbgtud}%
-        \colorlet{titleaffilitationtext}{titleaffiliationtextbgtud}%
+        \colorlet{titleinstitutetext}{titleinstitutetextbgtud}%
         \colorlet{titledatecitytext}{titledatecitytextbgtud}%
-    }{%
-        \ifthenelse{\equal{#1}{hks41}}{%
-            \colorlet{titletext}{titletextbgtud}%
-            \colorlet{titleaffilitationtext}{titleaffiliationtextbgtud}%
-            \colorlet{titledatecitytext}{titledatecitytextbgtud}%
-        }{%
-           \ifthenelse{\equal{#1}{design}}{%
-                \colorlet{titletext}{titletextbgdesign}%
-                \colorlet{titleaffilitationtext}{titleaffiliationtextbgdesign}%
-                \colorlet{titledatecitytext}{titledatecitytextbgdesign}%
-            }{%
-                \colorlet{titletext}{titletextbgwhite}%
-                \colorlet{titleaffilitationtext}{titleaffiliationtextbgwhite}%
-                \colorlet{titledatecitytext}{titledatecitytextbgwhite}%
-            }% 
-        }%
-    }%
+    }{}%
+    \ifthenelse{\equal{#1}{hks41}}{%
+        \colorlet{titletext}{titletextbgtud}%
+        \colorlet{titleinstitutetext}{titleinstitutetextbgtud}%
+        \colorlet{titledatecitytext}{titledatecitytextbgtud}%
+    }{}%
+    \ifthenelse{\equal{#1}{tudblue}}{%
+        \colorlet{titletext}{titletextbgtud}%
+        \colorlet{titleinstitutetext}{titleinstitutetextbgtud}%
+        \colorlet{titledatecitytext}{titledatecitytextbgtud}%
+    }{}%
+    \ifthenelse{\equal{#1}{primary}}{%
+        \colorlet{titletext}{titletextbgtud}%
+        \colorlet{titleinstitutetext}{titleinstitutetextbgtud}%
+        \colorlet{titledatecitytext}{titledatecitytextbgtud}%
+    }{}%
+   \ifthenelse{\equal{#1}{design}}{%
+        \colorlet{titletext}{titletextbgdesign}%
+        \colorlet{titleinstitutetext}{titleinstitutetextbgdesign}%
+        \colorlet{titledatecitytext}{titledatecitytextbgdesign}%
+    }{}%
 }%
 \newcommand{\setBodyColors}[1]{%
     \ifthenelse{\equal{#1}{tud}}{%
@@ -347,17 +374,32 @@
         \colorlet{frametitletext}{white}%
         \colorlet{framesubtitletext}{white}%
     }{}%
-    \setBeamerColors%
+    \ifthenelse{\equal{#1}{tudblue}}{%
+        \colorlet{text}{white}%
+        \colorlet{frametitletext}{white}%
+        \colorlet{framesubtitletext}{white}%
+    }{}%
+    \ifthenelse{\equal{#1}{primary}}{%
+        \colorlet{text}{white}%
+        \colorlet{frametitletext}{white}%
+        \colorlet{framesubtitletext}{white}%
+    }{}%
+    \ifthenelse{\equal{#1}{white}}{%
+        \colorlet{text}{hks41}%
+        \colorlet{frametitletext}{hks41}%
+        \colorlet{framesubtitletext}{hks92!125}%
+    }{}%
+    \setBeamerColors%    
+    \usebeamercolor[fg]{normal text}%
+    \color{text}%
 }%
 
 \newcommand{\setDefaultColors}{%
     %TODO eval class options%
 %
-    \colorlet{text}{hks41}%hks41
-    \colorlet{frametitletext}{hks41}%hks41
-    \colorlet{framesubtitletext}{hks92!125}%hks92!125
+    \setTitleTextColors{\tud@titlestyle}%
     \colorlet{footertext}{hks92}%hks92
-    \colorlet{blockbg}{hks41!70}%hks41!70
+    \setBodyColors{white}%
 %
     \mode<handout>{%
         \colorlet{text}{black}%
@@ -368,10 +410,11 @@
         \colorlet{footerbg}{bgwhite}%
         \colorlet{footertext}{gray}%
         \colorlet{titlebg}{white}%
-        \colorlet{blockbg}{gray}%
+        \colorlet{footerlogo}{gray}%
+        \setBeamerColors%
+        \usebeamercolor[fg]{normal text}%
+        \color{text}%
     }%
-    \setTitleTextColors{\tud@titlestyle}%
-    \setBeamerColors%
 }
 
 %
@@ -415,6 +458,7 @@
     \setbeamerfont{date}{size=\small,series=,family=\fontfamily{\familydefault}}
     \setbeamerfont{footline}{size=\tiny,series=,family=\fontfamily{\familydefault}}
     \setbeamerfont{headline}{size=\tiny,series=,family=\fontfamily{\familydefault}}
+    \setbeamerfont{caption}{size=\scriptsize}
 }
 \newcommand\setStructureFrameFonts{
     \setbeamerfont{frametitle}{size=\LARGE,series=\bfseries,family=\fontfamily{\familydefault}}
@@ -500,7 +544,8 @@
     \SetMathAlphabet\mathbf{bold}{T1}{fos}{b}{n}
     \DeclareMathAlphabet\mathit{T1}{fos}{l}{sl}
     \SetMathAlphabet\mathit{bold}{T1}{fos}{l}{sl}
-    
+    %\DeclareMathSizes{\f@size}{12}{12}{10}
+
     \let\operator@font\sf
 \fi
 \usefonttheme[onlymath]{serif}
@@ -570,7 +615,7 @@
 
 \newlength{\titley}
 \newlength{\subtitley}
-\newlength{\authoraffiliationy}
+\newlength{\authorinstitutey}
 \newlength{\titledatey}
 
 \newlength{\frametitley}
@@ -619,7 +664,7 @@
 \setlength{\titley}{0.4945\beamer@paperheight}
 \setlength{\subtitley}{0.6206\beamer@paperheight}
 \setlength{\titledatey}{0.7706\beamer@paperheight}
-\setlength{\authoraffiliationy}{0.3533\beamer@paperheight}
+\setlength{\authorinstitutey}{0.3533\beamer@paperheight}
 
 \setlength{\frametitley}{0.0504\beamer@paperheight}
 \setlength{\framesubtitley}{0.12756\beamer@paperheight}
@@ -660,6 +705,35 @@
     \setbodydefaultdimensions%
     \setlength{\bodyheight}{\beamer@paperheight-\bodyy}%
    %\setbeamerdimensions
+}%
+
+%
+% fixing buttons
+%
+\let\originalbeamerbutton\beamerbutton
+\let\originalbeamergotobutton\beamergotobutton
+\let\originalbeamerreturnbutton\beamerreturnbutton
+\let\originalbeamerskipbutton\beamerskipbutton
+
+\renewcommand\beamerbutton[1]{%    
+    \raisebox{-0.2ex}{%
+        \originalbeamerbutton{#1}%
+    }%
+}%
+\renewcommand\beamergotobutton[1]{%    
+    \raisebox{-0.2ex}{%
+        \originalbeamergotobutton{#1}%
+    }%
+}%
+\renewcommand\beamerreturnbutton[1]{%    
+    \raisebox{-0.2ex}{%
+        \originalbeamerreturnbutton{#1}%
+    }%
+}%
+\renewcommand\beamerskipbutton[1]{%    
+    \raisebox{-0.2ex}{%
+        \originalbeamerskipbutton{#1}%
+    }%
 }%
 
 %
@@ -731,6 +805,20 @@
 \newcommand*{\insertdatecity}{Dresden}%
 \newcommand*{\inserttotalpagenumber}{\textbf{??}}%
 
+\newcommand*{\setNavigationSymbolTemplate}{%
+    \if@useNavBar
+        \setbeamertemplate{navigation symbols}{%
+            \insertslidenavigationsymbol%
+            \insertframenavigationsymbol%
+            \insertsubsectionnavigationsymbol%
+            \insertsectionnavigationsymbol%
+            \insertdocnavigationsymbol%
+            \insertbackfindforwardnavigationsymbol%
+        }%
+    \else%
+        \setbeamertemplate{navigation symbols}{}\fi% Nav-Leiste aus
+}
+
 \newcommand{\setAuxilliaryBeamerTemplates}{%
     %TODO
     %\setbeamertemplate{items}{\color{text}--}%
@@ -741,12 +829,7 @@
     \setbeamertemplate{itemize items}{--}%
     %
     % Templates
-    \if@useNavBar\else\setbeamertemplate{navigation symbols}{}\fi% Nav-Leiste aus
-    %
-    % \setbeamertemplate{itemize body begin}{\color{text}}%
-    % \setbeamertemplate{enumerate body begin}{\color{text}}%
-
-
+    \setNavigationSymbolTemplate%
     %
     % footnotes
     %
@@ -761,6 +844,34 @@
     \setlength\footnotesep{0pt}%
     \let\origfootnoterule\footnoterule%
     \renewcommand\footnoterule{\origfootnoterule\vskip3.5pt}%
+
+    %
+    % captions
+    %
+    \setbeamertemplate{caption}[numbered]%
+    \setlength\abovecaptionskip{2pt}%
+    % {%
+    %     \insertcaptionname\ \insertcaptionnumber: \insertcaption Test
+    % }
+
+    %
+    % blocks
+    %
+    %\addtobeamertemplate{block title end}{\vskip-1ex}
+
+    %
+    % buttons
+    %
+    % \setbeamertemplate{button}{%
+    %     \tikz
+    %         \node[
+    %             %inner xsep=10pt,
+    %             draw=structure!100,
+    %             fill=structure!80,
+    %             %rounded corners=4pt
+    %         ]%
+    %         {\scriptsize\color{white}\insertbuttontext};%
+    % }
 }%
 
 \newcommand{\setTitleHeadlineTemplates}{%
@@ -778,20 +889,19 @@
     }%
 }%
 \newcommand{\setTitleFooterTemplates}{%
-    \typeout{===============set footline title templates}%
     \setbeamertemplate{footline}{%
-        \typeout{===============print footline title templates}%
     }%
 }%
 \newcommand{\setFrameHeadlineTemplates}{%
-    \setbeamertemplate{headline}{ }%  
+    \setbeamertemplate{headline}{
+        \usebeamercolor[fg]{normal text}%
+        \color{text}%
+    }%  
 }%
 %sets the footerheight via patching a command in the beamerclass, since no other way was found
 \patchcmd{\beamer@calculateheadfoot}{\advance\footheight by 4pt}{\setlength{\footheight}{\footerheight+2pt}}{}{}%
 \newcommand{\setFrameFooterTemplates}{%
-    \typeout{===============set footline default templates}%
     \setbeamertemplate{footline}{%
-        \typeout{===============print footline default templates}%
         %\fontsize{\footerheight}{\footerheight}\selectfont\vskip-2ex test\newline test2\newline\strut%
         %\scriptsize%
         \usebeamerfont{footline}%
@@ -804,18 +914,18 @@
         \end{textblock*}%
         \setlength{\templength}{\beamer@paperwidth/2-\tudlogofooterx}%
         \begin{textblock*}{\templength}(\tudlogofooterx,\tudlogofootery)%
-            \color{text}\includegraphics[height=\tudlogofooterheight]{\tud@logofile}%
+            \color{footerlogo}\includegraphics[height=\tudlogofooterheight]{\tud@logofile}%
         \end{textblock*}%
         \ifx\tud@additionallogofooter\@empty\else%
             \begin{textblock*}{\templength}(\addlogofooterxright-\templength,\addlogofootery)%
-                \color{text}%
+                \color{footerlogo}%
                 \raggedleft\includegraphics[height=\addlogofooterheight]{\tud@additionallogofooter}%
             \end{textblock*}%
         \fi%
         \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
             \fontsize{6pt}{6.5pt}\selectfont\strut\color{footertext}\insertshorttitle\newline%\vskip.4ex%%\newline
-            \fontsize{6pt}{6.5pt}\selectfont\strut\tud@affiliationshort%
-                \ifx\tud@affiliationshort\@empty\else\ifx\beamer@shortauthor\@empty\else\,/\,\fi\fi%
+            \fontsize{6pt}{6.5pt}\selectfont\strut\insertshortinstitute%\tud@affiliationshort%
+                \ifx\insertshortinstitute\@empty\else\ifx\beamer@shortauthor\@empty\else\,/\,\fi\fi%
                 \insertauthor\newline%\vskip.7ex%
             \fontsize{6pt}{6.5pt}\selectfont\strut\insertdatecity%
             \color{text}%
@@ -827,13 +937,11 @@
             \color{text}%
             \usebeamercolor[fg]{normal text}%
         \end{textblock*}%
-        %\vspace*{-\footerheight}%
-        %\begin{beamercolorbox}[ht=\footerheight,wd=\beamer@paperwidth,dp=\footerheight]{red}%
-        %test
-        %\end{beamercolorbox}%
-        %\vspace*{\footerheight}%
         \usebeamercolor[fg]{normal text}%
+        \color{text}%
     }%
+    \usebeamercolor[fg]{normal text}%
+    \color{text}%
 }%
 %\newsavebox\saveboxnone%
 %drawTikzBackground[mode]{width}{height}{savebox name}
@@ -873,10 +981,6 @@
 }%
 \newcommand*{\storecurrposy}[1]{%
      \zsavepos{#1}%
-     % (\zposx{#1}sp, \zposy{#1}sp) =
-     %(\the\dimexpr\zposx{#1}sp\relax, 
-     %\the\dimexpr\zposy{#1}sp\relax%
-     %)%
 }%
 \newcommand*{\getcurrposy}[1]{%
     \dimexpr\zposy{#1}sp\relax%
@@ -892,34 +996,27 @@
                 \hspace*{-.05\beamer@paperwidth}\fillgraphicbox{\templengthb}{\templength}{\tud@designImage}%
             }%   
             \transparent{\designbaropacity}%
-            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(-1.05\beamer@paperwidth,\beamer@paperheight)}]%current page.north west)]
-                %\begin{scope}%
+            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(-1.05\beamer@paperwidth,\beamer@paperheight)}]
                    \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
-                %\end{scope}%
             \end{tikzpicture}%
             \transparent{1}%
         }{%
-            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,-\the\beamer@paperheight+0cm)}]%+1cm)}]%current page.north west)]
-                %\pgfplotset{width=\the\beamer@paperwidth,height=\the\beamer@paperheight};  
+            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,-\the\beamer@paperheight+0cm)}]
                 \setlength\templength{\beamer@paperheight-\designbary}%              
                 \drawTikzColorBackground[\tud@titlestyle]{\beamer@paperwidth}{\templength}%
                 \pgfresetboundingbox%
             \end{tikzpicture}%
         }%
         \ifthenelse{\equal{\tud@titlestyle}{white}}{%
-            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]%current page.north west)]
-                %\begin{scope}%
+            \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]
                     \draw[line width=\the\designbarborderwidth,designbarborder] (0,-\the\designbary)--(\the\beamer@paperwidth,-\the\designbary);%
                     \draw[line width=\the\designbarborderwidth,designbarborder] (0,-\the\designbary-\the\designbarheight)--(\the\beamer@paperwidth,-\the\designbary-\the\designbarheight);%
-                %\end{scope}%
             \end{tikzpicture}%
         }{%   
             \ifthenelse{\equal{\tud@titlestyle}{design}}{}{%         
                 \transparent{\designbaropacity}%
-                \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]%current page.north west)]
-                    %\begin{scope}%
+                \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]
                        \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
-                    %\end{scope}%
                 \end{tikzpicture}%
                 \transparent{1}%  
             }%
@@ -927,12 +1024,12 @@
     }%
     \setbeamertemplate{title page}{%
         \setlength{\templength}{\beamer@paperwidth-\textborderleft-\textborderright}%
-        %affiliation
-        \begin{textblock*}{\templength}(\textborderleft,\authoraffiliationy)%
+        %institute
+        \begin{textblock*}{\templength}(\textborderleft,\authorinstitutey)%
           \usebeamerfont{author}%
-          \color{titleaffilitationtext}\insertauthor\ifx\beamer@shortauthor\@empty\else\\\fi%
+          \color{titleinstitutetext}\insertauthor\ifx\beamer@shortauthor\@empty\else\\\fi%
           \usebeamerfont{institute}%
-          \tud@affiliation%
+          \insertinstitute%
         \end{textblock*}%
         %title
         \begin{textblock*}{\templength}(\textborderleft,\titley)%
@@ -944,9 +1041,6 @@
                 \vskip1.0ex%
                 \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
             }{}%
-          %\setlength{\templengthb}{\widthof{\parbox{\templength}{\inserttitle}}}%
-          %\currposy{afterTitle}%
-          %\setlength{\templengthb}{\getcurrposy{afterTitle}}%
         \end{textblock*}%
         %subtitle
         \setlength{\templengthb}{\beamer@paperheight-\getcurrposy{afterTitle}}%
@@ -958,12 +1052,6 @@
         \begin{textblock*}{\templength}(\textborderleft,\titledatey)%
           \usebeamerfont{date}%
           \color{titledatecitytext}\insertdatecity%
-          %\setlength{\templength}{\widthof{\inserttitle}}%
-          %%\\ length: \the\templengthb%
-          % \\ pos: \the\getcurrposy{afterTitle}%
-          % \\ invert: \the\templengthb%
-          % \\ maxlength: \the\templength%
-          % \\ title y: \the\titley, subtitle y: \the\subtitley%
         \end{textblock*}%
     }%
 }%
@@ -1022,11 +1110,12 @@
         \usebeamerfont{frametitle}\vskip3.5mm
         \color{frametitletext}\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle%\\%
         \ifx\insertframesubtitle\@empty\else\usebeamerfont{framesubtitle}\color{framesubtitletext}\newline\vskip-3.5mm\insertframesubtitle\fi%
-        %\vskip-1.5ex%\newline\fi%\vskip.5ex%
+        %\vskip-1.5ex%\newline\fi%\vskip.5ex%  
         \usebeamercolor[fg]{normal text}%
+        \color{text}%
     }%
-    \color{text}%
     \usebeamercolor[fg]{normal text}%
+    \color{text}%
 }%
 \newcommand\@insertsectionframetitlewithouttoc{%  
     \usebeamerfont{title}\color{titletext}%
@@ -1082,10 +1171,10 @@
     %TODO adjust, in case there is a title
 }%
 \newcommand{\setTitleFrameTemplates}{%
-    \typeout{===============settitleframetemplates}%
     \setTitleHeadlineTemplates%
     \setTitleFooterTemplates%
     \setTitleBodyTemplates%
+    \setbeamertemplate{navigation symbols}{}%
     \tud@settingsOverride%
 }%
 \newcommand{\setDefaultFrameTemplates}{%
@@ -1118,10 +1207,11 @@
     \tud@settingsOverride%  
 }%
 \newcommand{\setFinalFrameTemplates}{%
+    \setStructureFrameFonts%
     \setFrameHeadlineTemplates%
     \setFrameFooterTemplates%
-    \setStructureFrameFonts%
-    \setDesignFrameBodyTemplates%
+    \setPartFrameBodyTemplates% 
+    \setBodyColors{\tud@structurestyle}%
     \tud@settingsOverride%
 }%
 
@@ -1157,26 +1247,9 @@
     \setDefaultFrameTemplates%
 }%
 
-
-% \newenvironment{partframe}[1][]{    
-%     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
-%     \setregardtemplates
-% }{
-%     \end{frame}\setDefaultFrameTemplates
-% }
-
-% \newenvironment{sectionframe}[1][]{
-%     \ifx#1\empty\begin{frame}\else\begin{frame}[#1]\fi
-%     \setregardtemplates
-% }{
-%     \end{frame}\setDefaultFrameTemplates
-% }
-
-
 %
 % document commands and hooks
 %
-
 \AtEndPreamble{%
     \setbodydefaultdimensions%
     \setbeamerdimensions%
@@ -1184,9 +1257,9 @@
 }%
 
 \renewcommand\maketitle{%
-    \typeout{===============maketitle}%
     \setTitleFrameTemplates%
     \frame{\titlepage}%
+    \setNavigationSymbolTemplate%
     %
     %table of contents
     \if@useTOCFrame
