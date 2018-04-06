@@ -1,28 +1,35 @@
 %!TEX spellcheck = de
-\documentclass[german,notoc,titlestyle=tud,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
-	%,titlestyle=white,structurestyle=white
+\documentclass[german,notoc,draft]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 
 \input{shortcuts} 
 \bibliography{bibliography.bib}
 
-\usepackage{pgf-pie}
+% Einstellungen für Beispielfolien
+	% Einpinden des pgf-pie package für Tortendiagramme
+	\usepackage{pgf-pie}
 
-\lstdefinestyle{latex}{
-	language=[LaTeX]TeX,
-	moredelim=*[s][]{\{}{\}},
-	%moredelim=*[s][]{\[}{\]},
-	moredelim=*[is][\color{emph2_3}]{*n}{*},
-	moretexcs={setDesignImage,frametitle},
-	moredelim=*[is][stringstyle]{*s}{*},
-	moredelim=*[is][\color{emph2_3}]{*e}{*},
-	moredelim=*[s][\color{emph2_4}]{<}{>}
-}
+	% Ergänzen des Latex-Styles für spezielle hervorhebungen in Listings
+	\lstdefinestyle{latex}{
+		language=[LaTeX]TeX,
+		moredelim=*[s][]{\{}{\}},
+		%moredelim=*[s][]{\[}{\]},
+		moredelim=*[is][\color{emph2_3}]{*n}{*},
+		moretexcs={setDesignImage,frametitle,movie},
+		moredelim=*[is][stringstyle]{*s}{*},
+		moredelim=*[is][\color{emph2_3}]{*e}{*},
+		moredelim=*[s][\color{emph2_4}]{<}{>}
+	}
 
+	%Für das Formelbeispiel
+	\DeclareMathOperator{\Div}{div}
+	\DeclareMathOperator{\Rot}{rot}
+
+%Präambelbefehle für die Präsentation
 \title[TUD Beamer]{Die TUD Beamerklasse}
 \subtitle{Hinweise zur Verwendung}
 \author{Lukas Baron}
 \datecity{Dresden, Feb. 2018}
-\affiliation[ET-IT \textbullet{} IfA]{Fakultät Elektrotechnik und Informationstechnik \textbullet{} Institut für Automatisierungstechnik}
+\institute[ET-IT \textbullet{} IfA]{Fakultät Elektrotechnik und Informationstechnik \textbullet{} Institut für Automatisierungstechnik}
 \setAdditionalLogo{IfA_logo_blau}
 \setDesignImage{pics/DesignFrameTest_1}
 
@@ -55,10 +62,8 @@
 		\item Im Uninetz verfügbar im \href{%
 				https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides%
 			}{%
-				\raisebox{-0.3ex}{%
-					\beamergotobutton{AG-Tele GitLab%
-						\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides}}%
-					}%
+				\beamergotobutton{AG-Tele GitLab%
+					\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides}}%
 				}%
 			}
 	\end{itemize}
@@ -218,13 +223,13 @@
 			\end{lstlisting} 
 	\end{itemize}
 \end{frame}
-\begin{frame}[fragile]
+\begin{frame}
 	\frametitle{Klassenoptionen}
 	\framesubtitle{Sonstiges}
 	\begin{itemize}
 		\item \emph{noframetitlesectionnum}: Die Nummer der aktuellen Section erscheint nicht in den Folientiteln. Für einzelne Folien kann das Einfügen der Section-Nummer abgeschaltet werden per \texttt{\textbackslash frametitle*\{\dots\}}.
 		\item \emph{serifmath}: Für die Math-Umgebung wird eine Serifenschrift verwendet.
-		\item \emph{navbar}: {\color{alert} noch nicht implementiert} Es werden eine Reihe Navigationsbuttons in die Inhaltsfolien eingefügt.
+		\item \emph{navbar}: Es werden eine Reihe Navigationsbuttons in die Inhaltsfolien eingefügt.
 		\item \emph{progress}: {\color{alert} noch nicht implementiert} Der aktuelle Präsentationsfortschritt wird durch eine Leiste angezeigt.
 	\end{itemize}
 \end{frame}
@@ -238,7 +243,7 @@
 		\item \texttt{\textbackslash subtitle\{\dots\}}: Ein Untertitel der Präsentation. Erscheint nur auf der Titelfolie.
 		\item \texttt{\textbackslash author\{\dots\}}: Der Name des oder der Vortragenden.
 		\item \texttt{\textbackslash datecity\{\dots\}}: Ort und Datum der Präsentation.
-		\item \texttt{\textbackslash affiliation[kurz]\{lang\}}: Organisationsname des oder der Vortragenden als Lang- und Kurzversion.
+		\item \texttt{\textbackslash institute[kurz]\{lang\}}: Organisationsname des oder der Vortragenden als Lang- und Kurzversion. In der Langversion mehrere Institute per \texttt{\textbackslash and} trennen und per \texttt{\textbackslash inst\{zähler\}} einleiten.
 	\end{itemize}
 	Folgende Befehle können auch wiederholt zwischen Frames im Dokument verwendet werden:
 	\begin{itemize}
@@ -433,7 +438,7 @@
 	\frametitle{CD Farben}
 	\framesubtitle{Auszeichnungsfarben 1. Kategorie}
 
-	\begin{columns}[t]
+	\begin{columns}[T]
 		\begin{column}{.4\textwidth}%
 			\setbeamercolor{colorbox}{fg=white,bg=emphblue}%
 			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
@@ -485,8 +490,8 @@
 	\frametitle{CD Farben}
 	\framesubtitle{Auszeichnungsfarben 2. Kategorie}
 
-	\begin{columns}[t]
-		\begin{column}{.2\textwidth}%
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.19\textwidth}%
 			\setbeamercolor{colorbox}{fg=white,bg=emphbrightgreen}%
 			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
 				\centering `emphbrightgreen',\\ `hks65' oder\\ `emph2\textunderscore1'
@@ -508,7 +513,7 @@
 				\centering 20\%
 		    \end{beamercolorbox}
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+		\begin{column}{.19\textwidth}%
 			\setbeamercolor{colorbox}{fg=white,bg=emphgreen}%
 			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
 				\centering `emphgreen',\\ `hks57' oder\\ `emph2\textunderscore2'
@@ -530,7 +535,7 @@
 				\centering 20\%
 		    \end{beamercolorbox}
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+		\begin{column}{.19\textwidth}%
 			\setbeamercolor{colorbox}{fg=white,bg=emphpurple}%
 			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
 				\centering `emphpurple',\\ `hks33' oder\\ `emph2\textunderscore3'
@@ -552,7 +557,7 @@
 				\centering 20\%
 		    \end{beamercolorbox}
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+		\begin{column}{.19\textwidth}%
 			\setbeamercolor{colorbox}{fg=white,bg=emphviolet}%
 			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
 				\centering `emphviolet',\\ `hks36' oder\\ `emph2\textunderscore4'
@@ -574,7 +579,7 @@
 				\centering 20\%
 		    \end{beamercolorbox}
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.2\textwidth}%
+		\begin{column}{.19\textwidth}%
 			\setbeamercolor{colorbox}{fg=white,bg=emphorange}%
 			\begin{beamercolorbox}[wd=0.9\textwidth,sep=1em]{colorbox}
 				\centering `emphorange',\\ `alert', `hks07'\\ oder `emph2\textunderscore5'\footnote[frame]{Dies Farbe ist nur äußerst selten einzusetzen}
@@ -706,17 +711,47 @@
 \section{Präsentationsinhalte}
 \subsection{Häufige Elemente}
 \begin{frame}[fragile]
+	\frametitle{Spalten}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
+			Die meisten Folien verwenden ein mehrspaltiges Layout. Dafür kann die \texttt{columns}-Umgebung verwendet werden, wie auch in dieser Folie:
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\begin{columns}[T,onlytextwidth]
+					\begin{column}{.475\textwidth}
+						% Text
+						% Listing
+					\end{column}
+					\begin{column}{.475\textwidth}
+						% Text
+					\end{column}
+			\end{columns}
+			\end{lstlisting} 
+		\end{column}
+		\begin{column}{.475\textwidth}
+			Wichtige Tips:
+			\begin{itemize}
+				\item die Option \texttt{onlytextwidth} verhindert, dass die Seitenränder überschritten werden.
+				\item Bei Problemen mit der Ausrichtung nach oben, kann die Option \texttt{T} anstelle eines \texttt{t} verwendet werden.
+				\item Die Spaltenbreiten sollten sich nie auf \texttt{1\textbackslash textwidth} summieren.
+				\item Es können auch mehrere \emph{columns}-Umgebungen hintereinander verwendet werden.
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
 	\frametitle{Grafiken}
 
-	\begin{columns}[T]
-		\begin{column}{.5\textwidth}
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
 			Einbinden einer Grafik per \texttt{\textbackslash includegraphics[Optionen]\{Pfad\}}:
 			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
 				\includegraphics[width=.8\textwidth]{pics/DesignFrameTest_1}
 			\end{lstlisting} 
 			Vektorgrafiken, z.\,B. SVG-Dateien, müssen vorher in PDFs umgewandelt werden. 
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}
+		\begin{column}{.475\textwidth}
 			\centering\includegraphics[width=.8\textwidth]{pics/DesignFrameTest_1}
 		\end{column}
 	\end{columns}
@@ -725,8 +760,8 @@
 \begin{frame}[fragile]
 	\frametitle{Plots}
 
-	\begin{columns}[T]
-		\begin{column}{.5\textwidth}
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
 			Die \emph{TikZ}\footnote[frame]{\url{https://www.ctan.org/pkg/pgf}} und \emph{PgfPlots}\footnote[frame]{\url{https://ctan.org/pkg/pgfplots}} Bibliotheken sind bereits in die Klasse eingebunden und können zum Plotten verwendet werden.
 			\begin{lstlisting}[gobble=8,style=latex]
 				\begin{tikzpicture} 
@@ -742,7 +777,7 @@
 				\end{tikzpicture}
 			\end{lstlisting} 
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}
+		\begin{column}{.475\textwidth}
 			\centering%
 			\begin{tikzpicture} 
 				\ifdraftMode
@@ -766,8 +801,8 @@
 \begin{frame}[fragile]
 	\frametitle{Diagramme}
 
-	\begin{columns}[T]
-		\begin{column}{.5\textwidth}
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
 			Diagramme können ebenfalls mit TikZ erstellt werden, hier ein Beispiel für ein Piechart:
 			\begin{lstlisting}[gobble=8,style=latex]
 				 % in die Prämbel einfügen
@@ -775,34 +810,32 @@
 				...
 				\adjustbox{max width=\textwidth}{
 					\begin{tikzpicture}[]
-						\pie [color={emphblue, 
-								emphgreen, emphblue!80, 
-								emphblue!60, emphblue!40, 
-								emphpurple}]{%
+						\pie [color={emphcyan!70, 
+								emphbrightgreen!60,
+								emphcyan!60,emphcyan!20,
+								emphpurple!70}]{%
 							46.6/Chrome,
 							24.6/Internet Explorer,
 							20.4/Firefox,
 							5.1/Safari,
-							1.3/Opera,
-							2.0/Other}
+							3.3/Other}
 					\end{tikzpicture}
 				}
 			\end{lstlisting} 
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}
+		\begin{column}{.475\textwidth}
 			\adjustbox{max width=\textwidth}{
 				\begin{tikzpicture}[]
 					\ifdraftMode
 						\draw (0,0) rectangle (\textwidth,4);
 
 					\else
-						\pie [color={emphblue, emphgreen, emphblue!80, emphblue!60, emphblue!40, emphpurple}]{%
+						\pie [color={emphcyan!70, emphbrightgreen!60, emphcyan!60, emphcyan!20, emphpurple!70}]{%
 							46.6/Chrome,
 							24.6/Internet Explorer,
 							20.4/Firefox,
 							5.1/Safari,
-							1.3/Opera,
-							2.0/Other}
+							3.3/Other}
 					\fi
 				\end{tikzpicture}
 			}
@@ -813,8 +846,8 @@
 \begin{frame}[fragile]
 	\frametitle{Listings}
 
-	\begin{columns}[T]
-		\begin{column}{.5\textwidth}
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
 			Quellcode-Listings\footnote[frame]{\url{https://www.ctan.org/tex-archive/macros/latex/contrib/listings/}}, können wie folgt eingefügt werden:
 			\begin{lstlisting}[gobble=8,style=latex,mathescape]
 				\begin{*nframe*}[fragile]
@@ -831,7 +864,7 @@
 
 			Der Frame muss zwingend auf \texttt{fragile} gesetzt werden.
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.5\textwidth}			
+		\begin{column}{.475\textwidth}			
 			\begin{lstlisting}[gobble=8,style=latex]
 				eine Zeile \LaTeX-Code
 				\begin{*nitemize*}
@@ -874,7 +907,213 @@
 			\end{tabularx}\caption{UIs in Anlagen}\end{table}
 		\end{column}
 	\end{columns}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Formeln}
 
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}[T]{.7\textwidth}
+			Formeln können mit Hilfe der \emph{math}-Umgebungen eingefügt werden:
+			\begin{lstlisting}[gobble=8,style=latex]				
+				\DeclareMathOperator{\Div}{div} % in der Präambel
+				\DeclareMathOperator{\Rot}{rot}
+
+				\begin{*nalign*} % in der Folie
+					\label{1}
+					\Rot\vec{E} &=-\frac{1}{c}\frac{\partial{\vec{B}}}{\partial t}\\
+					\label{2}
+					\Div\vec{B} &=0\\
+					\label{3}
+					\Rot\vec{B} &=\frac{1}{c}\frac{\partial {\vec{E}}}{\partial {t}}+\frac{4\pi}{c}\,\vec{j}\\
+					\label{4}
+					\Div\vec{E} &=4\pi\rho_{\varepsilon}
+				\end{*nalign*}
+			\end{lstlisting} 
+		\end{column}
+		\begin{column}[T]{.295\textwidth}
+			Die Maxwell'schen Gleichungen:
+			\normalsize
+			\begin{align}
+				\label{1}
+				\Rot\vec{E} &=-\frac{1}{c}\frac{\partial{\vec{B}}}{\partial t}
+				\\
+				\label{2}
+				\Div\vec{B} &=0
+				\\
+				\label{3}
+				\Rot\vec{B} &=\frac{1}{c}\frac{\partial {\vec{E}}}{\partial {t}}+\frac{4\pi}{c}\,\vec{j}
+				\\
+				\label{4}
+				\Div\vec{E} &=4\pi\rho_{\varepsilon}
+			\end{align}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Blöcke 1}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}[T]{.475\textwidth}
+			Das Hervorheben wichtiger Elemente und Aussagen ist mit den Block-Umgebungen möglich.
+			\begin{lstlisting}[gobble=8,style=latex]			
+				\begin{*nblock*}{*sEin Block*}
+					Ein Block mit einer wichtigen Aussage.
+				\end{*nblock*}
+				\begin{*nalertblock*}{*sEin Alertblock*}
+					Ein Block mit einer wichtigen Aussage.
+				\end{*nalertblock*}
+				\begin{*ntheorem*}[*sTesttheorem*]
+					Ein Satz. Es gibt auch die Umgebungen \texttt{corollary}, \texttt{fact}, \texttt{lemma}
+				\end{*ntheorem*}
+				\begin{*nproof*}[*sTestproof*]
+					Ein Beweis.
+				\end{*nproof*}
+			\end{lstlisting} 
+		\end{column}
+		\begin{column}[T]{.475\textwidth}
+			\begin{block}{Ein Block}
+				Ein Block mit einer wichtigen Aussage.
+			\end{block}
+			\begin{alertblock}{Ein Alertblock}
+				Ein Block mit einer wichtigen Aussage.
+			\end{alertblock}
+			\begin{theorem}[Testtheorem]
+				Ein Satz. Es gibt auch die Umgebungen \texttt{corollary}, \texttt{fact}, \texttt{lemma}
+			\end{theorem}
+			\begin{proof}[Testproof]
+				Ein Beweis.
+			\end{proof}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Blöcke 2}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}[T]{.475\textwidth}
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{*nexample*}[*sTestexample*]
+					Ein Beispiel.
+				\end{*nexample*}
+				\begin{*nexampleblock*}{*sTestexampleblock*}
+					Ein Beispiel.
+				\end{*nexampleblock*}
+				\begin{*ndefinition*}[*sTestdefinition*]
+					Eine Definition.
+				\end{*ndefinition*}
+			\end{lstlisting} 
+		\end{column}
+		\begin{column}[T]{.475\textwidth}
+			\begin{example}[Testexample]
+				Ein Beispiel.
+			\end{example}
+			\begin{exampleblock}{Testexampleblock}
+				Ein Beispiel.
+			\end{exampleblock}
+			\begin{definition}[Testdefinition]
+				Eine Definition.
+			\end{definition}
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Textauszeichnung}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
+			Weitere Textauszeichnung:
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{*nquote*}
+					Quoted Text
+				\end{*nquote*}
+				\begin{*nquotation*}
+					Quotation im Environment
+				\end{*nquotation*}
+				\begin{*nverse*}
+					Ein Vers.
+				\end{*nverse*}
+
+				\emph{hervorgehobener Text}\\
+				\texttt{inline Quelltext}\\
+				\alert{alarmierender Text}\\
+				\url{*shttp://tu-dresden.de*}
+			\end{lstlisting} 
+		\end{column}
+		\begin{column}{.475\textwidth}
+			\begin{quote}
+				Quoted Text
+			\end{quote}
+			\begin{quotation}
+				Quotation im Environment
+			\end{quotation}
+			\begin{verse}
+				Ein Vers.
+			\end{verse}
+
+			\emph{hervorgehobener Text}\\
+			\texttt{inline Quelltext}\\
+			\alert{alarmierender Text}\\
+			Eine URL: \url{http://tu-dresden.de}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile,label=buttonsnfootnotes]
+	\frametitle{Buttons und Fußnoten}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
+			Wenn Frames mit einem label versehen werden, können Links bzw. Beamer-Buttons verwendet werden, um dorthin zu navigieren:
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]				
+				\begin{*nframe*}[label=*sbuttonsnfootnotes*]
+			\end{lstlisting}
+			Ein Button kann wie folgt eingebaut werden:
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\hyperlink{movies}{\beamergotobutton{Movies}}
+			\end{lstlisting}
+			Ein Button zu einer Webseite:
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				\hyperlink{http://tu-dresden.de}{\beamergotobutton{TU-Dresden Homepage}}
+			\end{lstlisting}
+		\end{column}
+		\hspace{.05\textwidth}\begin{column}{.475\textwidth}
+			Der Button zu der Movie-Folie: \hyperlink{movies}{\beamergotobutton{Movies}}\\
+			Der Button zu einer Webseite: \hyperlink{http://tu-dresden.de}{\beamergotobutton{TU-Dresden Homepage}}\\
+			\vskip6ex
+			Fußnoten sind für Präsentationen i.\,d.\,R. nicht geeignet und sollten nur verwendet werden, wenn ein Handout oder eine digitale Kopie bereitgestellt wird.			
+			\begin{lstlisting}[gobble=8,style=latex,numbers=none]
+				Text in einer Column\footnote{engl. für Spalte}-Umgebung\footnote[frame]{Fußnote am Frameende}.
+			\end{lstlisting}
+			\vskip2ex
+			Das Ergebnis:\\
+			Text in einer Column\footnote{engl. für Spalte}-Umgebung\footnote[frame]{Fußnote am Frameende}.
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}[fragile,label=movies]
+	\frametitle{Movies}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}
+			Das Einbinden von Videos\footnote[frame]{per \emph{multimedia}-Package} ist zwar möglich, das Ergebnis hängt allerdings sehr vom verwendeten PDF-Viewer ab.
+			\begin{lstlisting}[gobble=8,style=latex]
+				\movie%
+					[label=space,width=\textwidth,externalviewer]{%
+						\includegraphics%
+							[width=1\textwidth]%
+							{*spics/movie-backup*}%
+					}%
+					{*spics/the-space-shuttle-rocket-launch.mp4*}
+			\end{lstlisting}
+			Daher sollte die Option \texttt{externalviewer} verwendet werden.
+		\end{column}
+		\begin{column}{.475\textwidth}
+		\movie[label=space,width=\textwidth,externalviewer]{\includegraphics[width=1\textwidth]{pics/movie-backup}}{pics/the-space-shuttle-rocket-launch.mp4}\\
+		{\tiny Quelle: \url{https://www.youtube.com/watch?v=m8d2Lxefb3c}, CC0-Lizenz}
+		\end{column}
+	\end{columns}
+
+	Zurück zu \hyperlink{buttonsnfootnotes}{\beamergotobutton{Buttons und Fußnoten}}.
 \end{frame}
 
 \subsection{Animationen}
@@ -922,6 +1161,7 @@
 				\includegraphics<2>[width=\textwidth]{*spics/Animation1*}%	
 				\includegraphics<3>[width=\textwidth]{*spics/Animation2*}%	
 			\end{lstlisting}
+			Wichtig ist das \%-Zeichen am Ende der Include-Anweiseung.
 		\end{column}
 		\hspace{-.05\textwidth}\begin{column}{.4\textwidth}	
 			\includegraphics<1>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation0}%	
@@ -936,7 +1176,12 @@
 
 \begin{frame}
 	\frametitle{Latex und Git}
-
+	\begin{itemize}
+		\item Da LaTeX hauptsächlich auf reinen Textdateien basiert, eignen sich die Quelldateien für die Versionierung, z.\,B. mit Git.
+		\item Damit Änderungen jeweils optimal nachverfolgt werden können, sollte die Zeichenanzahl pro Zeile in der Quelldatei begrenzt werden. Einige Editoren bieten dazu ein \emph{Word-Wrap}-Feature an.
+		\item Die Temporären LaTeX-Dateien sollten nicht eingecheckt werden, die erzeugten PDFs ebenso nicht.
+		\item Das Klassenprojekt enthält für Git eine \emph{.gitignore}-Datei, die in das eigene LaTeX-Projekt kopiert werden kann.
+	\end{itemize}
 \end{frame}
 
 \section{Verschiedene Tests}	
@@ -947,9 +1192,12 @@
 	\framesubtitle{TODO}
 \end{frame}
 
+%\subsection{Sonstiges}
+
 \subsection{Debug}
+\makeatletter
 \begin{frame}[allowframebreaks]
-	\frametitle{A default Frame}
+	\frametitle{Debug}
 	sizes:
 	\begin{enumerate}
 		\item beamerwidth : \the\paperwidth, beamerheight: \the\paperheight
@@ -959,8 +1207,10 @@
 		\item title: \inserttitle
 		\item subtitle: \insertsubtitle
 		\item datecity: \insertdatecity
+		\item fsize: \f@size
 	\end{enumerate}
 \end{frame}
+\makeatother
 
 %
 % Backmatter
@@ -977,7 +1227,7 @@
 	    \end{column}
 	    
 	    \begin{column}{0.3\textwidth}
-	        \flushright{\includegraphics[keepaspectratio=true,width=.6\columnwidth]{IfA_logo_blau}}
+	        \flushright{\includegraphics[keepaspectratio=true,width=.6\columnwidth]{IfA_logo_weiss}}
         	\vspace{1ex}\\
 
 	        \large Lukas Baron\\[0.5ex]
@@ -992,6 +1242,10 @@
 	\vspace*{2ex}\centering\includegraphics[width=0.8\textwidth]{br_logo_weiss.png}
 \end{finalframe}
 
+% \begin{frame}
+% 	\frametitle{test}
+% 	test
+% \end{frame}
 
 % % additional pages for Q&A purposes
 \begin{backmatterframe}
@@ -1002,10 +1256,8 @@
 		\href{%
 			https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues%
 		}{%
-			\raisebox{-0.3ex}{%
-				\beamergotobutton{AG-Tele GitLab%
-					\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues}}%
-				}%
+			\beamergotobutton{AG-Tele GitLab%
+				\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues}}%
 			}%
 		}
 		verwendet werden.
