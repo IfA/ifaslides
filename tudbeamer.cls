@@ -154,6 +154,8 @@
 \RequirePackage{MnSymbol}
 \RequirePackage{amsmath}
 
+\RequirePackage{appendixnumberbeamer}
+
 \RequirePackage[absolute,overlay]{textpos}
 \setlength{\TPHorizModule}{1cm}
 \setlength{\TPVertModule}{\TPHorizModule}

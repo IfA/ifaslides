@@ -1122,7 +1122,7 @@
 
 	Die allermeisten Inhalte einer Folie können durch Overlay-Spezifikationen animiert werden. Dabei erstellt die Beamer-Klasse mehrere aufeinander folgende Seiten im PDF für dieselbe Folie.
 
-	\begin{columns}[T]
+	\begin{columns}[T,onlytextwidth]
 		\begin{column}{.5\textwidth}					
 			Beispiel:
 			\begin{lstlisting}[gobble=8,style=latex]
@@ -1134,7 +1134,7 @@
 				\end{*nitemize*}
 			\end{lstlisting}
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.4\textwidth}				
+		\begin{column}{.4\textwidth}				
 			\begin{itemize}
 				\item<1-> \color<1>{emphblue}Dieses Item ist ab dem ersten Overlay vorhanden, aber nur auf dem ersten blau
 				\item<2-3> Dieses Item auf den Overlays 2 und 3
@@ -1153,7 +1153,7 @@
 		\item Für Visio-Grafiken steht dafür ein Export-Skript zur Verfügung. 
 	\end{itemize}
 
-	\begin{columns}[T]
+	\begin{columns}[T,onlytextwidth]
 		\begin{column}{.5\textwidth}					
 			Beispiel:
 			\begin{lstlisting}[gobble=8,style=latex]			
@@ -1163,7 +1163,7 @@
 			\end{lstlisting}
 			Wichtig ist das \%-Zeichen am Ende der Include-Anweiseung.
 		\end{column}
-		\hspace{-.05\textwidth}\begin{column}{.4\textwidth}	
+		\begin{column}{.4\textwidth}	
 			\includegraphics<1>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation0}%	
 			\includegraphics<2>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation1}%	
 			\includegraphics<3>[width=\textwidth,trim=4 4 4 4,clip]{pics/Animation2}%	
@@ -1262,5 +1262,20 @@
 		}
 		verwendet werden.
 \end{backmatterframe}
+
+\appendix
+\begin{frame}[fragile]
+	\frametitle{Appendix}
+
+	\begin{columns}[T,onlytextwidth]
+		\begin{column}{.475\textwidth}	
+			Ein Appendix kann wie folgt eingefügt werden:	
+			\begin{lstlisting}[gobble=8,style=latex]			
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{.475\textwidth}	
+		\end{column}
+	\end{columns}
+\end{frame}
 
 \end{document}
