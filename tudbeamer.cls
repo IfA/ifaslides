@@ -114,6 +114,7 @@
 
 \PassOptionsToPackage{table,fixpdftex,svgnames,hyperref}{xcolor}
 \PassOptionsToPackage{final}{listings}
+\PassOptionsToPackage{unicode,naturalnames}{hyperref}
 
 %
 % load main class
@@ -137,7 +138,7 @@
 % other packages
 %
 \RequirePackage{pifont}
-\RequirePackage{caption}      % Paket zum Einbinden von Captions bei Nicht-Float-Objekten (hauptsächlich für Anhang)
+%\RequirePackage{caption}      % Paket zum Einbinden von Captions bei Nicht-Float-Objekten (hauptsächlich für Anhang)
 \RequirePackage[	 % Verwendung von biblatex für das Literaturverzeichnis
     style=numeric-comp,%
     backend=biber,  %
@@ -180,10 +181,8 @@
 \usetikzlibrary{pgfplots.colormaps}
 
 %\usepackage{xspace}
-
-
 %\RequirePackage{xcolor}
-%\RequirePackage{hyperref} %always require hyperref as the last package
+\RequirePackage{hyperref} %always require hyperref as the last package
 
 
 %
@@ -1255,7 +1254,39 @@
 \AtEndPreamble{%
     \setbodydefaultdimensions%
     \setbeamerdimensions%
-    %TODO hypersetup and require packages interfering with hypersetups after
+
+    \setDefaultColors%
+    \mode<handout:0>{
+        \hypersetup{
+            linkcolor=text,%
+            urlcolor=text,%
+            citecolor=hks57,%
+            pdfborder=0 0 0,%
+            % bookmarks=true,%
+            % pdftitle=\inserttitle,%
+            % pdfauthor=\insertauthor,%
+            % pdfsubject=\insertsubject%
+        }
+    }
+    \mode<handout>{
+        \hypersetup{
+            linkcolor=text,%
+            urlcolor=text,%
+            citecolor=text,%  
+            pdfborder=0 0 0,%
+            % bookmarks=true,%
+            % pdftitle={\inserttitle},%
+            % pdfauthor=\insertauthor,%
+            % pdfsubject=\insertsubject%
+        }% 
+    }%
+    % \pdfinfo{
+    %    /Author (\insertauthor)
+    %    /Title  (\inserttitle)
+    %    % /CreationDate (D:20040502195600)
+    %    % /Subject (PDFLaTeX)
+    %    % /Keywords (PDF;LaTeX)
+    % }
 }%
 
 \renewcommand\maketitle{%
@@ -1357,28 +1388,6 @@
     \setAuxilliaryBeamerTemplates%
     \scriptsize%
     \makeatother%
-    \mode<handout:0>{
-        \hypersetup{
-            linkcolor=text,%
-            urlcolor=text,%
-            citecolor=hks57,%
-            pdfborder=0 0 0,%
-            pdftitle=\inserttitle,%
-            pdfauthor=\insertauthor,%
-            pdfsubject=\inserttitle%
-        }
-    }
-    \mode<handout>{
-        \hypersetup{
-            linkcolor=text,%
-            urlcolor=text,%
-            citecolor=text,%  
-            pdfborder=0 0 0,%
-            pdftitle=\inserttitle,%
-            pdfauthor=\insertauthor,%
-            pdfsubject=\inserttitle%
-        }% 
-    }%
     \pgfplotsset{%
         colormap={tudplot}{%
             color(0cm) = (hks41);%
