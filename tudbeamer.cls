@@ -934,7 +934,7 @@
         \end{textblock*}%
         \begin{textblock*}{\footerslidenumwidth}(\footerslidenumx,\footerslidenumy)%
             \color{footertext}%
-            \raggedleft\tud@vocslide\ \insertpagenumber\ \tud@vocof\ \inserttotalpagenumber%
+            \raggedleft\tud@vocslide\ \insertframenumber\ \tud@vocof\ \inserttotalframenumber%
             \color{text}%
             \usebeamercolor[fg]{normal text}%
         \end{textblock*}%
@@ -1396,13 +1396,11 @@
 }%
 
 \AtEndDocument{%
+
+    \clearpage
     %reset total frame counter in order to hide pages behind actual content.
-    %\def\inserttotalpagenumber{}
-    \clearpage%
     \xdef\modifiedFrameNumber{\value{framenumber}-\value{backmatterframes}}%
-    %\setcounter{framenumber}{\value{framenumber}-\value{backmatterframes}}%
     \beamer@tempcount=\c@page\advance\beamer@tempcount by -1%
-    %\thepage=\advance\thepage by -\value{backmatterframes}%
     \if@filesw
         \immediate\write\@auxout{\string\@writefile{nav}%
             {\noexpand\headcommand{\noexpand\beamer@partpages{\the\beamer@partstartpage}{\the\beamer@tempcount}}}}%
@@ -1413,9 +1411,8 @@
         \immediate\write\@auxout{\string\@writefile{nav}%
             {\noexpand\headcommand{\noexpand\beamer@documentpages{\the\beamer@tempcount}}}}
         \immediate\write\@auxout{\string\@writefile{nav}%
-            {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalframenumber{\modifiedFrameNumber}}}}%\the\c@framenumber
+            {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalframenumber{\modifiedFrameNumber}}}}
         \addtocounter{page}{-1}
-        \addtocounter{page}{-\value{backmatterframes}}
         \immediate\write\@auxout{\string\@writefile{nav}%
             {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalpagenumber{\thepage}}}}
         \newwrite\tf@nav
