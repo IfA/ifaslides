@@ -338,8 +338,10 @@ Function ExportPage(Visioapp, Page, ExportPath, localExportType, objshell, inksc
 		Page.Export(ExportPath)
 
 	ElseIf (StrComp(localExportType, "pdf") = 0) Then
-		
-		Visioapp.ActiveDocument.ExportAsFixedFormat 1, ExportPath, 1, 2, False, False
+		'see https://msdn.microsoft.com/de-de/vba/visio-vba/articles/document-exportasfixedformat-method-visio
+		'parameters not specified, are left out
+		'the document tags for accessibility are disabled in order to remove black borders in exported version
+		Visioapp.ActiveDocument.ExportAsFixedFormat 1, ExportPath, 1, 2,,,,,,False
 
 	End If
 
