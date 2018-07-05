@@ -295,17 +295,20 @@ Function ExportVisioFile(VisioFile, ParentFolder)
 				For Each vsoLayer In Page.Layers
 					' vsoLayer.CellsC(visLayerVisible).FormulaU = "0"
 					vsoLayer.CellsC(4).FormulaU = "0"
+					vsoLayer.CellsC(5).FormulaU = "0"
 				Next
 
 				' Then, we export each layer individually by temporarily making it visible
 				For Each vsoLayer In Page.Layers
 					' vsoLayer.CellsC(visLayerVisible).FormulaU = "1"
 					vsoLayer.CellsC(4).FormulaU = "1"
+					vsoLayer.CellsC(5).FormulaU = "1"
 
 					ExportPage Visioapp, Page, Replace(ExportPath, "." & localExportType, "-" & vsoLayer.Name & "." & localExportType), localExportType, objshell, inkscapeShell
 
 					' vsoLayer.CellsC(visLayerVisible).FormulaU = "0"
 					vsoLayer.CellsC(4).FormulaU = "0"
+					vsoLayer.CellsC(5).FormulaU = "0"
 				Next
 			Else
 				' Export the page as single file
