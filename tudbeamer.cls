@@ -1293,6 +1293,8 @@
     \setTitleFrameTemplates%
     \frame{\titlepage}%
     \setNavigationSymbolTemplate%
+    \setDefaultFrameTemplates%
+    \setDefaultBeamerFonts%
     %
     %table of contents
     \if@useTOCFrame
