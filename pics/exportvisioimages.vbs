@@ -288,8 +288,15 @@ Function ExportVisioFile(VisioFile, ParentFolder)
 			' Visioapp.ActiveWindow.Close
 			Visioapp.ActivePage.ResizeToFitContents
 
-			If customExportOptions.Contains("export-layers") AND Page.Layers.Count > 0 Then
-				' Export each layer individually to its own file (the layer name is appended to the page name)
+			If (customExportOptions.Contains("export-layers") OR customExportOptions.Contains("export-visible-layers")) AND Page.Layers.Count > 0 Then
+				' Export each layer individually to its own file (the layer name is appended to the page name), if the layer was set to visible
+				Dim visibleLayers
+				Set visibleLayers = CreateObject("System.Collections.ArrayList")
+				For Each vsoLayer In Page.Layers
+					If vsoLayer.CellsC(4).FormulaU = "1" OR (NOT customExportOptions.Contains("export-visible-layers")) Then
+						visibleLayers.Add(vsoLayer)
+					End If
+				Next
 
 				' First, we hide all layers
 				For Each vsoLayer In Page.Layers
@@ -300,15 +307,17 @@ Function ExportVisioFile(VisioFile, ParentFolder)
 
 				' Then, we export each layer individually by temporarily making it visible
 				For Each vsoLayer In Page.Layers
-					' vsoLayer.CellsC(visLayerVisible).FormulaU = "1"
-					vsoLayer.CellsC(4).FormulaU = "1"
-					vsoLayer.CellsC(5).FormulaU = "1"
+					If visibleLayers.Contains(vsoLayer) Then
+						' vsoLayer.CellsC(visLayerVisible).FormulaU = "1"
+						vsoLayer.CellsC(4).FormulaU = "1"
+						vsoLayer.CellsC(5).FormulaU = "1"
 
-					ExportPage Visioapp, Page, Replace(ExportPath, "." & localExportType, "-" & vsoLayer.Name & "." & localExportType), localExportType, objshell, inkscapeShell
+						ExportPage Visioapp, Page, Replace(ExportPath, "." & localExportType, "-" & vsoLayer.Name & "." & localExportType), localExportType, objshell, inkscapeShell
 
-					' vsoLayer.CellsC(visLayerVisible).FormulaU = "0"
-					vsoLayer.CellsC(4).FormulaU = "0"
-					vsoLayer.CellsC(5).FormulaU = "0"
+						' vsoLayer.CellsC(visLayerVisible).FormulaU = "0"
+						vsoLayer.CellsC(4).FormulaU = "0"
+						vsoLayer.CellsC(5).FormulaU = "0"
+					End If
 				Next
 			Else
 				' Export the page as single file
