@@ -924,17 +924,17 @@
             \end{textblock*}%
         \fi%
         \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
-            \fontsize{6pt}{6.5pt}\selectfont\strut\color{footertext}\insertshorttitle\newline%\vskip.4ex%%\newline
-            \fontsize{6pt}{6.5pt}\selectfont\strut\insertshortinstitute%\tud@affiliationshort%
+            \fontsize{6pt}{6.5pt}\selectfont\color{footertext}\strut\insertshorttitle\strut\newline%\vskip.4ex%%\newline
+            \fontsize{6pt}{6.5pt}\selectfont\strut\insertshortinstitute\strut%\tud@affiliationshort%
                 \ifx\insertshortinstitute\@empty\else\ifx\beamer@shortauthor\@empty\else\,/\,\fi\fi%
-                \insertauthor\newline%\vskip.7ex%
-            \fontsize{6pt}{6.5pt}\selectfont\strut\insertdatecity%
+                \strut\insertauthor\strut\newline%\vskip.7ex%
+            \fontsize{6pt}{6.5pt}\selectfont\strut\insertdatecity\strut%
             \color{text}%
             \usebeamercolor[fg]{normal text}%
         \end{textblock*}%
         \begin{textblock*}{\footerslidenumwidth}(\footerslidenumx,\footerslidenumy)%
             \color{footertext}%
-            \raggedleft\tud@vocslide\ \insertframenumber\ \tud@vocof\ \inserttotalframenumber%
+            \raggedleft\strut\tud@vocslide\ \insertframenumber\ \tud@vocof\ \inserttotalframenumber\strut%
             \color{text}%
             \usebeamercolor[fg]{normal text}%
         \end{textblock*}%
@@ -1028,31 +1028,31 @@
         %institute
         \begin{textblock*}{\templength}(\textborderleft,\authorinstitutey)%
           \usebeamerfont{author}%
-          \color{titleinstitutetext}\insertauthor\ifx\beamer@shortauthor\@empty\else\\\fi%
+          \color{titleinstitutetext}\strut\insertauthor\strut\ifx\beamer@shortauthor\@empty\else\\\fi%
           \usebeamerfont{institute}%
-          \insertinstitute%
+          \strut\insertinstitute\strut%
         \end{textblock*}%
         %title
         \begin{textblock*}{\templength}(\textborderleft,\titley)%
             \usebeamerfont{title}\color{titletext}%
-                \inserttitle%
+                \strut\inserttitle\strut%
             \storecurrposy{afterTitle}%
             \setlength{\templengthb}{\beamer@paperheight-\getcurrposy{afterTitle}}%
             \ifthenelse{\templengthb > \subtitley}{%
                 \vskip1.0ex%
-                \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
+                \usebeamerfont{subtitle}\color{titletext}\strut\insertsubtitle\strut%
             }{}%
         \end{textblock*}%
         %subtitle
         \setlength{\templengthb}{\beamer@paperheight-\getcurrposy{afterTitle}}%
         \ifthenelse{\templengthb > \subtitley}{}{%
             \begin{textblock*}{\templength}(\textborderleft,\subtitley)%
-                \usebeamerfont{subtitle}\color{titletext}\insertsubtitle%
+                \usebeamerfont{subtitle}\color{titletext}\strut\insertsubtitle\strut%
             \end{textblock*}%
         }%
         \begin{textblock*}{\templength}(\textborderleft,\titledatey)%
           \usebeamerfont{date}%
-          \color{titledatecitytext}\insertdatecity%
+          \color{titledatecitytext}\strut\insertdatecity\strut%
         \end{textblock*}%
     }%
 }%
@@ -1109,8 +1109,8 @@
     \setbeamertemplate{frametitle}{%
         \nointerlineskip%
         \usebeamerfont{frametitle}\vskip3.5mm%
-        \strut\color{frametitletext}\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle\strut%\\%
-        \ifx\insertframesubtitle\@empty\else\strut\usebeamerfont{framesubtitle}\color{framesubtitletext}\newline\vskip-3.5mm\insertframesubtitle\strut\fi%
+        \color{frametitletext}\strut\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle\strut%\\%
+        \ifx\insertframesubtitle\@empty\else\usebeamerfont{framesubtitle}\color{framesubtitletext}\newline\vskip-3.5mm\strut\insertframesubtitle\strut\fi%
         %\vskip-1.5ex%\newline\fi%\vskip.5ex%  
         \usebeamercolor[fg]{normal text}%
         \color{text}%
@@ -1121,7 +1121,7 @@
 \newcommand\@insertsectionframetitlewithouttoc{%  
     \usebeamerfont{title}\color{titletext}%
     \begin{textblock*}{\bodywidth}(\bodyx,\structuretitley)%
-        \usebeamerfont{title}\color{titletext}\ifnum\c@section>9\else0\fi\arabic{section}\,\,\insertsection%
+        \usebeamerfont{title}\color{titletext}\strut\ifnum\c@section>9\else0\fi\arabic{section}\,\,\insertsection\strut%
     \end{textblock*}%
 }%
 \newcommand\@insertsectiontocframecontent{%
@@ -1161,7 +1161,7 @@
     \setbeamertemplate{part page}{%
         \begin{textblock*}{\bodywidth}(\bodyx,\structuretitley)%
             \usebeamerfont{title}\color{titletext}%
-            \tud@vocpart\,\insertpartnumber\,\,\insertpart%
+            \strut\tud@vocpart\,\insertpartnumber\,\,\insertpart\strut%
         \end{textblock*}%
     }%
 }%
