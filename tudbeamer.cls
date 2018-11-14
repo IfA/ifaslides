@@ -1108,9 +1108,9 @@
     \setbeamertemplate{background}{}%
     \setbeamertemplate{frametitle}{%
         \nointerlineskip%
-        \usebeamerfont{frametitle}\vskip3.5mm
-        \color{frametitletext}\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle%\\%
-        \ifx\insertframesubtitle\@empty\else\usebeamerfont{framesubtitle}\color{framesubtitletext}\newline\vskip-3.5mm\insertframesubtitle\fi%
+        \usebeamerfont{frametitle}\vskip3.5mm%
+        \strut\color{frametitletext}\if@useSectionNumInFrameTitle\frame@title@section\fi\insertframetitle\strut%\\%
+        \ifx\insertframesubtitle\@empty\else\strut\usebeamerfont{framesubtitle}\color{framesubtitletext}\newline\vskip-3.5mm\insertframesubtitle\strut\fi%
         %\vskip-1.5ex%\newline\fi%\vskip.5ex%  
         \usebeamercolor[fg]{normal text}%
         \color{text}%
