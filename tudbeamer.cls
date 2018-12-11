@@ -1219,9 +1219,11 @@
 %
 % environments for special frames
 %
+\newcounter{framenumbertemp}
 \NewEnviron{backmatterframe}[1][]{%
     \def\frameOptions{#1}%
-    \addtocounter{backmatterframes}{1}%
+    \setcounter{framenumbertemp}{-\value{framenumber}}
+    \typeout{begin backmatterframe at frame \the\value{framenumber}, backmatterframecounter: \the\value{backmatterframes}}
     \ifx\frameOptions\@empty%
         \begin{frame}%
             \BODY%
@@ -1231,6 +1233,9 @@
             \BODY%
         \end{frame}%
     \fi%
+    \addtocounter{framenumbertemp}{\value{framenumber}}
+    \addtocounter{backmatterframes}{\value{framenumbertemp}}%
+    \typeout{end backmatterframe, at frame \the\value{framenumber}, count of frames \the\value{framenumbertemp}, new backmatterframecounter: \the\value{backmatterframes}}
 }%
 
 \NewEnviron{finalframe}[1][]{%
