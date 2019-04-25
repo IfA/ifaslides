@@ -2,7 +2,7 @@
 \documentclass[german,notoc]{tudbeamer}%note: when switching to the tud titlestyle, an additional build is needed
 
 \input{shortcuts} 
-\bibliography{bibliography.bib}
+\bibliography{bibliography}
 
 % Einstellungen für Beispielfolien
 	% Einpinden des pgf-pie package für Tortendiagramme
@@ -17,6 +17,8 @@
 		moretexcs={setDesignImage,frametitle,movie},
 		moredelim=*[is][stringstyle]{*s}{*},
 		moredelim=*[is][\color{emph2_3}]{*e}{*},
+		moredelim=*[is][\color{tudblue}]{*b}{*},
+		moredelim=*[is][\color{emph2_2}]{*i}{*},
 		moredelim=*[s][\color{emph2_4}]{<}{>}
 	}
 
@@ -99,6 +101,7 @@
 		\item[-] Updates müssen manuell eingepflegt werden
 		\item[-] Beispieldokument nicht vorhanden
 	\end{itemize}
+	Tipp: Ein besonders schneller Start ermöglicht das Herunterladen und Anpassen des gesamten Projekts, die Inhalte der Präsentation werden dann in der \texttt{main.tex}-Datei bearbeitet.
 \end{frame}
 \begin{frame}[fragile]
 	\frametitle{Einbinden der Klasse}
@@ -852,11 +855,11 @@
 			\begin{lstlisting}[gobble=8,style=latex,mathescape]
 				\begin{*nframe*}[fragile]
 					\begin{*nlstlisting*}[style=latex]
-						eine Zeile \LaTeX-Code
+						*beine Zeile *\LaTeX-*bCode*
 						\begin{*nitemize*}
-							\item ein Aufzählungsitem
+							\item *bein Aufzählungsitem*
 						\end{*nitemize*}
-					\ end{*nlstlisting*}
+					\ *bend*{*nlstlisting*}
 					%Leerzeichen nach \ muss weg
 				\end{*nframe*}
 			\end{lstlisting}
@@ -866,9 +869,9 @@
 		\end{column}
 		\begin{column}{.475\textwidth}			
 			\begin{lstlisting}[gobble=8,style=latex]
-				eine Zeile \LaTeX-Code
+				*beine Zeile *\LaTeX-*bCode*
 				\begin{*nitemize*}
-					\item ein Aufzählungsitem
+					\item *bein Aufzählungsitem*
 				\end{*nitemize*}
 			\end{lstlisting}
 		\end{column}
@@ -1171,6 +1174,61 @@
 	\end{columns}
 \end{frame}
 
+\begin{frame}[fragile]\frametitle{Literaturquellen}
+    \begin{itemize}
+    	\item Die Beamer-Präsentation unterstützt verschiedene Zitierfunktionen sowie die Ausgabe einer Literaturliste, da das BibLaTeX-Paket bereits eingebunden ist\footnote[frame]{\url{https://ctan.org/pkg/biblatex}}.
+    	\item Hinweis: Die Verwendung der Zitierung sollte nicht notwendig sein, um der Präsentation inhaltlich folgen zu können.
+    	      Eine Literaturliste am Ende einer Präsentation ist am sinnvollsten, wenn die Folien ohnehin als Handout veröffentlicht werden.
+    \end{itemize}		
+	Folgende Befehle sind u.\,a. verfügbar:
+	\begin{itemize}
+		\item Einbinden einer *.bib-Datei:
+			\begin{lstlisting}[gobble=8,style=latex]
+				\*ibibliography*{*sbibliography*} % Oder
+				\addbibresource{*sbibliography.bib*}
+			\end{lstlisting}
+		\item Alternativ: können Literaturstellen direkt im Dokument deklariert werden, siehe 
+			\hyperlink{http://www.ctan.org/tex-archive/macros/latex/contrib/beamer/doc/beameruserguide.pdf}{\beamergotobutton{Offizielles Benutzerhandbuch}} der Beamer-Klasse auf Seite 26.
+		\item Ausgabe der Literaturliste:
+			\begin{lstlisting}[gobble=8,style=latex]
+				\begin{backmatterframe}[allowframebreaks]
+					\*iframetitle*{Literatur}
+					\printbibliography
+				\end{backmatterframe}
+			\end{lstlisting}
+	\end{itemize}
+\end{frame}
+\begin{frame}[fragile]\frametitle{Zitierung und Kurzbeleg}
+    \begin{itemize}
+    	\item Die Zitierung von Inhalten Dritter erfolgt im Text durch das Einfügen des Kurzbelegs, der als Verweis auf einen Eintrag in der Literaturliste dient.
+    	\item Dazu kann der \texttt{\textbackslash cite}-Befehl genutzt werden, Beispiel:
+    \end{itemize}		
+    \begin{columns}[T,onlytextwidth]
+		\begin{column}{.39\textwidth}	
+			Folgende Befehle sind verfügbar:
+			\begin{lstlisting}[gobble=8,style=latex,breakindent=0pt]
+				*bEine falsche Zitierung kann zur Nicht-Annahme der studentischen Arbeit führen*\*icite*{*sIfARichtlinie2019*}.
+			\end{lstlisting}
+			Hinzufügen einer Literaturstelle ohne Kurzbeleg:
+
+			\begin{lstlisting}[gobble=8,style=latex,breakindent=0pt]
+				\*inocite*{*sbaronHandreichungZitieren2018*}.
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{.5\textwidth}	
+			Das Ergebnis:\\
+			\begin{quote}Eine falsche Zitierung kann zur Nicht-Annahme der studentischen Arbeit führen\cite{IfARichtlinie2019}.\end{quote}
+
+			Weitere Literatur rund ums Zitieren:\\
+			\begin{itemize}
+				\item \textquote{\citetitle{baronHandreichungZitieren2018}}\cite{baronHandreichungZitieren2018}
+				\item \textquote{\citetitle{SLUBZitierenHandreichung2018}}\cite{SLUBZitierenHandreichung2018}
+				\item \textquote{\citetitle{SchwenkeBildzitate2012}}\cite{SchwenkeBildzitate2012}
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
 \section{Weitere Tipps}
 \subsection{Git}
 
@@ -1178,6 +1236,8 @@
 	\frametitle{Latex und Git}
 	\begin{itemize}
 		\item Da LaTeX hauptsächlich auf reinen Textdateien basiert, eignen sich die Quelldateien für die Versionierung, z.\,B. mit Git.
+		\item Die jeweiligen Commit-Nachrichten sollten aussagekräftig und nachvollziehbar sein.
+		\item Ein externer Server oder sonstige remote-Repositories sollten genutzt werden, um automatisch ein Backup der Arbeit anzulegen.
 		\item Damit Änderungen jeweils optimal nachverfolgt werden können, sollte die Zeichenanzahl pro Zeile in der Quelldatei begrenzt werden. Einige Editoren bieten dazu ein \emph{Word-Wrap}-Feature an.
 		\item Die Temporären LaTeX-Dateien sollten nicht eingecheckt werden, die erzeugten PDFs ebenso nicht.
 		\item Das Klassenprojekt enthält für Git eine \emph{.gitignore}-Datei, die in das eigene LaTeX-Projekt kopiert werden kann.
@@ -1252,7 +1312,7 @@
 	\frametitle*{Feedback}
 	\centering\Huge ? \scriptsize
 	\vskip4ex
-		Bei Fragen, Problemen uns Verbesserungen,\\ kann der Issue-Tracker\\ im 
+		Bei Fragen, Problemen und Verbesserungen,\\ kann der Issue-Tracker\\ im 
 		\href{%
 			https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues%
 		}{%
@@ -1260,7 +1320,12 @@
 				\footnote[frame]{\url{https://git.agtele.eats.et.tu-dresden.de/agtele-public/latex/de.tud.et.ifa.latex.ifaslides/issues}}%
 			}%
 		}
-		verwendet werden.
+		verwendet werden. Wenn Sie keinen Zugang haben, schicken Sie mir eine E-Mail: \texttt{lukas.baron@tu-dresden.de}.
+\end{backmatterframe}
+
+\begin{backmatterframe}[allowframebreaks]
+\frametitle{Literatur}
+\printbibliography
 \end{backmatterframe}
 
 % appendix is not yet implemented properly

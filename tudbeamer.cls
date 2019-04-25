@@ -873,6 +873,12 @@
     %         ]%
     %         {\scriptsize\color{white}\insertbuttontext};%
     % }
+
+    % 
+    % citation
+    % 
+    \setbeamertemplate{bibliography item}{\insertbiblabel} % removes the bibliography items since they do not match the cd, display the number
+	\renewcommand{\bibfont}{\normalfont\tiny}%
 }%
 
 \newcommand{\setTitleHeadlineTemplates}{%
