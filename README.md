@@ -5,4 +5,4 @@ Das standardmäßig enthaltene IfA-Logo kann abgeschaltet oder durch ein anderes
 Alle Hinweise zur Installation und Verwendung entnehmen Sie bitte dem Beispiel-PDF.
 
 ## Hinweis
-Bitte die Latex Pakete aktuell halten. Der TUD Farbverlauf wird in älteren Paketversionen des xcolor-Pakets zum Beispiel nicht im CMYK-Farbraub ausgegeben und entspricht somit nicht dem Corporate Design.
+Bitte die Latex Pakete aktuell halten. Der TUD Farbverlauf wird in älteren Paketversionen des pgf-Pakets zum Beispiel nicht im CMYK-Farbraub ausgegeben, sondern im RGB-Farbraum und entspricht somit nicht dem Corporate Design.
