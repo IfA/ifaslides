@@ -112,7 +112,7 @@
 }%
 
 
-\PassOptionsToPackage{table,fixpdftex,svgnames,hyperref}{xcolor}
+\PassOptionsToPackage{table,fixpdftex,svgnames,hyperref,cmyk}{xcolor}
 \PassOptionsToPackage{final}{listings}
 \PassOptionsToPackage{unicode,naturalnames}{hyperref}
 
@@ -241,7 +241,7 @@
 \colorlet{bgtud2}{hks44}
     \newcommand{\bgtudposone}{0.14}
     \newcommand{\bgtudpostwo}{1}
-    \newcommand{\bgtudangle}{250}
+    \newcommand{\bgtudangle}{20}
 \colorlet{bgdesign}{white}
 
 \colorlet{designbar}{white}
@@ -965,22 +965,34 @@
             %         \expandafter\newsavebox\csname\boxname\endcsname%                  
             %     }%
             %     \expandafter\savebox\csname\boxname\endcsname{%
-                    \begin{axis}[%
-                        width=#2,%
-                        height=#3,%
-                        scale only axis,%
-                        domain=0:\number#2,%
-                        y domain=0:\number#3,%
-                        view={0}{90},%
-                        hide axis,%
-                        colormap= {tud}{color(0cm)=(bgtud1); color(\bgtudposone cm)=(bgtud1); color(\bgtudpostwo cm)=(bgtud2); color(1.0001cm)=(bgtud2)}]%
-                            %zmin=0,zmax=1,title=,xlabel=,ylabel=,zlabel=,,ymin=0,ymax=10,xmin=0,xmax=10,
-                        \addplot3[surf,shader=flat,patch type=bilinear,samples=50] {(-.4*x) + (.4) + (y)};%shader=interp% does not work on sumatrapdf
-                            %,mesh/color input=explicit,draw=\transparent{1},shader=interp,patch,shader=faceted interp
-                    \end{axis}%
+                    % \begin{axis}[%
+                    %     width=#2,%
+                    %     height=#3,%
+                    %     scale only axis,%
+                    %     domain=0:\number#2,%
+                    %     y domain=0:\number#3,%
+                    %     view={0}{90},%
+                    %     hide axis,%
+                    %     colormap= {tud}{color(0cm)=(bgtud1); color(\bgtudposone cm)=(bgtud1); color(\bgtudpostwo cm)=(bgtud2); color(1.0001cm)=(bgtud2)}]%
+                    %         %zmin=0,zmax=1,title=,xlabel=,ylabel=,zlabel=,,ymin=0,ymax=10,xmin=0,xmax=10,
+                    %     \addplot3[surf,shader=flat,patch type=bilinear,samples=50] {(-.4*x) + (.4) + (y)};%shader=interp% does not work on sumatrapdf
+                    %         %,mesh/color input=explicit,draw=\transparent{1},shader=interp,patch,shader=faceted interp
+                    % \end{axis}%
             %     }%
             % \fi%
             % \expandafter\usebox\csname\boxname\endcsname%
+            % new using pgfverticalshading
+            \pgfdeclareverticalshading{tudshadedbackground}%
+              {100bp}{%
+                color(0bp)=(bgtud1); color(100*\bgtudposone bp)=(bgtud1); color(100*\bgtudpostwo bp)=(bgtud2); color(100.1bp)=(bgtud2)%
+            }
+            \pgfpathrectangle{%
+                \pgfpoint{0pt}{0}%
+            }{%
+                \pgfpoint{#2}{#3}%
+            }%
+            \pgfshadepath{tudshadedbackground}{\bgtudangle}%
+            \pgfusepath{discard}%
         \fi%
     }{%
         \fill[#1] (0,0) rectangle (#2,#3);%
