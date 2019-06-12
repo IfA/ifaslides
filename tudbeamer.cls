@@ -950,38 +950,12 @@
     \usebeamercolor[fg]{normal text}%
     \color{text}%
 }%
-%\newsavebox\saveboxnone%
-%drawTikzBackground[mode]{width}{height}{savebox name}
-\newcommand{\drawTikzColorBackground}[3][tud]{%
+\newcommand{\drawTikzColorBackground}[3][tud]{% 1=style, 2=width; 3=height
     \typeout{drawingbackground style: #1, width: \number#2, height: \number#3}%
     \ifthenelse{\equal{#1}{tud}}{%
         \ifdraftMode%
             \fill[hks41] (0,0) rectangle (#2,#3);%
         \else%
-            % \ifstrempty{#4}{\def\boxname{saveboxnone}}{\def\boxname{savebox#4}}%
-            % \expandafter\ifdefined\csname\boxname\endcsname\else%
-            %     \ifthenelse{\equal{\boxname}{saveboxnone}}{}{%
-            %         \expandafter\def\csname\boxname\endcsname{}%
-            %         \expandafter\newsavebox\csname\boxname\endcsname%                  
-            %     }%
-            %     \expandafter\savebox\csname\boxname\endcsname{%
-                    % \begin{axis}[%
-                    %     width=#2,%
-                    %     height=#3,%
-                    %     scale only axis,%
-                    %     domain=0:\number#2,%
-                    %     y domain=0:\number#3,%
-                    %     view={0}{90},%
-                    %     hide axis,%
-                    %     colormap= {tud}{color(0cm)=(bgtud1); color(\bgtudposone cm)=(bgtud1); color(\bgtudpostwo cm)=(bgtud2); color(1.0001cm)=(bgtud2)}]%
-                    %         %zmin=0,zmax=1,title=,xlabel=,ylabel=,zlabel=,,ymin=0,ymax=10,xmin=0,xmax=10,
-                    %     \addplot3[surf,shader=flat,patch type=bilinear,samples=50] {(-.4*x) + (.4) + (y)};%shader=interp% does not work on sumatrapdf
-                    %         %,mesh/color input=explicit,draw=\transparent{1},shader=interp,patch,shader=faceted interp
-                    % \end{axis}%
-            %     }%
-            % \fi%
-            % \expandafter\usebox\csname\boxname\endcsname%
-            % new using pgfverticalshading
             \pgfdeclareverticalshading{tudshadedbackground}%
               {100bp}{%
                 color(0bp)=(bgtud1); color(100*\bgtudposone bp)=(bgtud1); color(100*\bgtudpostwo bp)=(bgtud2); color(100.1bp)=(bgtud2)%
