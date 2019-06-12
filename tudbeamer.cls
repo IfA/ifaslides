@@ -249,7 +249,7 @@
 
 \colorlet{designbar}{white}
 \colorlet{designbarborder}{gray}
-\newcommand{\designbaropacity}{0.5}
+\newcommand{\designbaropacity}{0.6}
 
 \colorlet{footerlogo}{hks41}
 
@@ -974,11 +974,16 @@
                         %,mesh/color input=explicit,draw=\transparent{1},shader=interp,patch,shader=faceted interp
                 \end{axis}%
             \else
+                \def\ratio{#2/#3}
                 \pgfdeclareverticalshading{tudshadedbackground}%
-                  {100bp}{%
-                    color(0bp)=(bgtud1); color(100*\bgtudposone bp)=(bgtud1); color(100*\bgtudpostwo bp)=(bgtud2); color(100.1bp)=(bgtud2)%
+                  {100bp}{%               
+                    %only the area defined between 25bp and 75bp is visible on the shaded path
+                    color(0bp)=(bgtud1);    
+                    color(22bp)=(bgtud1);%lower right corner - dark
+                    color(85bp)=(bgtud2);%upper left corner - bright
+                    color(100bp)=(bgtud2)%
                 }
-                \pgfpathrectangle{%
+                \pgfrect[ use as bounding box]{%
                     \pgfpoint{0pt}{0}%
                 }{%
                     \pgfpoint{#2}{#3}%
@@ -1007,11 +1012,9 @@
                 \setlength\templengthb{1.1\beamer@paperwidth}%
                 \hspace*{-.05\beamer@paperwidth}\fillgraphicbox{\templengthb}{\templength}{\tud@designImage}%
             }%   
-            \transparent{\designbaropacity}%
             \begin{tikzpicture}[overlay,inner frame sep=0,shift={(-1.05\beamer@paperwidth,\beamer@paperheight)}]
-                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
+                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+.2pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-.2pt);%
             \end{tikzpicture}%
-            \transparent{1}%
         }{%
             \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,-\the\beamer@paperheight+0cm)}]
                 \setlength\templength{\beamer@paperheight-\designbary}%              
@@ -1025,12 +1028,10 @@
                     \draw[line width=\the\designbarborderwidth,designbarborder] (0,-\the\designbary-\the\designbarheight)--(\the\beamer@paperwidth,-\the\designbary-\the\designbarheight);%
             \end{tikzpicture}%
         }{%   
-            \ifthenelse{\equal{\tud@titlestyle}{design}}{}{%         
-                \transparent{\designbaropacity}%
+            \ifthenelse{\equal{\tud@titlestyle}{design}}{}{%else   
                 \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm)}]
-                       \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+1pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-1pt);%
+                   \fill[designbar,opacity=\designbaropacity] (0,-\the\designbary+.2pt) rectangle (\the\beamer@paperwidth, -\the\designbary-\the\designbarheight-.2pt);%
                 \end{tikzpicture}%
-                \transparent{1}%  
             }%
         }%
     }%
@@ -1088,22 +1089,10 @@
             \fillgraphicbox{\beamer@paperwidth}{\templength}{\tud@designImage}%
         }{%
             \ifthenelse{\equal{\@structureframestyle}{tud}}{%
-                \typeout{============tud}%
-                \ifthenelse{\equal{\@savedstructureframebackground}{notsaved}}{%
-                    \typeout{============wasundefined: \@savedstructureframebackground}%   %TODO saving this has no effect
-                    \@setsavedstructureframebackground{notsaved}% TODO change to saved, if learned how to re-print the content using the usebox command
-                    \typeout{============now: \@savedstructureframebackground}%
-                    \savebox\@structureframebackground{%
-                        \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm-\the\footery)}]%
-                            \drawTikzColorBackground[\@structureframestyle]{\beamer@paperwidth}{\footery}%
-                            \pgfresetboundingbox%
-                        \end{tikzpicture}%
-                    }%
-                }{%
-                    \typeout{============defined: \@savedstructureframebackground}%
-                }%
-                \usebox\@structureframebackground% 
-            %     
+                \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm-\the\footery)}]%
+                    \drawTikzColorBackground[\@structureframestyle]{\beamer@paperwidth}{\footery}%
+                    \pgfresetboundingbox%
+                \end{tikzpicture}%
             }{%
                 \begin{tikzpicture}[overlay,inner frame sep=0,shift={(0cm,0cm-\the\footery)}]
                     \drawTikzColorBackground[\@structureframestyle]{\beamer@paperwidth}{\footery}%
