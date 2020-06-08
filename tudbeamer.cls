@@ -50,6 +50,10 @@
 
 \newif\if@useTOCFrame\@useTOCFrametrue
 \DeclareOption{notoc}{\@useTOCFramefalse}
+\newif\if@useFrameCounter\@useFrameCountertrue
+\DeclareOption{noFrameCounter}{\@useFrameCounterfalse}
+\newif\if@noPrintColorInHandout\@noPrintColorInHandoutfalse
+\DeclareOption{noPrintColorInHandout}{\@noPrintColorInHandouttrue}
 
 \newif\ifdraftMode\draftModefalse
 \DeclareOption{draft}{\draftModetrue}
@@ -104,6 +108,8 @@
 \newcommand\enableSectionTOCFrame{\@useSectionTOCFrametrue}
 \newcommand\disableSectionTOC{\@useSectionTOCfalse}
 \newcommand\enableSectionTOC{\@useSectionTOCtrue}
+\newcommand\disableFrameCounter{\@useFrameCounterfalse}
+\newcommand\enableFrameCounter{\@useFrameCountertrue}
 
 \newcommand\enableFrameTitleSectionNum{\@useSectionNumInFrameTitletrue}
 \newcommand\disableFrameTitleSectionNum{\@useSectionNumInFrameTitlefalse}
@@ -127,11 +133,18 @@
 %
 % language and font packages
 %
-\usepackage[default,scale=.95]{opensans} %scales the letter spacing, default refers to the printing style for numbers
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[english, main=ngerman]{babel}
+\usefonttheme{professionalfonts}
+\RequirePackage[defaultsans,scale=.95]{opensans} %scales the letter spacing, default refers to the printing style for numbers
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+% \RequirePackage[OT1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[english, main=ngerman]{babel}
 \RequirePackage{csquotes}          % Ergänzungspaket zu Babel für erweiterte Zitierfunktionen
+
+% \usepackage{fontspec}
+% \setsansfont{opensans}
+
 
 %\DeclareLanguageMapping{ngerman}{ngerman-apa}
 %\DeclareLanguageMapping{german}{german-apa}
@@ -405,20 +418,22 @@
     \colorlet{footertext}{hks92}%hks92
     \setBodyColors{white}%
 %
-    \mode<handout>{%
-        \colorlet{text}{black}%
-        \colorlet{frametitletext}{black}%
-        \colorlet{framesubtitletext}{gray}%
-        \colorlet{bg}{bgwhite}%
-        \colorlet{titlebg}{bgwhite}%
-        \colorlet{footerbg}{bgwhite}%
-        \colorlet{footertext}{gray}%
-        \colorlet{titlebg}{white}%
-        \colorlet{footerlogo}{gray}%
-        \setBeamerColors%
-        \usebeamercolor[fg]{normal text}%
-        \color{text}%
-    }%
+    \if@noPrintColorInHandout\else%
+        \mode<handout>{%
+            \colorlet{text}{black}%
+            \colorlet{frametitletext}{black}%
+            \colorlet{framesubtitletext}{gray}%
+            \colorlet{bg}{bgwhite}%
+            \colorlet{titlebg}{bgwhite}%
+            \colorlet{footerbg}{bgwhite}%
+            \colorlet{footertext}{gray}%
+            \colorlet{titlebg}{white}%
+            \colorlet{footerlogo}{gray}%
+            \setBeamerColors%
+            \usebeamercolor[fg]{normal text}%
+            \color{text}%
+        }%
+    \fi%
 }
 
 %
@@ -442,12 +457,12 @@
 %
 % font settings
 %
-\renewcommand*\encodingdefault{OT1}
+% \renewcommand*\encodingdefault{OT1}
 \renewcommand*\familydefault{fos} %family open sans
-\renewcommand*\bfseries{\fontseries{b}\selectfont}
-\renewcommand*\shapedefault{n}
-\renewcommand*\sfdefault{fos}
-\renewcommand*\ttfamily{\not@math@alphabet\ttfamily\mathtt\fontfamily\ttdefault\fontseries\mddefault\selectfont}
+% \renewcommand*\bfseries{\fontseries{b}\selectfont}
+% \renewcommand*\shapedefault{n}
+% \renewcommand*\sfdefault{fos}
+% \renewcommand*\ttfamily{\not@math@alphabet\ttfamily\mathtt\fontfamily\ttdefault\fontseries\mddefault\selectfont}
 %\newcommand*{\dinfamily}{\fontencoding{OT1}\fontfamily{\familydefault}\fontseries{b}\selectfont} %TODO remove
 
 \newcommand\setDefaultBeamerFonts{
@@ -932,7 +947,11 @@
                 \raggedleft\includegraphics[height=\addlogofooterheight]{\tud@additionallogofooter}%
             \end{textblock*}%
         \fi%
-        \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
+        \if@useFrameCounter%
+            \begin{textblock*}{\footertextwidth}(\footertextx,\footertexty)%
+        \else
+            \begin{textblock*}{\footertextwidth+\footerslidenumwidth}(\footertextx,\footertexty)%
+        \fi
             \fontsize{6pt}{6.5pt}\selectfont\color{footertext}\strut\insertshorttitle\strut\newline%\vskip.4ex%%\newline
             \fontsize{6pt}{6.5pt}\selectfont\strut\insertshortinstitute\strut%\tud@affiliationshort%
                 \ifx\insertshortinstitute\@empty\else\ifx\beamer@shortauthor\@empty\else\,/\,\fi\fi%
@@ -941,12 +960,14 @@
             \color{text}%
             \usebeamercolor[fg]{normal text}%
         \end{textblock*}%
-        \begin{textblock*}{\footerslidenumwidth}(\footerslidenumx,\footerslidenumy)%
-            \color{footertext}%
-            \raggedleft\strut\tud@vocslide\ \insertframenumber\ \tud@vocof\ \inserteffectiveframenumber\strut%
-            \color{text}%
-            \usebeamercolor[fg]{normal text}%
-        \end{textblock*}%
+        \if@useFrameCounter%
+            \begin{textblock*}{\footerslidenumwidth}(\footerslidenumx,\footerslidenumy)%
+                \color{footertext}%
+                \raggedleft\strut\tud@vocslide\ \insertframenumber\ \tud@vocof\ \inserteffectiveframenumber\strut%
+                \color{text}%
+                \usebeamercolor[fg]{normal text}%
+            \end{textblock*}%
+        \else\fi%
         \usebeamercolor[fg]{normal text}%
         \color{text}%
     }%
