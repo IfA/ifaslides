@@ -823,6 +823,7 @@
 
 \newcommand*{\insertdatecity}{Dresden}%
 \newcommand*{\inserttotalpagenumber}{\textbf{??}}%
+\newcommand*{\inserteffectiveframenumber}{\textbf{??}}%
 
 \newcommand*{\setNavigationSymbolTemplate}{%
     \if@useNavBar
